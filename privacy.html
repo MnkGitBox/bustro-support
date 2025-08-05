@@ -5,24 +5,139 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Bustro Privacy Policy</title>
     <style>
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, sans-serif; 
-            margin: 40px; 
-            line-height: 1.6;
-            max-width: 800px;
+        :root {
+            color-scheme: light dark;
         }
-        h1 { color: #007AFF; }
-        h2 { color: #333; border-bottom: 1px solid #eee; padding-bottom: 10px; }
-        .highlight { background: #f0f8ff; padding: 15px; border-radius: 8px; margin: 20px 0; }
-        .last-updated { color: #666; font-style: italic; }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            margin: 40px auto; 
+            line-height: 1.8;
+            max-width: 700px;
+            color: light-dark(#000, #fff);
+            background: light-dark(#fff, #000);
+        }
+        
+        h1 { 
+            color: light-dark(#000, #fff); 
+            font-weight: 600;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 { 
+            color: light-dark(#333, #ccc); 
+            font-weight: 500;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid light-dark(#000, #fff);
+            padding-left: 1rem;
+        }
+        
+        h3 {
+            color: light-dark(#000, #fff);
+            font-weight: 500;
+            margin-top: 1.5rem;
+        }
+        
+        .highlight { 
+            background: light-dark(#f8f8f8, #1a1a1a); 
+            padding: 1.5rem; 
+            margin: 2rem 0;
+            border-left: 3px solid light-dark(#000, #fff);
+        }
+        
+        .last-updated { 
+            color: light-dark(#666, #999); 
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            color: light-dark(#000, #fff);
+        }
+        
+        a {
+            color: light-dark(#000, #fff);
+            text-decoration: underline;
+        }
+        
+        a:hover {
+            text-decoration: none;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid light-dark(#e0e0e0, #333);
+            margin: 3rem 0;
+        }
+        
+        small {
+            color: light-dark(#666, #999);
+        }
+        
+        /* Fallback for older browsers */
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #fff;
+                background: #000;
+            }
+            
+            h1 {
+                color: #fff;
+            }
+            
+            h2 {
+                color: #ccc;
+                border-left-color: #fff;
+            }
+            
+            h3 {
+                color: #fff;
+            }
+            
+            .highlight {
+                background: #1a1a1a;
+                border-left-color: #fff;
+            }
+            
+            .last-updated {
+                color: #999;
+            }
+            
+            strong {
+                color: #fff;
+            }
+            
+            a {
+                color: #fff;
+            }
+            
+            hr {
+                border-top-color: #333;
+            }
+            
+            small {
+                color: #999;
+            }
+        }
     </style>
 </head>
 <body>
-    <h1>🛡️ Bustro Privacy Policy</h1>
-    <p class="last-updated">Last updated: [Current Date]</p>
+    <h1>Bustro Privacy Policy</h1>
+    <p class="last-updated">Last updated: August 4, 2025</p>
     
     <div class="highlight">
-        <p><strong>Simple Summary:</strong> Bustro only uses your location to show nearby bus stops. We don't collect personal information, track you across other apps, or share your data with third parties.</p>
+        <p><strong>Simple Summary:</strong> Bustro uses your location to show nearby bus stops and collects anonymous usage analytics to improve the app. We don't collect personal information or track you across other apps.</p>
     </div>
     
     <h2>1. Information We Collect</h2>
@@ -39,44 +154,74 @@
     <ul>
         <li><strong>What:</strong> Your favorite bus stops, custom names, and chosen icons/colors</li>
         <li><strong>Why:</strong> To provide personalized experience</li>
-        <li><strong>Storage:</strong> Stored locally on your device only</li>
+        <li><strong>Storage:</strong> Stored locally on your device and synced via iCloud (if enabled)</li>
+    </ul>
+    
+    <h3>Usage Analytics</h3>
+    <ul>
+        <li><strong>What:</strong> App usage patterns, feature interactions, and error events</li>
+        <li><strong>Why:</strong> To improve app performance and user experience</li>
+        <li><strong>Examples:</strong> Bus stop views, menu interactions, rating prompts, user engagement</li>
+        <li><strong>Service:</strong> Collected via Firebase Analytics (Google)</li>
+    </ul>
+    
+    <h3>Crash and Error Reports</h3>
+    <ul>
+        <li><strong>What:</strong> Technical information when the app crashes or encounters errors</li>
+        <li><strong>Why:</strong> To identify and fix bugs for better app stability</li>
+        <li><strong>Includes:</strong> Device model, iOS version, crash logs, error messages</li>
+        <li><strong>Service:</strong> Firebase Crashlytics (Google)</li>
     </ul>
     
     <h2>2. Information We DON'T Collect</h2>
     <ul>
-        <li>❌ Personal identification (name, email, phone number)</li>
-        <li>❌ Your location when app is closed</li>
-        <li>❌ Location history or tracking</li>
-        <li>❌ Contacts, photos, or other personal data</li>
-        <li>❌ Usage data from other apps</li>
+        <li>Personal identification (name, email, phone number)</li>
+        <li>Your location when app is closed</li>
+        <li>Location history or tracking</li>
+        <li>Contacts, photos, or other personal data</li>
+        <li>Usage data from other apps</li>
     </ul>
     
     <h2>3. How We Use Your Information</h2>
     <p>We use the collected information solely to:</p>
     <ul>
-        <li>🚌 Show bus stops near your current location</li>
-        <li>📏 Calculate and display walking distances</li>
-        <li>⭐ Save your favorite stops and preferences</li>
-        <li>🗺️ Provide map-based navigation features</li>
+        <li>Show bus stops near your current location</li>
+        <li>Calculate and display walking distances</li>
+        <li>Save your favorite stops and preferences</li>
+        <li>Provide map-based navigation features</li>
+        <li>Analyze usage patterns to improve app features and performance</li>
+        <li>Generate crash reports to identify and fix technical issues</li>
     </ul>
     
     <h2>4. Data Sharing</h2>
-    <p><strong>We do NOT share your data with anyone.</strong></p>
+    <p><strong>We share limited technical data with service providers as described below.</strong></p>
     
     <h3>Third-Party Services</h3>
     <p>The app integrates with:</p>
     <ul>
+        <li><strong>Google Firebase:</strong> For analytics, crash reporting, and app configuration</li>
         <li><strong>Singapore LTA (Land Transport Authority):</strong> For real-time bus data (we don't send your location to them)</li>
         <li><strong>Apple Weather:</strong> For weather information (handled by iOS, not us)</li>
+        <li><strong>Apple iCloud:</strong> For syncing your preferences and favorites (if enabled by you)</li>
         <li><strong>Map Services:</strong> When you choose to get directions (Apple Maps, Google Maps, etc.)</li>
+    </ul>
+    
+    <h3>Data Shared with Google</h3>
+    <p>Through Firebase services, the following data may be shared with Google:</p>
+    <ul>
+        <li>App usage analytics and interaction events</li>
+        <li>Crash reports and technical error information</li>
+        <li>App configuration requests</li>
+        <li>No personal identification or location data is shared</li>
     </ul>
     
     <h2>5. Data Storage and Security</h2>
     <ul>
-        <li>🔒 <strong>Local Storage:</strong> All your data stays on your iPhone</li>
-        <li>🔒 <strong>No Cloud Storage:</strong> We don't upload your information to servers</li>
-        <li>🔒 <strong>iOS Security:</strong> Protected by Apple's built-in security features</li>
-        <li>🔒 <strong>App Deletion:</strong> All data is removed when you delete the app</li>
+        <li><strong>Local Storage:</strong> User preferences and favorites stored on your iPhone and iCloud (if enabled)</li>
+        <li><strong>Analytics Data:</strong> Usage patterns sent to Firebase Analytics for app improvement</li>
+        <li><strong>Crash Reports:</strong> Technical error information sent to Firebase Crashlytics</li>
+        <li><strong>iOS Security:</strong> Protected by Apple's built-in security features</li>
+        <li><strong>App Deletion:</strong> All data is removed when you delete the app</li>
     </ul>
     
     <h2>6. Your Privacy Controls</h2>
@@ -90,7 +235,9 @@
     <h3>Data Deletion</h3>
     <ul>
         <li><strong>Favorites:</strong> Delete individual favorites within the app</li>
-        <li><strong>All Data:</strong> Delete the app to remove all stored information</li>
+        <li><strong>Local Data:</strong> Delete the app to remove all stored information</li>
+        <li><strong>Analytics Data:</strong> Managed by Google's data retention policies (typically 2-14 months)</li>
+        <li><strong>iCloud Data:</strong> Remove from your iCloud settings if you have sync enabled</li>
     </ul>
     
     <h2>7. Children's Privacy</h2>
@@ -102,24 +249,23 @@
     <h2>9. Contact Us</h2>
     <p>If you have questions about this privacy policy or your data:</p>
     <ul>
-        <li>📧 <strong>Email:</strong> hi@bustro.app</li>
-        <li>🌐 <strong>Support:</strong> <a href="index.html">Bustro Support</a></li>
+        <li><strong>Email:</strong> <a href="mailto:hi@bustro.app">hi@bustro.app</a></li>
     </ul>
     
     <h2>10. Legal Compliance</h2>
     <p>This privacy policy complies with:</p>
     <ul>
-        <li>🇸🇬 Singapore Personal Data Protection Act (PDPA)</li>
-        <li>🇪🇺 General Data Protection Regulation (GDPR)</li>
-        <li>🍎 Apple App Store Privacy Requirements</li>
+        <li>Singapore Personal Data Protection Act (PDPA)</li>
+        <li>General Data Protection Regulation (GDPR)</li>
+        <li>Apple App Store Privacy Requirements</li>
     </ul>
     
     <div class="highlight">
-        <h3>🛡️ Your Privacy Matters</h3>
+        <h3>Your Privacy Matters</h3>
         <p>Bustro is designed with privacy in mind. We believe you should have control over your data, which is why we keep everything local to your device and don't track or share your information.</p>
     </div>
     
-    <hr style="margin: 40px 0;">
+    <hr>
     <p><small>© 2025 Bustro App. Made for Singapore commuters with privacy in mind.</small></p>
     
     <p><small><a href="index.html">← Back to Support</a></small></p>
