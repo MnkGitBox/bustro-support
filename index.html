@@ -56,7 +56,7 @@
             color: light-dark(#000, #fff);
             padding: 1.5rem;
             margin: 2rem 0;
-            text-align: center;
+            text-align: left;
             border-left: 3px solid #7AB82D;
         }
         
@@ -64,6 +64,14 @@
             color: #7AB82D;
             margin-top: 0;
         }
+        
+        .contact h4 {
+            color: light-dark(#000, #fff);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
         
         .faq-item { 
             margin-bottom: 1rem;
@@ -226,6 +234,11 @@
                 background: #1a1a1a;
                 color: #fff;
             }
+            
+            .contact h4 {
+                color: #fff;
+            }
+            
             
             .faq-item {
                 background: #1a1a1a;
@@ -756,14 +769,16 @@
         
         <div class="contact">
             <h3>Still Need Help?</h3>
-            <p><strong>Email:</strong> <a href="mailto:hi@bustro.app">hi@bustro.app</a></p>
-            <p><strong>Response time:</strong> Within 24-48 hours</p>
-            <p><strong>Support hours:</strong> Singapore timezone (UTC+8)</p>
+            <ul>
+                <li><strong>Email:</strong> <a href="mailto:hi@bustro.app">hi@bustro.app</a></li>
+                <li><strong>Response time:</strong> Within 24-48 hours</li>
+                <li><strong>Support hours:</strong> Singapore timezone (UTC+8)</li>
+            </ul>
             
             <h4>When contacting support, please include:</h4>
-            <ul style="text-align: left; display: inline-block;">
+            <ul>
                 <li>Your iPhone model and iOS version</li>
-                <li>Bustro app version (found in Settings > General > About)</li>
+                <li>Bustro app version (found in More -> About & Support)</li>
                 <li>Detailed description of the issue</li>
                 <li>Steps you've already tried</li>
                 <li>Screenshots if helpful</li>
@@ -772,11 +787,6 @@
         
         
         <div class="version-info">
-            <p><strong>App Version:</strong> 1.0 (Latest)</p>
-            <p><strong>Last Updated:</strong> August 2025</p>
-            <p><strong>Key Features:</strong> Live Bus Tracking, iCloud Sync, Apple WeatherKit Integration</p>
-            <p><strong>Data Source:</strong> Singapore Land Transport Authority (LTA) DataMall API v3</p>
-            <p><strong>Compatibility:</strong> iOS 12.0+, optimized for iOS 17+</p>
             <p><small>© 2025 Bustro App. Made for Singapore commuters.</small></p>
         </div>
     </div>
