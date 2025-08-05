@@ -130,6 +130,161 @@
                 color: #999;
             }
         }
+        
+        /* Responsive Design - Mobile First Approach */
+        
+        /* Very Small Phones: 0-480px */
+        @media (max-width: 480px) {
+            body {
+                margin: 15px auto;
+                padding: 0 15px;
+                max-width: 100%;
+                line-height: 1.6;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .last-updated {
+                font-size: 0.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.1rem;
+                margin-top: 1.5rem;
+                margin-bottom: 0.8rem;
+                padding-left: 0.8rem;
+                border-left-width: 2px;
+            }
+            
+            h3 {
+                font-size: 1rem;
+                margin-top: 1.2rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .highlight {
+                padding: 1rem;
+                margin: 1.5rem 0;
+                border-left-width: 2px;
+            }
+            
+            .highlight p {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                margin: 0;
+            }
+            
+            p {
+                font-size: 0.9rem;
+                margin-bottom: 0.8rem;
+                line-height: 1.6;
+            }
+            
+            ul, ol {
+                padding-left: 1.2rem;
+                margin: 0.8rem 0;
+            }
+            
+            li {
+                margin-bottom: 0.4rem;
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            hr {
+                margin: 2rem 0;
+            }
+            
+            small {
+                font-size: 0.75rem;
+                line-height: 1.4;
+            }
+        }
+        
+        /* Standard Mobile Phones: 481-768px */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                margin: 20px auto;
+                padding: 0 20px;
+                line-height: 1.7;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.4rem;
+            }
+            
+            .last-updated {
+                font-size: 0.85rem;
+                margin-bottom: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+                margin-top: 1.8rem;
+                margin-bottom: 0.9rem;
+            }
+            
+            h3 {
+                font-size: 1.05rem;
+                margin-top: 1.3rem;
+            }
+            
+            .highlight {
+                padding: 1.2rem;
+                margin: 1.8rem 0;
+            }
+            
+            p {
+                font-size: 0.95rem;
+                margin-bottom: 0.9rem;
+            }
+            
+            li {
+                margin-bottom: 0.4rem;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Tablets: 769-1024px */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            body {
+                margin: 30px auto;
+                padding: 0 30px;
+                max-width: 90%;
+            }
+            
+            h1 {
+                font-size: 1.9rem;
+            }
+            
+            .last-updated {
+                font-size: 0.88rem;
+                margin-bottom: 1.9rem;
+            }
+            
+            h2 {
+                font-size: 1.22rem;
+                margin-top: 1.9rem;
+            }
+            
+            .highlight {
+                padding: 1.3rem;
+                margin: 1.9rem 0;
+            }
+            
+            p {
+                font-size: 0.98rem;
+            }
+            
+            li {
+                font-size: 0.98rem;
+            }
+        }
     </style>
 </head>
 <body>
@@ -268,6 +423,5 @@
     <hr>
     <p><small>© 2025 Bustro App. Made for Singapore commuters with privacy in mind.</small></p>
     
-    <p><small><a href="index.html">← Back to Support</a></small></p>
 </body>
 </html>
