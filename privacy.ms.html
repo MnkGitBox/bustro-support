@@ -1,0 +1,427 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dasar Privasi Bustro</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            margin: 40px auto; 
+            line-height: 1.8;
+            max-width: 700px;
+            color: light-dark(#000, #fff);
+            background: light-dark(#fff, #000);
+        }
+        
+        h1 { 
+            color: light-dark(#000, #fff); 
+            font-weight: 600;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        h2 { 
+            color: light-dark(#333, #ccc); 
+            font-weight: 500;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid light-dark(#000, #fff);
+            padding-left: 1rem;
+        }
+        
+        h3 {
+            color: light-dark(#000, #fff);
+            font-weight: 500;
+            margin-top: 1.5rem;
+        }
+        
+        .highlight { 
+            background: light-dark(#f8f8f8, #1a1a1a); 
+            padding: 1.5rem; 
+            margin: 2rem 0;
+            border-left: 3px solid light-dark(#000, #fff);
+        }
+        
+        .last-updated { 
+            color: light-dark(#666, #999); 
+            font-size: 0.9rem;
+            margin-bottom: 2rem;
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            color: light-dark(#000, #fff);
+        }
+        
+        a {
+            color: light-dark(#000, #fff);
+            text-decoration: underline;
+        }
+        
+        a:hover {
+            text-decoration: none;
+        }
+        
+        hr {
+            border: none;
+            border-top: 1px solid light-dark(#e0e0e0, #333);
+            margin: 3rem 0;
+        }
+        
+        small {
+            color: light-dark(#666, #999);
+        }
+        
+        /* Fallback for older browsers */
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #fff;
+                background: #000;
+            }
+            
+            h1 {
+                color: #fff;
+            }
+            
+            h2 {
+                color: #ccc;
+                border-left-color: #fff;
+            }
+            
+            h3 {
+                color: #fff;
+            }
+            
+            .highlight {
+                background: #1a1a1a;
+                border-left-color: #fff;
+            }
+            
+            .last-updated {
+                color: #999;
+            }
+            
+            strong {
+                color: #fff;
+            }
+            
+            a {
+                color: #fff;
+            }
+            
+            hr {
+                border-top-color: #333;
+            }
+            
+            small {
+                color: #999;
+            }
+        }
+        
+        /* Responsive Design - Mobile First Approach */
+        
+        /* Very Small Phones: 0-480px */
+        @media (max-width: 480px) {
+            body {
+                margin: 15px auto;
+                padding: 0 15px;
+                max-width: 100%;
+                line-height: 1.6;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 0.3rem;
+            }
+            
+            .last-updated {
+                font-size: 0.8rem;
+                margin-bottom: 1.5rem;
+            }
+            
+            h2 {
+                font-size: 1.1rem;
+                margin-top: 1.5rem;
+                margin-bottom: 0.8rem;
+                padding-left: 0.8rem;
+                border-left-width: 2px;
+            }
+            
+            h3 {
+                font-size: 1rem;
+                margin-top: 1.2rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .highlight {
+                padding: 1rem;
+                margin: 1.5rem 0;
+                border-left-width: 2px;
+            }
+            
+            .highlight p {
+                font-size: 0.9rem;
+                line-height: 1.6;
+                margin: 0;
+            }
+            
+            p {
+                font-size: 0.9rem;
+                margin-bottom: 0.8rem;
+                line-height: 1.6;
+            }
+            
+            ul, ol {
+                padding-left: 1.2rem;
+                margin: 0.8rem 0;
+            }
+            
+            li {
+                margin-bottom: 0.4rem;
+                font-size: 0.9rem;
+                line-height: 1.5;
+            }
+            
+            hr {
+                margin: 2rem 0;
+            }
+            
+            small {
+                font-size: 0.75rem;
+                line-height: 1.4;
+            }
+        }
+        
+        /* Standard Mobile Phones: 481-768px */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                margin: 20px auto;
+                padding: 0 20px;
+                line-height: 1.7;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+                margin-bottom: 0.4rem;
+            }
+            
+            .last-updated {
+                font-size: 0.85rem;
+                margin-bottom: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+                margin-top: 1.8rem;
+                margin-bottom: 0.9rem;
+            }
+            
+            h3 {
+                font-size: 1.05rem;
+                margin-top: 1.3rem;
+            }
+            
+            .highlight {
+                padding: 1.2rem;
+                margin: 1.8rem 0;
+            }
+            
+            p {
+                font-size: 0.95rem;
+                margin-bottom: 0.9rem;
+            }
+            
+            li {
+                margin-bottom: 0.4rem;
+                font-size: 0.95rem;
+            }
+        }
+        
+        /* Tablets: 769-1024px */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            body {
+                margin: 30px auto;
+                padding: 0 30px;
+                max-width: 90%;
+            }
+            
+            h1 {
+                font-size: 1.9rem;
+            }
+            
+            .last-updated {
+                font-size: 0.88rem;
+                margin-bottom: 1.9rem;
+            }
+            
+            h2 {
+                font-size: 1.22rem;
+                margin-top: 1.9rem;
+            }
+            
+            .highlight {
+                padding: 1.3rem;
+                margin: 1.9rem 0;
+            }
+            
+            p {
+                font-size: 0.98rem;
+            }
+            
+            li {
+                font-size: 0.98rem;
+            }
+        }
+    </style>
+</head>
+<body>
+    <h1>Dasar Privasi Bustro</h1>
+    <p class="last-updated">Kemaskini terakhir: 4 Ogos 2025</p>
+    
+    <div class="highlight">
+        <p><strong>Ringkasan Mudah:</strong> Bustro menggunakan lokasi anda untuk menunjukkan hentian bas berdekatan dan mengumpul analisis penggunaan tanpa nama untuk meningkatkan aplikasi. Kami tidak mengumpul maklumat peribadi atau mengesan anda di seluruh aplikasi lain.</p>
+    </div>
+    
+    <h2>1. Maklumat Yang Kami Kumpul</h2>
+    
+    <h3>Maklumat Lokasi</h3>
+    <ul>
+        <li><strong>Apa:</strong> Lokasi peranti anda apabila anda menggunakan aplikasi</li>
+        <li><strong>Mengapa:</strong> Untuk menunjukkan hentian bas berdekatan dan mengira jarak berjalan</li>
+        <li><strong>Bila:</strong> Hanya apabila anda membuka aplikasi atau menggunakan ciri lokasi</li>
+        <li><strong>Penyimpanan:</strong> Tidak disimpan di pelayan kami - kekal di peranti anda</li>
+    </ul>
+    
+    <h3>Keutamaan Aplikasi</h3>
+    <ul>
+        <li><strong>Apa:</strong> Hentian bas kegemaran anda, nama tersuai, dan ikon/warna terpilih</li>
+        <li><strong>Mengapa:</strong> Untuk memberikan pengalaman diperibadikan</li>
+        <li><strong>Penyimpanan:</strong> Disimpan secara tempatan di peranti anda dan disegerak melalui iCloud (jika diaktifkan)</li>
+    </ul>
+    
+    <h3>Analisis Penggunaan</h3>
+    <ul>
+        <li><strong>Apa:</strong> Corak penggunaan aplikasi, interaksi ciri, dan peristiwa ralat</li>
+        <li><strong>Mengapa:</strong> Untuk meningkatkan prestasi aplikasi dan pengalaman pengguna</li>
+        <li><strong>Contoh:</strong> Paparan hentian bas, interaksi menu, gesaan penilaian, penglibatan pengguna</li>
+        <li><strong>Perkhidmatan:</strong> Dikumpul melalui Firebase Analytics (Google)</li>
+    </ul>
+    
+    <h3>Laporan Kerosakan dan Ralat</h3>
+    <ul>
+        <li><strong>Apa:</strong> Maklumat teknikal apabila aplikasi rosak atau menghadapi ralat</li>
+        <li><strong>Mengapa:</strong> Untuk mengenal pasti dan membetulkan pepijat bagi kestabilan aplikasi yang lebih baik</li>
+        <li><strong>Termasuk:</strong> Model peranti, versi iOS, log kerosakan, mesej ralat</li>
+        <li><strong>Perkhidmatan:</strong> Firebase Crashlytics (Google)</li>
+    </ul>
+    
+    <h2>2. Maklumat Yang TIDAK Kami Kumpul</h2>
+    <ul>
+        <li>Pengenalan peribadi (nama, e-mel, nombor telefon)</li>
+        <li>Lokasi anda apabila aplikasi ditutup</li>
+        <li>Sejarah lokasi atau pengesanan</li>
+        <li>Kenalan, foto, atau data peribadi lain</li>
+        <li>Data penggunaan dari aplikasi lain</li>
+    </ul>
+    
+    <h2>3. Bagaimana Kami Menggunakan Maklumat Anda</h2>
+    <p>Kami menggunakan maklumat yang dikumpul semata-mata untuk:</p>
+    <ul>
+        <li>Menunjukkan hentian bas berhampiran lokasi semasa anda</li>
+        <li>Mengira dan memaparkan jarak berjalan</li>
+        <li>Menyimpan hentian kegemaran dan keutamaan anda</li>
+        <li>Menyediakan ciri navigasi berasaskan peta</li>
+        <li>Menganalisis corak penggunaan untuk meningkatkan ciri dan prestasi aplikasi</li>
+        <li>Menjana laporan kerosakan untuk mengenal pasti dan membetulkan isu teknikal</li>
+    </ul>
+    
+    <h2>4. Perkongsian Data</h2>
+    <p><strong>Kami berkongsi data teknikal terhad dengan penyedia perkhidmatan seperti yang dijelaskan di bawah.</strong></p>
+    
+    <h3>Perkhidmatan Pihak Ketiga</h3>
+    <p>Aplikasi berintegrasi dengan:</p>
+    <ul>
+        <li><strong>Google Firebase:</strong> Untuk analisis, laporan kerosakan, dan konfigurasi aplikasi</li>
+        <li><strong>LTA Singapura (Lembaga Pengangkutan Darat):</strong> Untuk data bas masa nyata (kami tidak menghantar lokasi anda kepada mereka)</li>
+        <li><strong>Apple Weather:</strong> Untuk maklumat cuaca (dikendalikan oleh iOS, bukan kami)</li>
+        <li><strong>Apple iCloud:</strong> Untuk menyegerak keutamaan dan kegemaran anda (jika diaktifkan oleh anda)</li>
+        <li><strong>Perkhidmatan Peta:</strong> Apabila anda memilih untuk mendapatkan arah (Apple Maps, Google Maps, dll.)</li>
+    </ul>
+    
+    <h3>Data Dikongsi dengan Google</h3>
+    <p>Melalui perkhidmatan Firebase, data berikut mungkin dikongsi dengan Google:</p>
+    <ul>
+        <li>Analisis penggunaan aplikasi dan peristiwa interaksi</li>
+        <li>Laporan kerosakan dan maklumat ralat teknikal</li>
+        <li>Permintaan konfigurasi aplikasi</li>
+        <li>Tiada pengenalan peribadi atau data lokasi dikongsi</li>
+    </ul>
+    
+    <h2>5. Penyimpanan dan Keselamatan Data</h2>
+    <ul>
+        <li><strong>Penyimpanan Tempatan:</strong> Keutamaan pengguna dan kegemaran disimpan di iPhone dan iCloud anda (jika diaktifkan)</li>
+        <li><strong>Data Analisis:</strong> Corak penggunaan dihantar ke Firebase Analytics untuk penambahbaikan aplikasi</li>
+        <li><strong>Laporan Kerosakan:</strong> Maklumat ralat teknikal dihantar ke Firebase Crashlytics</li>
+        <li><strong>Keselamatan iOS:</strong> Dilindungi oleh ciri keselamatan terbina Apple</li>
+        <li><strong>Pemadaman Aplikasi:</strong> Semua data dialih keluar apabila anda memadamkan aplikasi</li>
+    </ul>
+    
+    <h2>6. Kawalan Privasi Anda</h2>
+    
+    <h3>Kebenaran Lokasi</h3>
+    <ul>
+        <li><strong>Kawalan:</strong> Anda boleh melumpuhkan akses lokasi bila-bila masa dalam Tetapan > Privasi > Perkhidmatan Lokasi > Bustro</li>
+        <li><strong>Kesan:</strong> Aplikasi masih akan berfungsi, tetapi tidak akan menunjukkan hentian berdekatan atau jarak</li>
+    </ul>
+    
+    <h3>Pemadaman Data</h3>
+    <ul>
+        <li><strong>Kegemaran:</strong> Padamkan kegemaran individu dalam aplikasi</li>
+        <li><strong>Data Tempatan:</strong> Padamkan aplikasi untuk mengalih keluar semua maklumat tersimpan</li>
+        <li><strong>Data Analisis:</strong> Diuruskan oleh dasar pengekalan data Google (biasanya 2-14 bulan)</li>
+        <li><strong>Data iCloud:</strong> Alih keluar dari tetapan iCloud anda jika anda mengaktifkan segerak</li>
+    </ul>
+    
+    <h2>7. Privasi Kanak-kanak</h2>
+    <p>Aplikasi kami selamat untuk pengguna semua peringkat umur. Kami tidak sengaja mengumpul maklumat peribadi dari kanak-kanak bawah 13 tahun, kerana kami tidak mengumpul maklumat peribadi dari sesiapa.</p>
+    
+    <h2>8. Perubahan kepada Dasar Ini</h2>
+    <p>Kami mungkin mengemas kini dasar privasi ini sekali-sekala. Kami akan memberitahu pengguna tentang perubahan penting melalui kemas kini aplikasi. Penggunaan aplikasi berterusan selepas perubahan bermaksud anda menerima dasar yang dikemas kini.</p>
+    
+    <h2>9. Hubungi Kami</h2>
+    <p>Jika anda mempunyai soalan tentang dasar privasi ini atau data anda:</p>
+    <ul>
+        <li><strong>E-mel:</strong> <a href="mailto:hi@bustro.app">hi@bustro.app</a></li>
+    </ul>
+    
+    <h2>10. Pematuhan Undang-undang</h2>
+    <p>Dasar privasi ini mematuhi:</p>
+    <ul>
+        <li>Akta Perlindungan Data Peribadi Singapura (PDPA)</li>
+        <li>Peraturan Perlindungan Data Am (GDPR)</li>
+        <li>Keperluan Privasi Apple App Store</li>
+    </ul>
+    
+    <div class="highlight">
+        <h3>Privasi Anda Penting</h3>
+        <p>Bustro direka dengan mengambil kira privasi. Kami percaya anda patut mempunyai kawalan ke atas data anda, itulah sebabnya kami menyimpan segala-galanya secara tempatan di peranti anda dan tidak mengesan atau berkongsi maklumat anda.</p>
+    </div>
+    
+    <hr>
+    <p><small>© 2025 Bustro App. Dibuat untuk komuter Singapura dengan privasi dalam fikiran.</small></p>
+    
+</body>
+</html>

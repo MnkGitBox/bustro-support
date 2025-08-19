@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bustro 支持 - 新加坡巴士时间应用</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            margin: 40px auto;
+            line-height: 1.8;
+            max-width: 700px;
+            padding: 0 20px;
+            color: light-dark(#000, #fff);
+            background: light-dark(#fff, #000);
+        }
+        
+        h1 { 
+            color: light-dark(#000, #fff);
+            text-align: center;
+            font-weight: 600;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: light-dark(#666, #999);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h2 { 
+            color: light-dark(#333, #ccc);
+            font-weight: 500;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid #7AB82D;
+            padding-left: 1rem;
+        }
+        
+        h3 {
+            color: light-dark(#000, #fff);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact { 
+            background: light-dark(#f8f8f8, #1a1a1a);
+            color: light-dark(#000, #fff);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .contact h3 {
+            color: #7AB82D;
+            margin-top: 0;
+        }
+        
+        .contact h4 {
+            color: light-dark(#000, #fff);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        
+        .faq-item { 
+            margin-bottom: 1rem;
+            background: light-dark(#f8f8f8, #1a1a1a);
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .faq-question {
+            padding: 1rem 1.5rem;
+            margin: 0;
+            font-size: 1.1rem;
+            color: light-dark(#000, #fff);
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+        
+        .faq-question:hover {
+            background: light-dark(#f0f0f0, #2a2a2a);
+        }
+        
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #7AB82D;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            display: none;
+        }
+        
+        .faq-answer.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .highlight {
+            background: light-dark(#f8f8f8, #1a1a1a);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: light-dark(#f8f8f8, #1a1a1a);
+            padding: 1.5rem;
+            text-align: center;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .feature-card h3 {
+            color: #7AB82D;
+            margin-top: 0;
+        }
+        
+        .legal-links {
+            background: light-dark(#f8f8f8, #1a1a1a);
+            padding: 1.5rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .legal-links h3 {
+            color: #7AB82D;
+            margin-top: 0;
+        }
+        
+        .legal-links a {
+            color: light-dark(#000, #fff);
+            text-decoration: underline;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        
+        .legal-links a:hover {
+            text-decoration: none;
+        }
+        
+        .version-info {
+            text-align: center;
+            color: light-dark(#666, #999);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid light-dark(#e0e0e0, #333);
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            color: light-dark(#000, #fff);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        a {
+            color: light-dark(#000, #fff);
+            text-decoration: underline;
+        }
+        
+        a:hover {
+            text-decoration: none;
+        }
+        
+        /* Fallback for older browsers */
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #fff;
+                background: #000;
+            }
+            
+            h1 {
+                color: #fff;
+            }
+            
+            h2 {
+                color: #ccc;
+            }
+            
+            h3 {
+                color: #fff;
+            }
+            
+            .subtitle {
+                color: #999;
+            }
+            
+            .contact {
+                background: #1a1a1a;
+                color: #fff;
+            }
+            
+            .contact h4 {
+                color: #fff;
+            }
+            
+            
+            .faq-item {
+                background: #1a1a1a;
+            }
+            
+            .faq-question {
+                color: #fff;
+            }
+            
+            .faq-question:hover {
+                background: #2a2a2a;
+            }
+            
+            .highlight {
+                background: #1a1a1a;
+            }
+            
+            .feature-card {
+                background: #1a1a1a;
+            }
+            
+            .legal-links {
+                background: #1a1a1a;
+            }
+            
+            .legal-links a {
+                color: #fff;
+            }
+            
+            .version-info {
+                color: #999;
+                border-top-color: #333;
+            }
+            
+            strong {
+                color: #fff;
+            }
+            
+            a {
+                color: #fff;
+            }
+        }
+        
+        /* Responsive Design - Mobile First Approach */
+        
+        /* Very Small Phones: 0-480px */
+        @media (max-width: 480px) {
+            body {
+                margin: 15px auto;
+                padding: 0 15px;
+                max-width: 100%;
+                line-height: 1.6;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.4;
+            }
+            
+            h2 {
+                font-size: 1.1rem;
+                margin-top: 1.5rem;
+                margin-bottom: 0.8rem;
+                padding-left: 0.8rem;
+                border-left-width: 2px;
+            }
+            
+            h3 {
+                font-size: 1rem;
+                margin-top: 1rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .highlight {
+                padding: 1rem;
+                margin: 1.5rem 0;
+                border-left-width: 2px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+                margin: 1.5rem 0;
+            }
+            
+            .feature-card {
+                padding: 1rem;
+                border-left-width: 2px;
+            }
+            
+            .feature-card h3 {
+                font-size: 0.95rem;
+                margin-top: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            .feature-card p {
+                font-size: 0.9rem;
+                margin-bottom: 0;
+                line-height: 1.5;
+            }
+            
+            .faq-item {
+                margin-bottom: 0.8rem;
+                border-left-width: 2px;
+            }
+            
+            .faq-question {
+                padding: 0.8rem 1rem;
+                font-size: 0.95rem;
+                min-height: 44px; /* Touch target minimum */
+                align-items: center;
+            }
+            
+            .faq-question::after {
+                font-size: 1.2rem;
+                margin-left: 0.5rem;
+            }
+            
+            .faq-answer {
+                padding: 0 1rem 1rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .faq-answer ul, .faq-answer ol {
+                padding-left: 1.2rem;
+            }
+            
+            .faq-answer li {
+                margin-bottom: 0.3rem;
+            }
+            
+            .contact {
+                padding: 1rem;
+                margin: 1.5rem 0;
+                border-left-width: 2px;
+            }
+            
+            .contact h3 {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .contact p {
+                font-size: 0.9rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .version-info {
+                margin-top: 2rem;
+                padding-top: 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .version-info p {
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        /* Standard Mobile Phones: 481-768px */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                margin: 20px auto;
+                padding: 0 20px;
+                line-height: 1.7;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.05rem;
+                margin-bottom: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+                margin-top: 1.8rem;
+                margin-bottom: 1rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 1.8rem 0;
+            }
+            
+            .feature-card {
+                padding: 1.2rem;
+            }
+            
+            .faq-question {
+                padding: 1rem 1.2rem;
+                font-size: 1rem;
+                min-height: 48px; /* Slightly larger touch target */
+            }
+            
+            .faq-answer {
+                padding: 0 1.2rem 1.2rem 1.2rem;
+            }
+            
+            .contact {
+                padding: 1.2rem;
+                margin: 1.8rem 0;
+            }
+        }
+        
+        /* Tablets: 769-1024px */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            body {
+                margin: 30px auto;
+                padding: 0 30px;
+                max-width: 90%;
+            }
+            
+            h1 {
+                font-size: 1.9rem;
+            }
+            
+            .subtitle {
+                font-size: 1.08rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.2rem;
+                margin: 2rem 0;
+            }
+            
+            .feature-card {
+                padding: 1.3rem;
+            }
+            
+            .faq-question {
+                padding: 1.1rem 1.3rem;
+                font-size: 1.05rem;
+            }
+            
+            .faq-answer {
+                padding: 0 1.3rem 1.3rem 1.3rem;
+            }
+            
+            .contact {
+                padding: 1.3rem;
+            }
+        }
+        
+        /* Large Tablets and Small Desktops: 1025px+ */
+        @media (min-width: 1025px) {
+            .feature-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+        <h1>Bustro 支持</h1>
+        <p class="subtitle">新加坡最智能的巴士时间应用，配备实时跟踪和天气集成</p>
+        
+        <div class="highlight">
+            <p><strong>欢迎使用 Bustro！</strong> 获取实时巴士到站时间和实时跟踪，在互动地图上探索附近站点，跨设备同步收藏夹，通过集成天气信息规划更智能的出行。具有先进的自动跟踪技术和全面的地铁集成。专为新加坡优质的公共交通系统而打造。</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>智能定位</h3>
+                <p>在可自定义半径（100米-1000米）内查找附近的巴士站，按距离排序并显示精确的步行时间</p>
+            </div>
+            <div class="feature-card">
+                <h3>实时时间</h3>
+                <p>来自新加坡陆路交通管理局的实时到站信息，包含车辆类型、无障碍通道和乘客负载指示</p>
+            </div>
+            <div class="feature-card">
+                <h3>实时巴士跟踪</h3>
+                <p>自动跟踪已固定的巴士到站时间，持续实时更新和智能后台监控</p>
+            </div>
+            <div class="feature-card">
+                <h3>自定义收藏</h3>
+                <p>用自定义名称、图标和颜色个性化站点 - 通过 iCloud 跨设备同步</p>
+            </div>
+            <div class="feature-card">
+                <h3>天气集成</h3>
+                <p>Apple WeatherKit 集成，提供当前天气状况和每小时预报，帮助您规划出行</p>
+            </div>
+            <div class="feature-card">
+                <h3>地铁集成</h3>
+                <p>互动新加坡地铁网络地图，支持巴士和地铁的多模式出行规划</p>
+            </div>
+        </div>
+        
+        <h2>常见问题</h2>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">什么是实时巴士跟踪，如何使用？</h3>
+            <div class="faq-answer">
+                <p><strong>实时巴士跟踪</strong>自动监控您选定的巴士到站时间并实时更新，即使您最小化应用程序也能正常工作。</p>
+                <p><strong>如何启用：</strong></p>
+                <ol>
+                    <li>前往 设置 > 偏好设置 > 自动跟踪巴士到站（开启）</li>
+                    <li>当您查看任何巴士站详情时，跟踪自动开始</li>
+                    <li>您也可以手动为特定站点开启跟踪</li>
+                </ol>
+                <p><strong>优势：</strong>持续监控，电池优化更新，和智能后台刷新。</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">如何自定义附近站点的搜索半径？</h3>
+            <div class="faq-answer">
+                <p><strong>自定义您的搜索区域：</strong></p>
+                <ol>
+                    <li>从主菜单打开设置</li>
+                    <li>前往偏好设置</li>
+                    <li>调整"搜索半径"从100米到1000米</li>
+                    <li>更改立即应用到您的附近站点</li>
+                </ol>
+                <p><strong>提示：</strong>城市区域使用较小半径（100-300米），郊区使用较大半径（500-1000米）。</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">为什么我看不到附近的巴士站？</h3>
+            <div class="faq-answer">
+                <p><strong>解决方案：</strong>前往<strong>设置 > 隐私与安全 > 定位服务 > Bustro</strong>并选择<strong>"使用应用期间"</strong>来启用定位权限。</p>
+                <p><strong>其他检查：</strong></p>
+                <ul>
+                    <li>确保您的搜索半径不会太小（检查设置 > 偏好设置）</li>
+                    <li>尝试下拉附近站点列表来刷新您的位置</li>
+                    <li>检查您是否在有巴士站的区域（仅限新加坡）</li>
+                </ul>
+                <p>注意：Bustro 仅在应用打开时使用您的位置来显示附近站点和计算步行距离。</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">巴士时间准确吗？</h3>
+            <div class="faq-answer">
+                <p><strong>答案：</strong>是的！我们的数据直接来自新加坡陆路交通管理局（LTA）DataMall API v3 的实时信息。时间可能因交通状况略有变化，但我们显示的是最新可用信息。</p>
+                <p><strong>数据包括：</strong></p>
+                <ul>
+                    <li>车辆类型指示（单层、双层、铰接巴士）</li>
+                    <li>无障碍通道状态</li>
+                    <li>乘客负载（有座位、有站位、站位有限）</li>
+                    <li>精确的到站预测（"即将到站"、"2分钟"等）</li>
+                </ul>
+                <p><strong>刷新频率：</strong>您可以在设置中自定义刷新间隔，从15秒到2分钟。</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">如何将巴士站添加到收藏夹？</h3>
+            <div class="faq-answer">
+                <p><strong>步骤：</strong></p>
+                <ol>
+                    <li>点击任何巴士站打开详情</li>
+                    <li>点击心形图标（♡）添加到收藏夹</li>
+                    <li>用个人名称、图标和颜色进行自定义</li>
+                    <li>从"收藏夹"标签快速访问</li>
+                </ol>
+                <p><strong>高级功能：</strong></p>
+                <ul>
+                    <li><strong>iCloud 同步：</strong>收藏夹自动在所有设备间同步</li>
+                    <li><strong>视觉组织：</strong>选择自定义颜色和图标便于识别</li>
+                    <li><strong>重新排序：</strong>拖放来组织您的收藏夹列表</li>
+                    <li><strong>地图集成：</strong>收藏夹在地图上以自定义样式显示</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">天气小工具有什么作用？</h3>
+            <div class="faq-answer">
+                <p><strong>功能：</strong>天气小工具使用 Apple WeatherKit 显示当前天气状况，帮助您规划出行。了解是否下雨或晴朗有助于决定何时出发和带什么物品。</p>
+                <p><strong>显示信息：</strong></p>
+                <ul>
+                    <li>当前温度和天气状况</li>
+                    <li>每小时降水概率</li>
+                    <li>基于位置的天气（您当前位置或新加坡默认）</li>
+                    <li>自动15分钟更新</li>
+                </ul>
+                <p><strong>提示：</strong>点击天气小工具打开完整的天气应用以获取详细预报和雷达。</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">如何访问和使用地铁地图？</h3>
+            <div class="faq-answer">
+                <p><strong>访问：</strong>从主界面点击地铁按钮以查看新加坡完整的地铁网络地图。</p>
+                <p><strong>功能：</strong></p>
+                <ul>
+                    <li><strong>互动查看：</strong>平移和缩放来探索整个网络</li>
+                    <li><strong>高分辨率：</strong>清晰的地图，包含所有站点和线路</li>
+                    <li><strong>图例：</strong>所有地铁线路和站点的综合图例</li>
+                    <li><strong>集成：</strong>寻找地铁站附近的巴士站以实现无缝换乘</li>
+                </ul>
+                <p><strong>出行规划：</strong>完美适用于规划结合巴士和地铁的多模式新加坡出行。</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">iCloud 同步如何与我的收藏夹一起工作？</h3>
+            <div class="faq-answer">
+                <p><strong>自动同步：</strong>启用后，您的收藏夹、自定义名称、颜色和图标会自动在您所有的 Apple 设备间同步。</p>
+                <p><strong>设置：</strong></p>
+                <ol>
+                    <li>确保您在所有设备上都登录了 iCloud</li>
+                    <li>收藏夹在后台自动同步</li>
+                    <li>更改会在几分钟内出现在其他设备上</li>
+                </ol>
+                <p><strong>同步问题故障排除：</strong></p>
+                <ul>
+                    <li>在 iOS 设置 > [您的姓名] > iCloud 中检查 iCloud 设置</li>
+                    <li>确保您有互联网连接</li>
+                    <li>尝试开关飞行模式来刷新同步</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>故障排除</h2>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">实时巴士跟踪不工作或耗电？</h3>
+            <div class="faq-answer">
+                <p><strong>常见解决方案：</strong></p>
+                <ol>
+                    <li><strong>检查设置：</strong>确保在设置 > 偏好设置中启用"自动跟踪巴士到站"</li>
+                    <li><strong>手动切换：</strong>尝试手动为特定巴士站启用跟踪</li>
+                    <li><strong>后台刷新：</strong>在 iOS 设置中为 Bustro 启用后台应用刷新</li>
+                    <li><strong>互联网连接：</strong>跟踪需要有效的互联网连接</li>
+                </ol>
+                <p><strong>电池优化：</strong></p>
+                <ul>
+                    <li>跟踪设计为电池高效，采用智能刷新间隔</li>
+                    <li>如果电池使用量是问题，考虑在设置中降低刷新频率</li>
+                    <li>不需要时跟踪会自动暂停</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">应用崩溃或运行缓慢</h3>
+            <div class="faq-answer">
+                <p><strong>快速修复：</strong></p>
+                <ol>
+                    <li>强制关闭应用并重新打开</li>
+                    <li>重启您的iPhone</li>
+                    <li>确保您有最新的应用版本</li>
+                    <li>检查可用存储空间（至少需要1GB空闲空间）</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">巴士时间不更新</h3>
+            <div class="faq-answer">
+                <p><strong>解决方案：</strong></p>
+                <ul>
+                    <li>检查您的互联网连接（WiFi 或蜂窝数据）</li>
+                    <li>尝试在 WiFi 和蜂窝数据之间切换</li>
+                    <li>LTA 偶尔会维护 - 时间会自动恢复</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">地图无法正常加载</h3>
+            <div class="faq-answer">
+                <p><strong>故障排除：</strong></p>
+                <ul>
+                    <li>确保已启用定位服务</li>
+                    <li>检查互联网连接</li>
+                    <li>尝试缩小再放大</li>
+                    <li>如果地图显示空白，请重启应用</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>新加坡专用信息</h2>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">支持哪些巴士运营商和数据来源？</h3>
+            <div class="faq-answer">
+                <p><strong>所有新加坡巴士运营商：</strong></p>
+                <ul>
+                    <li>新捷运（SBST）</li>
+                    <li>SMRT 巴士</li>
+                    <li>Tower Transit 新加坡</li>
+                    <li>Go-Ahead 新加坡</li>
+                </ul>
+                <p><strong>数据来源：</strong>新加坡陆路交通管理局（LTA）DataMall API v3</p>
+                <p><strong>覆盖范围：</strong></p>
+                <ul>
+                    <li>新加坡5,000多个巴士站</li>
+                    <li>400多条巴士路线和服务</li>
+                    <li>实时到站数据，具有30秒刷新能力</li>
+                    <li>车辆信息和无障碍状态</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">是否支持地铁/轻铁，技术要求是什么？</h3>
+            <div class="faq-answer">
+                <p><strong>地铁/轻铁集成：</strong></p>
+                <ul>
+                    <li>寻找地铁站附近的巴士站</li>
+                    <li>互动地铁网络地图，支持全屏查看</li>
+                    <li>规划巴士+地铁联合出行</li>
+                    <li>深度链接到 Apple 地图和 Google 地图以获取路线</li>
+                </ul>
+                <p><strong>技术要求：</strong></p>
+                <ul>
+                    <li><strong>iOS 版本：</strong>iOS 12.0 或更高版本</li>
+                    <li><strong>定位服务：</strong>附近站点和距离计算所需</li>
+                    <li><strong>互联网：</strong>实时数据所需（离线地图查看可用）</li>
+                    <li><strong>iCloud：</strong>可选，用于跨设备同步收藏夹</li>
+                </ul>
+                <p><strong>现代架构：</strong>使用 SwiftUI + UIKit 混合架构构建，实现最佳性能和电池效率。</p>
+            </div>
+        </div>
+        
+        <div class="contact">
+            <h3>仍需要帮助？</h3>
+            <ul>
+                <li><strong>电子邮件：</strong><a href="mailto:hi@bustro.app">hi@bustro.app</a></li>
+                <li><strong>响应时间：</strong>24-48小时内</li>
+                <li><strong>支持时间：</strong>新加坡时区（UTC+8）</li>
+            </ul>
+            
+            <h4>联系支持时，请包括：</h4>
+            <ul>
+                <li>您的 iPhone 型号和 iOS 版本</li>
+                <li>Bustro 应用版本（在 更多 -> 关于与支持 中查找）</li>
+                <li>问题的详细描述</li>
+                <li>您已尝试的步骤</li>
+                <li>如有帮助的话，请提供屏幕截图</li>
+            </ul>
+        </div>
+        
+        
+        <div class="version-info">
+            <p><small>© 2025 Bustro App。为新加坡通勤者打造。</small></p>
+        </div>
+    </div>
+    <script>
+    function toggleFAQ(element) {
+        const answer = element.nextElementSibling;
+        const isActive = element.classList.contains('active');
+        
+        // Close all other FAQ items
+        document.querySelectorAll('.faq-question.active').forEach(question => {
+            if (question !== element) {
+                question.classList.remove('active');
+                question.nextElementSibling.classList.remove('show');
+            }
+        });
+        
+        // Toggle current item
+        if (isActive) {
+            element.classList.remove('active');
+            answer.classList.remove('show');
+        } else {
+            element.classList.add('active');
+            answer.classList.add('show');
+        }
+    }
+    </script>
+</body>
+</html>
