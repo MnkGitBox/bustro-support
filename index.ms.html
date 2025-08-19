@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sokongan Bustro - Aplikasi Masa Bas Singapura</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            margin: 40px auto;
+            line-height: 1.8;
+            max-width: 700px;
+            padding: 0 20px;
+            color: light-dark(#000, #fff);
+            background: light-dark(#fff, #000);
+        }
+        
+        h1 { 
+            color: light-dark(#000, #fff);
+            text-align: center;
+            font-weight: 600;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: light-dark(#666, #999);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h2 { 
+            color: light-dark(#333, #ccc);
+            font-weight: 500;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid #7AB82D;
+            padding-left: 1rem;
+        }
+        
+        h3 {
+            color: light-dark(#000, #fff);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact { 
+            background: light-dark(#f8f8f8, #1a1a1a);
+            color: light-dark(#000, #fff);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .contact h3 {
+            color: #7AB82D;
+            margin-top: 0;
+        }
+        
+        .contact h4 {
+            color: light-dark(#000, #fff);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        
+        .faq-item { 
+            margin-bottom: 1rem;
+            background: light-dark(#f8f8f8, #1a1a1a);
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .faq-question {
+            padding: 1rem 1.5rem;
+            margin: 0;
+            font-size: 1.1rem;
+            color: light-dark(#000, #fff);
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+        
+        .faq-question:hover {
+            background: light-dark(#f0f0f0, #2a2a2a);
+        }
+        
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #7AB82D;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            display: none;
+        }
+        
+        .faq-answer.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .highlight {
+            background: light-dark(#f8f8f8, #1a1a1a);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: light-dark(#f8f8f8, #1a1a1a);
+            padding: 1.5rem;
+            text-align: center;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .feature-card h3 {
+            color: #7AB82D;
+            margin-top: 0;
+        }
+        
+        .legal-links {
+            background: light-dark(#f8f8f8, #1a1a1a);
+            padding: 1.5rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .legal-links h3 {
+            color: #7AB82D;
+            margin-top: 0;
+        }
+        
+        .legal-links a {
+            color: light-dark(#000, #fff);
+            text-decoration: underline;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        
+        .legal-links a:hover {
+            text-decoration: none;
+        }
+        
+        .version-info {
+            text-align: center;
+            color: light-dark(#666, #999);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid light-dark(#e0e0e0, #333);
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            color: light-dark(#000, #fff);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        a {
+            color: light-dark(#000, #fff);
+            text-decoration: underline;
+        }
+        
+        a:hover {
+            text-decoration: none;
+        }
+        
+        /* Fallback for older browsers */
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #fff;
+                background: #000;
+            }
+            
+            h1 {
+                color: #fff;
+            }
+            
+            h2 {
+                color: #ccc;
+            }
+            
+            h3 {
+                color: #fff;
+            }
+            
+            .subtitle {
+                color: #999;
+            }
+            
+            .contact {
+                background: #1a1a1a;
+                color: #fff;
+            }
+            
+            .contact h4 {
+                color: #fff;
+            }
+            
+            
+            .faq-item {
+                background: #1a1a1a;
+            }
+            
+            .faq-question {
+                color: #fff;
+            }
+            
+            .faq-question:hover {
+                background: #2a2a2a;
+            }
+            
+            .highlight {
+                background: #1a1a1a;
+            }
+            
+            .feature-card {
+                background: #1a1a1a;
+            }
+            
+            .legal-links {
+                background: #1a1a1a;
+            }
+            
+            .legal-links a {
+                color: #fff;
+            }
+            
+            .version-info {
+                color: #999;
+                border-top-color: #333;
+            }
+            
+            strong {
+                color: #fff;
+            }
+            
+            a {
+                color: #fff;
+            }
+        }
+        
+        /* Responsive Design - Mobile First Approach */
+        
+        /* Very Small Phones: 0-480px */
+        @media (max-width: 480px) {
+            body {
+                margin: 15px auto;
+                padding: 0 15px;
+                max-width: 100%;
+                line-height: 1.6;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.4;
+            }
+            
+            h2 {
+                font-size: 1.1rem;
+                margin-top: 1.5rem;
+                margin-bottom: 0.8rem;
+                padding-left: 0.8rem;
+                border-left-width: 2px;
+            }
+            
+            h3 {
+                font-size: 1rem;
+                margin-top: 1rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .highlight {
+                padding: 1rem;
+                margin: 1.5rem 0;
+                border-left-width: 2px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+                margin: 1.5rem 0;
+            }
+            
+            .feature-card {
+                padding: 1rem;
+                border-left-width: 2px;
+            }
+            
+            .feature-card h3 {
+                font-size: 0.95rem;
+                margin-top: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            .feature-card p {
+                font-size: 0.9rem;
+                margin-bottom: 0;
+                line-height: 1.5;
+            }
+            
+            .faq-item {
+                margin-bottom: 0.8rem;
+                border-left-width: 2px;
+            }
+            
+            .faq-question {
+                padding: 0.8rem 1rem;
+                font-size: 0.95rem;
+                min-height: 44px; /* Touch target minimum */
+                align-items: center;
+            }
+            
+            .faq-question::after {
+                font-size: 1.2rem;
+                margin-left: 0.5rem;
+            }
+            
+            .faq-answer {
+                padding: 0 1rem 1rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .faq-answer ul, .faq-answer ol {
+                padding-left: 1.2rem;
+            }
+            
+            .faq-answer li {
+                margin-bottom: 0.3rem;
+            }
+            
+            .contact {
+                padding: 1rem;
+                margin: 1.5rem 0;
+                border-left-width: 2px;
+            }
+            
+            .contact h3 {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .contact p {
+                font-size: 0.9rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .version-info {
+                margin-top: 2rem;
+                padding-top: 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .version-info p {
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        /* Standard Mobile Phones: 481-768px */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                margin: 20px auto;
+                padding: 0 20px;
+                line-height: 1.7;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.05rem;
+                margin-bottom: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+                margin-top: 1.8rem;
+                margin-bottom: 1rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 1.8rem 0;
+            }
+            
+            .feature-card {
+                padding: 1.2rem;
+            }
+            
+            .faq-question {
+                padding: 1rem 1.2rem;
+                font-size: 1rem;
+                min-height: 48px; /* Slightly larger touch target */
+            }
+            
+            .faq-answer {
+                padding: 0 1.2rem 1.2rem 1.2rem;
+            }
+            
+            .contact {
+                padding: 1.2rem;
+                margin: 1.8rem 0;
+            }
+        }
+        
+        /* Tablets: 769-1024px */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            body {
+                margin: 30px auto;
+                padding: 0 30px;
+                max-width: 90%;
+            }
+            
+            h1 {
+                font-size: 1.9rem;
+            }
+            
+            .subtitle {
+                font-size: 1.08rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.2rem;
+                margin: 2rem 0;
+            }
+            
+            .feature-card {
+                padding: 1.3rem;
+            }
+            
+            .faq-question {
+                padding: 1.1rem 1.3rem;
+                font-size: 1.05rem;
+            }
+            
+            .faq-answer {
+                padding: 0 1.3rem 1.3rem 1.3rem;
+            }
+            
+            .contact {
+                padding: 1.3rem;
+            }
+        }
+        
+        /* Large Tablets and Small Desktops: 1025px+ */
+        @media (min-width: 1025px) {
+            .feature-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+        <h1>Sokongan Bustro</h1>
+        <p class="subtitle">Aplikasi masa bas terpintar Singapura dengan penjejakan langsung dan integrasi cuaca</p>
+        
+        <div class="highlight">
+            <p><strong>Selamat datang ke Bustro!</strong> Dapatkan ketibaan bas masa nyata dengan penjejakan langsung, terokai hentian berdekatan pada peta interaktif, segerakkan kegemaran merentasi peranti, dan rancang perjalanan bijak dengan maklumat cuaca terintegrasi. Menampilkan teknologi auto-jejak canggih dan integrasi MRT menyeluruh. Dibina khusus untuk sistem pengangkutan awam cemerlang Singapura.</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>Lokasi Pintar</h3>
+                <p>Cari hentian bas berdekatan dalam radius boleh disesuaikan (100m-1000m) disusun mengikut jarak dengan masa berjalan tepat</p>
+            </div>
+            <div class="feature-card">
+                <h3>Masa Langsung</h3>
+                <p>Ketibaan masa nyata dari LTA Singapura dengan jenis kenderaan, akses kerusi roda, dan penunjuk muatan penumpang</p>
+            </div>
+            <div class="feature-card">
+                <h3>Penjejakan Bas Langsung</h3>
+                <p>Auto-jejak ketibaan bas yang dipinkan dengan kemas kini masa nyata berterusan dan pemantauan latar belakang pintar</p>
+            </div>
+            <div class="feature-card">
+                <h3>Kegemaran Tersuai</h3>
+                <p>Personalkan hentian dengan nama, ikon, dan warna tersuai - segerak merentasi peranti melalui iCloud</p>
+            </div>
+            <div class="feature-card">
+                <h3>Integrasi Cuaca</h3>
+                <p>Integrasi Apple WeatherKit dengan keadaan semasa dan ramalan setiap jam untuk merancang perjalanan anda</p>
+            </div>
+            <div class="feature-card">
+                <h3>Integrasi MRT</h3>
+                <p>Peta rangkaian MRT Singapura interaktif untuk perancangan perjalanan multi-mod menggabungkan bas dan kereta api</p>
+            </div>
+        </div>
+        
+        <h2>Soalan Lazim</h2>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Apakah Penjejakan Bas Langsung dan bagaimana saya menggunakannya?</h3>
+            <div class="faq-answer">
+                <p><strong>Penjejakan Bas Langsung</strong> secara automatik memantau ketibaan bas terpilih anda dengan kemas kini masa nyata, walaupun ketika anda meminimumkan aplikasi.</p>
+                <p><strong>Cara mengaktifkan:</strong></p>
+                <ol>
+                    <li>Pergi ke Tetapan > Keutamaan > Auto-Jejak Ketibaan Bas (hidupkan)</li>
+                    <li>Apabila anda melihat butiran mana-mana hentian bas, penjejakan bermula secara automatik</li>
+                    <li>Anda juga boleh menogol penjejakan secara manual untuk hentian tertentu</li>
+                </ol>
+                <p><strong>Faedah:</strong> Pemantauan berterusan, kemas kini dioptimumkan bateri, dan segar semula latar belakang pintar.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Bagaimana saya menyesuaikan radius carian untuk hentian berdekatan?</h3>
+            <div class="faq-answer">
+                <p><strong>Sesuaikan kawasan carian anda:</strong></p>
+                <ol>
+                    <li>Buka Tetapan dari menu utama</li>
+                    <li>Pergi ke Keutamaan</li>
+                    <li>Laraskan "Radius Carian" dari 100m ke 1000m</li>
+                    <li>Perubahan digunakan serta-merta ke hentian berdekatan anda</li>
+                </ol>
+                <p><strong>Petua:</strong> Radius kecil (100-300m) untuk kawasan bandar, radius besar (500-1000m) untuk kawasan pinggir bandar.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Mengapa saya tidak boleh melihat hentian bas berdekatan?</h3>
+            <div class="faq-answer">
+                <p><strong>Penyelesaian:</strong> Aktifkan kebenaran lokasi dengan pergi ke <strong>Tetapan > Privasi & Keselamatan > Perkhidmatan Lokasi > Bustro</strong> dan pilih <strong>"Semasa Menggunakan Aplikasi"</strong>.</p>
+                <p><strong>Pemeriksaan tambahan:</strong></p>
+                <ul>
+                    <li>Pastikan radius carian anda tidak terlalu kecil (semak Tetapan > Keutamaan)</li>
+                    <li>Cuba segar semula lokasi anda dengan menarik ke bawah pada senarai hentian berdekatan</li>
+                    <li>Semak jika anda berada di kawasan dengan hentian bas (Singapura sahaja)</li>
+                </ul>
+                <p>Nota: Bustro hanya menggunakan lokasi anda apabila aplikasi dibuka untuk menunjukkan hentian berdekatan dan mengira jarak berjalan.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Adakah masa bas tepat?</h3>
+            <div class="faq-answer">
+                <p><strong>Jawapan:</strong> Ya! Data kami datang terus dari API DataMall v3 Lembaga Pengangkutan Darat (LTA) Singapura dalam masa nyata. Masa mungkin berbeza sedikit disebabkan keadaan lalu lintas, tetapi kami menunjukkan maklumat terkini yang tersedia.</p>
+                <p><strong>Data termasuk:</strong></p>
+                <ul>
+                    <li>Penunjuk jenis kenderaan (dek tunggal, dek berganda, bas artikulasi)</li>
+                    <li>Status kebolehcapaian kerusi roda</li>
+                    <li>Muatan penumpang (tempat duduk tersedia, ruang berdiri, berdiri terhad)</li>
+                    <li>Ramalan ketibaan tepat ("Tiba", "2 minit", dll.)</li>
+                </ul>
+                <p><strong>Kadar segar semula:</strong> Anda boleh menyesuaikan selang segar semula dari 15 saat ke 2 minit dalam Tetapan.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Bagaimana saya menambah hentian bas ke kegemaran?</h3>
+            <div class="faq-answer">
+                <p><strong>Langkah:</strong></p>
+                <ol>
+                    <li>Ketik pada mana-mana hentian bas untuk membuka butiran</li>
+                    <li>Ketik ikon hati (♡) untuk menambah ke kegemaran</li>
+                    <li>Sesuaikan dengan nama peribadi, ikon, dan warna</li>
+                    <li>Akses pantas dari tab "Kegemaran"</li>
+                </ol>
+                <p><strong>Ciri canggih:</strong></p>
+                <ul>
+                    <li><strong>Segerak iCloud:</strong> Kegemaran segerak automatik merentasi semua peranti anda</li>
+                    <li><strong>Organisasi Visual:</strong> Pilih warna dan ikon tersuai untuk pengenalan mudah</li>
+                    <li><strong>Susun semula:</strong> Seret dan lepas untuk mengatur senarai kegemaran anda</li>
+                    <li><strong>Integrasi Peta:</strong> Kegemaran dipaparkan dengan gaya tersuai pada peta</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Apakah fungsi widget cuaca?</h3>
+            <div class="faq-answer">
+                <p><strong>Ciri:</strong> Widget cuaca menggunakan Apple WeatherKit untuk menunjukkan keadaan semasa dan membantu anda merancang perjalanan. Mengetahui jika hujan atau cerah membantu memutuskan bila hendak bertolak dan apa yang hendak dibawa.</p>
+                <p><strong>Maklumat yang dipaparkan:</strong></p>
+                <ul>
+                    <li>Suhu semasa dan keadaan</li>
+                    <li>Peluang hujan setiap jam</li>
+                    <li>Cuaca berdasarkan lokasi (lokasi semasa anda atau lalai Singapura)</li>
+                    <li>Kemas kini automatik 15 minit</li>
+                </ul>
+                <p><strong>Petua:</strong> Ketik widget cuaca untuk membuka aplikasi Cuaca penuh untuk ramalan terperinci dan radar.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Bagaimana saya mengakses dan menggunakan peta MRT?</h3>
+            <div class="faq-answer">
+                <p><strong>Akses:</strong> Ketik butang MRT dari antara muka utama untuk melihat peta rangkaian MRT lengkap Singapura.</p>
+                <p><strong>Ciri:</strong></p>
+                <ul>
+                    <li><strong>Paparan Interaktif:</strong> Pan dan zum untuk meneroka seluruh rangkaian</li>
+                    <li><strong>Resolusi Tinggi:</strong> Peta jernih kristal dengan semua stesen dan laluan</li>
+                    <li><strong>Legenda:</strong> Legenda menyeluruh untuk semua laluan dan stesen MRT</li>
+                    <li><strong>Integrasi:</strong> Cari hentian bas berhampiran stesen MRT untuk pemindahan lancar</li>
+                </ul>
+                <p><strong>Perancangan Perjalanan:</strong> Sempurna untuk merancang perjalanan multi-mod menggabungkan bas dan kereta api merentasi Singapura.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Bagaimana segerak iCloud berfungsi dengan kegemaran saya?</h3>
+            <div class="faq-answer">
+                <p><strong>Segerak Automatik:</strong> Apabila diaktifkan, kegemaran, nama tersuai, warna, dan ikon anda segerak secara automatik merentasi semua peranti Apple anda.</p>
+                <p><strong>Persediaan:</strong></p>
+                <ol>
+                    <li>Pastikan anda masuk ke iCloud pada semua peranti</li>
+                    <li>Kegemaran segerak secara automatik di latar belakang</li>
+                    <li>Perubahan muncul dalam beberapa minit pada peranti lain</li>
+                </ol>
+                <p><strong>Menyelesaikan masalah segerak:</strong></p>
+                <ul>
+                    <li>Semak tetapan iCloud dalam Tetapan iOS > [Nama Anda] > iCloud</li>
+                    <li>Pastikan anda mempunyai sambungan internet</li>
+                    <li>Cuba togol mod kapal terbang hidup/mati untuk segar semula segerak</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>Penyelesaian Masalah</h2>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Penjejakan Bas Langsung tidak berfungsi atau menguras bateri?</h3>
+            <div class="faq-answer">
+                <p><strong>Penyelesaian biasa:</strong></p>
+                <ol>
+                    <li><strong>Semak Tetapan:</strong> Pastikan "Auto-Jejak Ketibaan Bas" diaktifkan dalam Tetapan > Keutamaan</li>
+                    <li><strong>Togol Manual:</strong> Cuba aktifkan penjejakan secara manual untuk hentian bas tertentu</li>
+                    <li><strong>Segar Semula Latar Belakang:</strong> Aktifkan Segar Semula Aplikasi Latar Belakang untuk Bustro dalam Tetapan iOS</li>
+                    <li><strong>Sambungan Internet:</strong> Penjejakan memerlukan sambungan internet aktif</li>
+                </ol>
+                <p><strong>Pengoptimuman Bateri:</strong></p>
+                <ul>
+                    <li>Penjejakan direka untuk cekap bateri dengan selang segar semula pintar</li>
+                    <li>Pertimbangkan mengurangkan kadar segar semula dalam Tetapan jika penggunaan bateri menjadi masalah</li>
+                    <li>Penjejakan berhenti seketika secara automatik apabila tidak diperlukan</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Aplikasi terhempas atau berjalan perlahan</h3>
+            <div class="faq-answer">
+                <p><strong>Pembaikan pantas:</strong></p>
+                <ol>
+                    <li>Tutup paksa aplikasi dan buka semula</li>
+                    <li>Mulakan semula iPhone anda</li>
+                    <li>Pastikan anda mempunyai versi aplikasi terkini</li>
+                    <li>Semak ruang storan tersedia (perlu sekurang-kurangnya 1GB kosong)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Masa bas tidak kemas kini</h3>
+            <div class="faq-answer">
+                <p><strong>Penyelesaian:</strong></p>
+                <ul>
+                    <li>Semak sambungan internet anda (WiFi atau data selular)</li>
+                    <li>Cuba tukar antara WiFi dan data selular</li>
+                    <li>LTA kadang-kadang menjalani penyelenggaraan - masa akan kembali secara automatik</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Peta tidak memuatkan dengan betul</h3>
+            <div class="faq-answer">
+                <p><strong>Penyelesaian masalah:</strong></p>
+                <ul>
+                    <li>Pastikan perkhidmatan lokasi diaktifkan</li>
+                    <li>Semak sambungan internet</li>
+                    <li>Cuba zum keluar dan masuk semula</li>
+                    <li>Mulakan semula aplikasi jika peta kelihatan kosong</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>Maklumat Khusus Singapura</h2>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Pengendali bas dan sumber data mana yang disokong?</h3>
+            <div class="faq-answer">
+                <p><strong>Semua pengendali bas Singapura:</strong></p>
+                <ul>
+                    <li>SBS Transit (SBST)</li>
+                    <li>SMRT Buses</li>
+                    <li>Tower Transit Singapore</li>
+                    <li>Go-Ahead Singapore</li>
+                </ul>
+                <p><strong>Sumber Data:</strong> API DataMall v3 Lembaga Pengangkutan Darat (LTA) Singapura</p>
+                <p><strong>Liputan:</strong></p>
+                <ul>
+                    <li>5,000+ hentian bas di seluruh Singapura</li>
+                    <li>400+ laluan dan perkhidmatan bas</li>
+                    <li>Data ketibaan masa nyata dengan kemampuan segar semula 30 saat</li>
+                    <li>Maklumat kenderaan dan status kebolehcapaian</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">Adakah ia berfungsi dengan MRT/LRT dan apakah keperluan teknikal?</h3>
+            <div class="faq-answer">
+                <p><strong>Integrasi MRT/LRT:</strong></p>
+                <ul>
+                    <li>Cari hentian bas berhampiran stesen MRT</li>
+                    <li>Peta rangkaian MRT interaktif dengan paparan skrin penuh</li>
+                    <li>Rancang perjalanan gabungan bas + kereta api</li>
+                    <li>Pautan mendalam ke Apple Maps dan Google Maps untuk arah</li>
+                </ul>
+                <p><strong>Keperluan Teknikal:</strong></p>
+                <ul>
+                    <li><strong>Versi iOS:</strong> iOS 12.0 atau terkini</li>
+                    <li><strong>Perkhidmatan Lokasi:</strong> Diperlukan untuk hentian berdekatan dan pengiraan jarak</li>
+                    <li><strong>Internet:</strong> Diperlukan untuk data masa nyata (paparan peta luar talian tersedia)</li>
+                    <li><strong>iCloud:</strong> Opsional untuk segerak kegemaran merentasi peranti</li>
+                </ul>
+                <p><strong>Seni Bina Moden:</strong> Dibina dengan hibrid SwiftUI + UIKit untuk prestasi optimum dan kecekapan bateri.</p>
+            </div>
+        </div>
+        
+        <div class="contact">
+            <h3>Masih Perlukan Bantuan?</h3>
+            <ul>
+                <li><strong>E-mel:</strong> <a href="mailto:hi@bustro.app">hi@bustro.app</a></li>
+                <li><strong>Masa respons:</strong> Dalam 24-48 jam</li>
+                <li><strong>Waktu sokongan:</strong> Zon waktu Singapura (UTC+8)</li>
+            </ul>
+            
+            <h4>Apabila menghubungi sokongan, sila sertakan:</h4>
+            <ul>
+                <li>Model iPhone dan versi iOS anda</li>
+                <li>Versi aplikasi Bustro (terdapat dalam Lagi -> Tentang & Sokongan)</li>
+                <li>Penerangan terperinci masalah</li>
+                <li>Langkah yang telah anda cuba</li>
+                <li>Tangkapan skrin jika membantu</li>
+            </ul>
+        </div>
+        
+        
+        <div class="version-info">
+            <p><small>© 2025 Bustro App. Dibuat untuk komuter Singapura.</small></p>
+        </div>
+    </div>
+    <script>
+    function toggleFAQ(element) {
+        const answer = element.nextElementSibling;
+        const isActive = element.classList.contains('active');
+        
+        // Close all other FAQ items
+        document.querySelectorAll('.faq-question.active').forEach(question => {
+            if (question !== element) {
+                question.classList.remove('active');
+                question.nextElementSibling.classList.remove('show');
+            }
+        });
+        
+        // Toggle current item
+        if (isActive) {
+            element.classList.remove('active');
+            answer.classList.remove('show');
+        } else {
+            element.classList.add('active');
+            answer.classList.add('show');
+        }
+    }
+    </script>
+</body>
+</html>

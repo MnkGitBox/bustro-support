@@ -1,0 +1,817 @@
+<!DOCTYPE html>
+<html lang="ta">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Bustro ஆதரவு - சிங்கப்பூர் பஸ் நேர பயன்பாடு</title>
+    <style>
+        :root {
+            color-scheme: light dark;
+        }
+        
+        body { 
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
+            margin: 40px auto;
+            line-height: 1.8;
+            max-width: 700px;
+            padding: 0 20px;
+            color: light-dark(#000, #fff);
+            background: light-dark(#fff, #000);
+        }
+        
+        h1 { 
+            color: light-dark(#000, #fff);
+            text-align: center;
+            font-weight: 600;
+            font-size: 2rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        .subtitle {
+            text-align: center;
+            color: light-dark(#666, #999);
+            font-size: 1.1rem;
+            margin-bottom: 2rem;
+        }
+        
+        h2 { 
+            color: light-dark(#333, #ccc);
+            font-weight: 500;
+            font-size: 1.25rem;
+            margin-top: 2rem;
+            margin-bottom: 1rem;
+            border-left: 3px solid #7AB82D;
+            padding-left: 1rem;
+        }
+        
+        h3 {
+            color: light-dark(#000, #fff);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 1rem;
+        }
+        
+        .contact { 
+            background: light-dark(#f8f8f8, #1a1a1a);
+            color: light-dark(#000, #fff);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            text-align: left;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .contact h3 {
+            color: #7AB82D;
+            margin-top: 0;
+        }
+        
+        .contact h4 {
+            color: light-dark(#000, #fff);
+            font-weight: 500;
+            margin-top: 1.5rem;
+            margin-bottom: 0.5rem;
+        }
+        
+        
+        .faq-item { 
+            margin-bottom: 1rem;
+            background: light-dark(#f8f8f8, #1a1a1a);
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .faq-question {
+            padding: 1rem 1.5rem;
+            margin: 0;
+            font-size: 1.1rem;
+            color: light-dark(#000, #fff);
+            cursor: pointer;
+            user-select: none;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            transition: background-color 0.2s ease;
+        }
+        
+        .faq-question:hover {
+            background: light-dark(#f0f0f0, #2a2a2a);
+        }
+        
+        .faq-question::after {
+            content: '+';
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #7AB82D;
+            transition: transform 0.3s ease;
+        }
+        
+        .faq-question.active::after {
+            transform: rotate(45deg);
+        }
+        
+        .faq-answer {
+            padding: 0 1.5rem 1.5rem 1.5rem;
+            display: none;
+        }
+        
+        .faq-answer.show {
+            display: block;
+            animation: fadeIn 0.3s ease-in-out;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        .highlight {
+            background: light-dark(#f8f8f8, #1a1a1a);
+            padding: 1.5rem;
+            margin: 2rem 0;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .feature-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+            margin: 2rem 0;
+        }
+        
+        .feature-card {
+            background: light-dark(#f8f8f8, #1a1a1a);
+            padding: 1.5rem;
+            text-align: center;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .feature-card h3 {
+            color: #7AB82D;
+            margin-top: 0;
+        }
+        
+        .legal-links {
+            background: light-dark(#f8f8f8, #1a1a1a);
+            padding: 1.5rem;
+            text-align: center;
+            margin: 2rem 0;
+            border-left: 3px solid #7AB82D;
+        }
+        
+        .legal-links h3 {
+            color: #7AB82D;
+            margin-top: 0;
+        }
+        
+        .legal-links a {
+            color: light-dark(#000, #fff);
+            text-decoration: underline;
+            margin: 0 15px;
+            font-weight: 500;
+        }
+        
+        .legal-links a:hover {
+            text-decoration: none;
+        }
+        
+        .version-info {
+            text-align: center;
+            color: light-dark(#666, #999);
+            font-size: 0.9rem;
+            margin-top: 3rem;
+            padding-top: 1rem;
+            border-top: 1px solid light-dark(#e0e0e0, #333);
+        }
+        
+        ul, ol {
+            padding-left: 1.5rem;
+        }
+        
+        li {
+            margin-bottom: 0.5rem;
+        }
+        
+        strong {
+            color: light-dark(#000, #fff);
+        }
+        
+        p {
+            margin-bottom: 1rem;
+        }
+        
+        a {
+            color: light-dark(#000, #fff);
+            text-decoration: underline;
+        }
+        
+        a:hover {
+            text-decoration: none;
+        }
+        
+        /* Fallback for older browsers */
+        @media (prefers-color-scheme: dark) {
+            body {
+                color: #fff;
+                background: #000;
+            }
+            
+            h1 {
+                color: #fff;
+            }
+            
+            h2 {
+                color: #ccc;
+            }
+            
+            h3 {
+                color: #fff;
+            }
+            
+            .subtitle {
+                color: #999;
+            }
+            
+            .contact {
+                background: #1a1a1a;
+                color: #fff;
+            }
+            
+            .contact h4 {
+                color: #fff;
+            }
+            
+            
+            .faq-item {
+                background: #1a1a1a;
+            }
+            
+            .faq-question {
+                color: #fff;
+            }
+            
+            .faq-question:hover {
+                background: #2a2a2a;
+            }
+            
+            .highlight {
+                background: #1a1a1a;
+            }
+            
+            .feature-card {
+                background: #1a1a1a;
+            }
+            
+            .legal-links {
+                background: #1a1a1a;
+            }
+            
+            .legal-links a {
+                color: #fff;
+            }
+            
+            .version-info {
+                color: #999;
+                border-top-color: #333;
+            }
+            
+            strong {
+                color: #fff;
+            }
+            
+            a {
+                color: #fff;
+            }
+        }
+        
+        /* Responsive Design - Mobile First Approach */
+        
+        /* Very Small Phones: 0-480px */
+        @media (max-width: 480px) {
+            body {
+                margin: 15px auto;
+                padding: 0 15px;
+                max-width: 100%;
+                line-height: 1.6;
+            }
+            
+            h1 {
+                font-size: 1.6rem;
+                margin-bottom: 0.5rem;
+            }
+            
+            .subtitle {
+                font-size: 1rem;
+                margin-bottom: 1.5rem;
+                line-height: 1.4;
+            }
+            
+            h2 {
+                font-size: 1.1rem;
+                margin-top: 1.5rem;
+                margin-bottom: 0.8rem;
+                padding-left: 0.8rem;
+                border-left-width: 2px;
+            }
+            
+            h3 {
+                font-size: 1rem;
+                margin-top: 1rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .highlight {
+                padding: 1rem;
+                margin: 1.5rem 0;
+                border-left-width: 2px;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 0.8rem;
+                margin: 1.5rem 0;
+            }
+            
+            .feature-card {
+                padding: 1rem;
+                border-left-width: 2px;
+            }
+            
+            .feature-card h3 {
+                font-size: 0.95rem;
+                margin-top: 0;
+                margin-bottom: 0.5rem;
+            }
+            
+            .feature-card p {
+                font-size: 0.9rem;
+                margin-bottom: 0;
+                line-height: 1.5;
+            }
+            
+            .faq-item {
+                margin-bottom: 0.8rem;
+                border-left-width: 2px;
+            }
+            
+            .faq-question {
+                padding: 0.8rem 1rem;
+                font-size: 0.95rem;
+                min-height: 44px; /* Touch target minimum */
+                align-items: center;
+            }
+            
+            .faq-question::after {
+                font-size: 1.2rem;
+                margin-left: 0.5rem;
+            }
+            
+            .faq-answer {
+                padding: 0 1rem 1rem 1rem;
+                font-size: 0.9rem;
+            }
+            
+            .faq-answer ul, .faq-answer ol {
+                padding-left: 1.2rem;
+            }
+            
+            .faq-answer li {
+                margin-bottom: 0.3rem;
+            }
+            
+            .contact {
+                padding: 1rem;
+                margin: 1.5rem 0;
+                border-left-width: 2px;
+            }
+            
+            .contact h3 {
+                font-size: 1rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .contact p {
+                font-size: 0.9rem;
+                margin-bottom: 0.8rem;
+            }
+            
+            .version-info {
+                margin-top: 2rem;
+                padding-top: 1rem;
+                font-size: 0.8rem;
+            }
+            
+            .version-info p {
+                margin-bottom: 0.5rem;
+            }
+        }
+        
+        /* Standard Mobile Phones: 481-768px */
+        @media (min-width: 481px) and (max-width: 768px) {
+            body {
+                margin: 20px auto;
+                padding: 0 20px;
+                line-height: 1.7;
+            }
+            
+            h1 {
+                font-size: 1.8rem;
+            }
+            
+            .subtitle {
+                font-size: 1.05rem;
+                margin-bottom: 1.8rem;
+            }
+            
+            h2 {
+                font-size: 1.2rem;
+                margin-top: 1.8rem;
+                margin-bottom: 1rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: 1fr;
+                gap: 1rem;
+                margin: 1.8rem 0;
+            }
+            
+            .feature-card {
+                padding: 1.2rem;
+            }
+            
+            .faq-question {
+                padding: 1rem 1.2rem;
+                font-size: 1rem;
+                min-height: 48px; /* Slightly larger touch target */
+            }
+            
+            .faq-answer {
+                padding: 0 1.2rem 1.2rem 1.2rem;
+            }
+            
+            .contact {
+                padding: 1.2rem;
+                margin: 1.8rem 0;
+            }
+        }
+        
+        /* Tablets: 769-1024px */
+        @media (min-width: 769px) and (max-width: 1024px) {
+            body {
+                margin: 30px auto;
+                padding: 0 30px;
+                max-width: 90%;
+            }
+            
+            h1 {
+                font-size: 1.9rem;
+            }
+            
+            .subtitle {
+                font-size: 1.08rem;
+            }
+            
+            .feature-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 1.2rem;
+                margin: 2rem 0;
+            }
+            
+            .feature-card {
+                padding: 1.3rem;
+            }
+            
+            .faq-question {
+                padding: 1.1rem 1.3rem;
+                font-size: 1.05rem;
+            }
+            
+            .faq-answer {
+                padding: 0 1.3rem 1.3rem 1.3rem;
+            }
+            
+            .contact {
+                padding: 1.3rem;
+            }
+        }
+        
+        /* Large Tablets and Small Desktops: 1025px+ */
+        @media (min-width: 1025px) {
+            .feature-grid {
+                grid-template-columns: repeat(3, 1fr);
+            }
+        }
+    </style>
+</head>
+<body>
+        <h1>Bustro ஆதரவு</h1>
+        <p class="subtitle">நேரடி கண்காணிப்பு மற்றும் வானிலை ஒருங்கிணைப்புடன் சிங்கப்பூரின் புத்திசாலித்தனமான பஸ் நேர பயன்பாடு</p>
+        
+        <div class="highlight">
+            <p><strong>Bustro-வுக்கு வருக!</strong> நேரடி கண்காணிப்புடன் உண்மை நேர பஸ் வருகைகளைப் பெறுங்கள், இன்டராக்டிவ் வரைபடத்தில் அருகிலுள்ள நிறுத்தங்களை ஆராயுங்கள், சாதனங்கள் முழுவதும் பிடித்தவைகளை ஒத்திசைக்கவும், ஒருங்கிணைக்கப்பட்ட வானிலை தகவலுடன் சிறந்த பயணங்களை திட்டமிடுங்கள். மேம்பட்ட தானியங்கி கண்காணிப்பு தொழில்நுட்பம் மற்றும் விரிவான MRT ஒருங்கிணைப்பு உள்ளது. சிங்கப்பூரின் சிறந்த பொதுப் போக்குவரத்து அமைப்புக்காக சிறப்பாக உருவாக்கப்பட்டது.</p>
+        </div>
+
+        <div class="feature-grid">
+            <div class="feature-card">
+                <h3>புத்திசாலி இருப்பிடம்</h3>
+                <p>தனிப்பயனாக்கக்கூடிய ஆரம் (100m-1000m) இல் அருகிலுள்ள பஸ் நிறுத்தங்களை கண்டறியுங்கள், தூரம் மற்றும் துல்லியமான நடைப்பயண நேரங்களின்படி வரிசைப்படுத்தப்பட்டது</p>
+            </div>
+            <div class="feature-card">
+                <h3>நேரடி நேரம்</h3>
+                <p>சிங்கப்பூர் LTA இலிருந்து வாகன வகைகள், சக்கர நாற்காலி அணுகல், மற்றும் பயணிகள் சுமை குறிகாட்டிகளுடன் உண்மை நேர வருகைகள்</p>
+            </div>
+            <div class="feature-card">
+                <h3>நேரடி பஸ் கண்காணிப்பு</h3>
+                <p>பின் செய்யப்பட்ட பஸ் வருகைகளை தொடர்ச்சியான உண்மை நேர புதுப்பிப்புகள் மற்றும் புத்திசாலித்தனமான பின்புல கண்காணிப்புடன் தானியங்கி கண்காணிப்பு</p>
+            </div>
+            <div class="feature-card">
+                <h3>தனிப்பயன் பிடித்தவைகள்</h3>
+                <p>தனிப்பயன் பெயர்கள், ஐகான்கள், மற்றும் நிறங்களுடன் நிறுத்தங்களை தனிப்பயனாக்குங்கள் - iCloud மூலம் சாதனங்கள் முழுவதும் ஒத்திசைக்கப்படுகிறது</p>
+            </div>
+            <div class="feature-card">
+                <h3>வானிலை ஒருங்கிணைப்பு</h3>
+                <p>உங்கள் பயணத்தை திட்டமிட தற்போதைய நிலைமைகள் மற்றும் மணிநேர முன்னறிவிப்புகளுடன் Apple WeatherKit ஒருங்கிணைப்பு</p>
+            </div>
+            <div class="feature-card">
+                <h3>MRT ஒருங்கிணைப்பு</h3>
+                <p>பஸ்கள் மற்றும் ரயில்களை இணைக்கும் பல-முறை பயண திட்டமிடலுக்கான இன்டராக்டிவ் சிங்கப்பூர் MRT நெட்வொர்க் வரைபடம்</p>
+            </div>
+        </div>
+        
+        <h2>அடிக்கடி கேட்கப்படும் கேள்விகள்</h2>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">நேரடி பஸ் கண்காணிப்பு என்றால் என்ன, அதை எப்படி பயன்படுத்துவது?</h3>
+            <div class="faq-answer">
+                <p><strong>நேரடி பஸ் கண்காணிப்பு</strong> தானியங்கியாக உங்கள் தேர்ந்தெடுக்கப்பட்ட பஸ் வருகைகளை உண்மை நேர புதுப்பிப்புகளுடன் கண்காணிக்கிறது, நீங்கள் பயன்பாட்டை சிறிதாக்கும்போது கூட.</p>
+                <p><strong>எவ்வாறு இயக்குவது:</strong></p>
+                <ol>
+                    <li>அமைப்புகள் > விருப்பத்தேர்வுகள் > ஆட்டோ-ட்ராக் பஸ் வருகைகளுக்குச் செல்லுங்கள் (ஆன் செய்யவும்)</li>
+                    <li>நீங்கள் எந்த பஸ் நிறுத்த விவரங்களை பார்க்கும்போது, கண்காணிப்பு தானியங்கியாக தொடங்குகிறது</li>
+                    <li>நீங்கள் குறிப்பிட்ட நிறுத்தங்களுக்கு கண்காணிப்பை கைமுறையாக மாற்றலாம்</li>
+                </ol>
+                <p><strong>நன்மைகள்:</strong> தொடர்ச்சியான கண்காணிப்பு, பேட்டரி-உகந்த புதுப்பிப்புகள், மற்றும் புத்திசாலித்தனமான பின்புல புதுப்பிப்பு.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">அருகிலுள்ள நிறுத்தங்களுக்கான எனது தேடல் ஆரத்தை எவ்வாறு தனிப்பயனாக்குவது?</h3>
+            <div class="faq-answer">
+                <p><strong>உங்கள் தேடல் பகுதியை தனிப்பயனாக்குங்கள்:</strong></p>
+                <ol>
+                    <li>பிரதான மெனுவிலிருந்து அமைப்புகளைத் திறக்கவும்</li>
+                    <li>விருப்பத்தேர்வுகளுக்கு செல்லுங்கள்</li>
+                    <li>"தேடல் ஆரம்" ஐ 100m இலிருந்து 1000m வரை சரிசெய்யுங்கள்</li>
+                    <li>மாற்றங்கள் உங்கள் அருகிலுள்ள நிறுத்தங்களுக்கு உடனடியாக பொருந்தும்</li>
+                </ol>
+                <p><strong>உதவிக்குறிப்பு:</strong> நகர்ப்புற பகுதிகளுக்கு சிறிய ஆரம் (100-300m), புறநகர் பகுதிகளுக்கு பெரிய ஆரம் (500-1000m).</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">அருகிலுள்ள பஸ் நிறுத்தங்களை என்னால் ஏன் பார்க்க முடியவில்லை?</h3>
+            <div class="faq-answer">
+                <p><strong>தீர்வு:</strong> <strong>அமைப்புகள் > தனியுரிமை & பாதுகாப்பு > இருப்பிட சேவைகள் > Bustro</strong> க்குச் சென்று <strong>"பயன்பாட்டைப் பயன்படுத்தும்போது"</strong> ஐத் தேர்ந்தெடுத்து இருப்பிட அனுமதிகளை இயக்கவும்.</p>
+                <p><strong>கூடுதல் சரிபார்ப்புகள்:</strong></p>
+                <ul>
+                    <li>உங்கள் தேடல் ஆரம் மிகவும் சிறியதாக இல்லை என்பதை உறுதிசெய்யுங்கள் (அமைப்புகள் > விருப்பத்தேர்வுகள் சரிபார்க்கவும்)</li>
+                    <li>அருகிலுள்ள நிறுத்தங்கள் பட்டியலில் கீழ்நோக்கி இழுத்து உங்கள் இருப்பிடத்தை புதுப்பிக்க முயற்சிக்கவும்</li>
+                    <li>நீங்கள் பஸ் நிறுத்தங்கள் உள்ள பகுதியில் இருக்கிறீர்களா என்று சரிபார்க்கவும் (சிங்கப்பூர் மட்டும்)</li>
+                </ul>
+                <p>குறிப்பு: Bustro உங்கள் இருப்பிடத்தை பயன்பாடு திறந்திருக்கும்போது மட்டுமே அருகிலுள்ள நிறுத்தங்களை காண்பிக்கவும் நடை தூரங்களை கணக்கிடவும் பயன்படுத்துகிறது.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">பஸ் நேரங்கள் துல்லியமானதா?</h3>
+            <div class="faq-answer">
+                <p><strong>பதில்:</strong> ஆம்! எங்கள் தரவு சிங்கப்பூரின் நில போக்குவரத்து ஆணையத்தின் (LTA) DataMall API v3 இலிருந்து உண்மை நேரத்தில் நேரடியாக வருகிறது. போக்குவரத்து நிலைமைகளால் நேரம் சிறிது மாறலாம், ஆனால் நாங்கள் கிடைக்கக்கூடிய சமீபத்திய தகவல்களைக் காட்டுகிறோம்.</p>
+                <p><strong>தரவில் அடங்குபவை:</strong></p>
+                <ul>
+                    <li>வாகன வகை குறிகாட்டிகள் (ஒற்றை அடுக்கு, இரட்டை அடுக்கு, வளைந்த பஸ்கள்)</li>
+                    <li>சக்கர நாற்காலி அணுகக்கூடிய நிலை</li>
+                    <li>பயணிகள் சுமை (இருக்கைகள் கிடைக்கும், நிற்கும் அறை, வரையறுக்கப்பட்ட நிற்கும் இடம்)</li>
+                    <li>துல்லியமான வருகை கணிப்புகள் ("வருகிறது", "2 நிமிடம்", போன்றவை)</li>
+                </ul>
+                <p><strong>புதுப்பிப்பு வீதம்:</strong> நீங்கள் அமைப்புகளில் புதுப்பிப்பு இடைவெளிகளை 15 விநாடிகளிலிருந்து 2 நிமிடங்கள் வரை தனிப்பயனாக்கலாம்.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">பஸ் நிறுத்தத்தை பிடித்தவைகளில் எவ்வாறு சேர்ப்பது?</h3>
+            <div class="faq-answer">
+                <p><strong>படிகள்:</strong></p>
+                <ol>
+                    <li>விவரங்களைத் திறக்க எந்த பஸ் நிறுத்தத்தையும் தட்டவும்</li>
+                    <li>பிடித்தவைகளில் சேர்க்க இதய ஐகானை (♡) தட்டவும்</li>
+                    <li>தனிப்பட்ட பெயர், ஐகான் மற்றும் நிறத்துடன் தனிப்பயனாக்கவும்</li>
+                    <li>"பிடித்தவைகள்" தாவலிலிருந்து விரைவாக அணுகவும்</li>
+                </ol>
+                <p><strong>மேம்பட்ட அம்சங்கள்:</strong></p>
+                <ul>
+                    <li><strong>iCloud ஒத்திசைவு:</strong> பிடித்தவைகள் தானியங்கியாக உங்கள் எல்லா சாதனங்களிலும் ஒத்திசைக்கப்படுகின்றன</li>
+                    <li><strong>காட்சி அமைப்பு:</strong> எளிய அடையாளத்திற்காக தனிப்பயன் நிறங்கள் மற்றும் ஐகான்களைத் தேர்ந்தெடுக்கவும்</li>
+                    <li><strong>மறுவரிசைப்படுத்தல்:</strong> உங்கள் பிடித்தவைகள் பட்டியலை அமைக்க இழுத்து விடவும்</li>
+                    <li><strong>வரைபட ஒருங்கিணைப்பு:</strong> பிடித்தவைகள் வரைபடத்தில் தனிப்பயன் ஸ்டைலிங்குடன் காண்பிக்கப்படுகின்றன</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">வானிலை விட்ஜெட் என்ன செய்கிறது?</h3>
+            <div class="faq-answer">
+                <p><strong>அம்சம்:</strong> வானிலை விட்ஜெட் Apple WeatherKit ஐ பயன்படுத்தி தற்போதைய நிலைமைகளை காண்பிக்கிறது மற்றும் உங்கள் பயணத்தை திட்டமிட உதவுகிறது. மழை அல்லது வெயில் இருக்கிறதா என்பதை அறிவது எப்போது புறப்படுவது மற்றும் என்ன எடுத்துச் செல்வது என்பதை தீர்மானிக்க உதவுகிறது.</p>
+                <p><strong>காண்பிக்கப்படும் தகவல்:</strong></p>
+                <ul>
+                    <li>தற்போதைய வெப்பநிலை மற்றும் நிலைமைகள்</li>
+                    <li>மணிநேர மழைப்பொழிவு வாய்ப்புகள்</li>
+                    <li>இருப்பிட அடிப்படையிலான வானிலை (உங்கள் தற்போதைய இருப்பிடம் அல்லது சிங்கப்பூர் இயல்புநிலை)</li>
+                    <li>தானியங்கி 15-நிமிட புதுப்பிப்புகள்</li>
+                </ul>
+                <p><strong>உதவிக்குறிப்பு:</strong> விரிவான முன்னறிவிப்புகள் மற்றும் ரேடாருக்கு முழு வானிலை பயன்பாட்டைத் திறக்க வானிலை விட்ஜெட்டைத் தட்டவும்.</p>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">MRT வரைபடத்தை எவ்வாறு அணுகுவது மற்றும் பயன்படுத்துவது?</h3>
+            <div class="faq-answer">
+                <p><strong>அணுகல்:</strong> சிங்கப்பூரின் முழுமையான MRT நெட்வொர்க் வரைபடத்தைப் பார்க்க பிரதான இடைமுகத்திலிருந்து MRT பொத்தானைத் தட்டவும்.</p>
+                <p><strong>அம்சங்கள்:</strong></p>
+                <ul>
+                    <li><strong>இன்டராக்டிவ் பார்வை:</strong> முழு நெட்வொர்க்கையும் ஆராய பான் மற்றும் ஜூம் செய்யுங்கள்</li>
+                    <li><strong>உயர் தெளிவுத்திறன்:</strong> அனைத்து நிலையங்கள் மற்றும் கோடுகளுடன் படிக கிரிஸ்டல் தெளிவான வரைபடம்</li>
+                    <li><strong>விளக்கம்:</strong> அனைத்து MRT கோடுகள் மற்றும் நிலையங்களுக்கான விரிவான விளக்கம்</li>
+                    <li><strong>ஒருங்கிணைப்பு:</strong> தடையற்ற பரிமாற்றங்களுக்கு MRT நிலையங்களுக்கு அருகிலுள்ள பஸ் நிறுத்தங்களைக் கண்டறியுங்கள்</li>
+                </ul>
+                <p><strong>பயண திட்டமிடல்:</strong> சிங்கப்பூர் முழுவதும் பஸ்கள் மற்றும் ரயில்களை இணைக்கும் பல-முறை பயணங்களைத் திட்டமிடுவதற்கு சிறந்தது.</p>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">iCloud ஒத்திசைவு எனது பிடித்தவைகளுடன் எவ்வாறு வேலை செய்கிறது?</h3>
+            <div class="faq-answer">
+                <p><strong>தானியங்கு ஒத்திசைவு:</strong> இயக்கப்படும்போது, உங்கள் பிடித்தவைகள், தனிப்பயன் பெயர்கள், நிறங்கள் மற்றும் ஐகான்கள் தானியங்கியாக உங்கள் அனைத்து Apple சாதனங்களிலும் ஒத்திசைக்கப்படுகின்றன.</p>
+                <p><strong>அமைப்பு:</strong></p>
+                <ol>
+                    <li>நீங்கள் அனைத்து சாதனங்களிலும் iCloud இல் உள்நுழைந்திருப்பதை உறுதிசெய்யவும்</li>
+                    <li>பிடித்தவைகள் பின்புலத்தில் தானியங்கியாக ஒத்திசைக்கப்படுகின்றன</li>
+                    <li>மாற்றங்கள் சில நிமிடங்களில் மற்ற சாதனங்களில் தோன்றும்</li>
+                </ol>
+                <p><strong>ஒத்திசைவு சிக்கல்களைச் சரிசெய்தல்:</strong></p>
+                <ul>
+                    <li>iOS அமைப்புகள் > [உங்கள் பெயர்] > iCloud இல் iCloud அமைப்புகளைச் சரிபார்க்கவும்</li>
+                    <li>உங்களுக்கு இணைய இணைப்பு இருப்பதை உறுதிசெய்யவும்</li>
+                    <li>ஒத்திசைவைப் புதுப்பிக்க விமான முறையை ஆன்/ஆஃப் செய்ய முயற்சிக்கவும்</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>சிக்கல் நிவர்த்தி</h2>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">நேரடி பஸ் கண்காணிப்பு வேலை செய்யவில்லை அல்லது பேட்டரி தீர்ந்துவிடுதா?</h3>
+            <div class="faq-answer">
+                <p><strong>பொதுவான தீர்வுகள்:</strong></p>
+                <ol>
+                    <li><strong>அமைப்புகளைச் சரிபார்க்கவும்:</strong> அமைப்புகள் > விருப்பத்தேர்வுகளில் "ஆட்டோ-ட்ராக் பஸ் வருகைகள்" இயக்கப்பட்டுள்ளதா என்பதை உறுதிசெய்யவும்</li>
+                    <li><strong>கைமுறை மாற்றல்:</strong> குறிப்பிட்ட பஸ் நிறுத்தங்களுக்கு கண்காணிப்பை கைமுறையாக இயக்க முயற்சிக்கவும்</li>
+                    <li><strong>பின்புல புதுப்பிப்பு:</strong> iOS அமைப்புகளில் Bustro க்கு பின்புல பயன்பாடு புதுப்பிப்பை இயக்கவும்</li>
+                    <li><strong>இணைய இணைப்பு:</strong> கண்காணிப்புக்கு செயலில் உள்ள இணைய இணைப்பு தேவை</li>
+                </ol>
+                <p><strong>பேட்டரி சிகிச்சை:</strong></p>
+                <ul>
+                    <li>கண்காணிப்பு புத்திசாலித்தனமான புதுப்பிப்பு இடைவெளிகளுடன் பேட்டரி-திறனுள்ளதாக வடிவமைக்கப்பட்டுள்ளது</li>
+                    <li>பேட்டரி பயன்பாடு கவலையாக இருந்தால் அமைப்புகளில் புதுப்பிப்பு வீதத்தை குறைப்பதை கவனிக்கவும்</li>
+                    <li>தேவையில்லாதபோது கண்காணிப்பு தானியங்கியாக இடைநிறுத்தப்படுகிறது</li>
+                </ul>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">பயன்பாடு செயலிழக்கிறது அல்லது மெதுவாக இயங்குகிறது</h3>
+            <div class="faq-answer">
+                <p><strong>விரைவு தீர்வுகள்:</strong></p>
+                <ol>
+                    <li>பயன்பாட்டை வலுக்கட்டாயமாக மூடி மீண்டும் திறக்கவும்</li>
+                    <li>உங்கள் iPhone ஐ மறுதொடக்கம் செய்யுங்கள்</li>
+                    <li>உங்களிடம் சமீபத்திய பயன்பாட்டு பதிப்பு இருப்பதை உறுதிசெய்யவும்</li>
+                    <li>கிடைக்கக்கூடிய சேமிப்பக இடத்தைச் சரிபார்க்கவும் (குறைந்தது 1GB காலியாக இருக்க வேண்டும்)</li>
+                </ol>
+            </div>
+        </div>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">பஸ் நேரம் புதுப்பிக்கப்படவில்லை</h3>
+            <div class="faq-answer">
+                <p><strong>தீர்வுகள்:</strong></p>
+                <ul>
+                    <li>உங்கள் இணைய இணைப்பைச் சரிபார்க்கவும் (WiFi அல்லது செல்லுலார்)</li>
+                    <li>WiFi மற்றும் செல்லுலார் தரவுகளுக்கு இடையே மாற முயற்சிக்கவும்</li>
+                    <li>LTA எப்போதாவது பராமரிப்பு உள்ளது - நேரம் தானியங்கியாக மீண்டும் தொடங்கும்</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">வரைபடம் சரியாக ஏற்றப்படவில்லை</h3>
+            <div class="faq-answer">
+                <p><strong>சிக்கல் நிவர்த்தி:</strong></p>
+                <ul>
+                    <li>இருப்பிட சேவைகள் இயக்கப்பட்டுள்ளதை உறுதிசெய்யவும்</li>
+                    <li>இணைய இணைப்பைச் சரிபார்க்கவும்</li>
+                    <li>வெளியே ஜூம் செய்து மீண்டும் உள்ளே செல்ல முயற்சிக்கவும்</li>
+                    <li>வரைபடம் காலியாக தோன்றினால் பயன்பாட்டை மறுதொடக்கம் செய்யுங்கள்</li>
+                </ul>
+            </div>
+        </div>
+        
+        <h2>சிங்கப்பூர்-குறிப்பிட்ட தகவல்</h2>
+        
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">எந்த பஸ் ஆபரேட்டர்கள் மற்றும் தரவு ஆதாரங்கள் ஆதரிக்கப்படுகின்றன?</h3>
+            <div class="faq-answer">
+                <p><strong>அனைத்து சிங்கப்பூர் பஸ் ஆபரேட்டர்கள்:</strong></p>
+                <ul>
+                    <li>SBS Transit (SBST)</li>
+                    <li>SMRT Buses</li>
+                    <li>Tower Transit Singapore</li>
+                    <li>Go-Ahead Singapore</li>
+                </ul>
+                <p><strong>தரவு ஆதாரம்:</strong> சிங்கப்பூர் நில போக்குவரத்து ஆணையம் (LTA) DataMall API v3</p>
+                <p><strong>கவரேஜ்:</strong></p>
+                <ul>
+                    <li>சிங்கப்பூர் முழுவதும் 5,000+ பஸ் நிறுத்தங்கள்</li>
+                    <li>400+ பஸ் வழித்தடங்கள் மற்றும் சேவைகள்</li>
+                    <li>30-விநாடி புதுப்பிப்பு திறனுடன் உண்மை நேர வருகை தரவு</li>
+                    <li>வாகன தகவல் மற்றும் அணுகக்கூடிய நிலை</li>
+                </ul>
+            </div>
+        </div>
+
+        <div class="faq-item">
+            <h3 class="faq-question" onclick="toggleFAQ(this)">இது MRT/LRT உடன் வேலை செய்கிறதா மற்றும் தொழில்நுட்ப தேவைகள் என்ன?</h3>
+            <div class="faq-answer">
+                <p><strong>MRT/LRT ஒருங்கிணைப்பு:</strong></p>
+                <ul>
+                    <li>MRT நிலையங்களுக்கு அருகிலுள்ள பஸ் நிறுத்தங்களைக் கண்டறியுங்கள்</li>
+                    <li>முழு திரை பார்வையுடன் இன்டராக்டிவ் MRT நெட்வொர்க் வரைபடம்</li>
+                    <li>இணைந்த பஸ் + ரயில் பயணங்களைத் திட்டமிடுங்கள்</li>
+                    <li>திசைகளுக்கு Apple Maps மற்றும் Google Maps க்கு ஆழமான இணைப்பு</li>
+                </ul>
+                <p><strong>தொழில்நுட்ப தேவைகள்:</strong></p>
+                <ul>
+                    <li><strong>iOS பதிப்பு:</strong> iOS 12.0 அல்லது அதற்குப் பிறகு</li>
+                    <li><strong>இருப்பிட சேவைகள்:</strong> அருகிலுள்ள நிறுத்தங்கள் மற்றும் தூர கணக்கீடுக்கு தேவை</li>
+                    <li><strong>இணையம்:</strong> உண்மை நேர தரவுக்கு தேவை (ஆஃப்லைன் வரைபட பார்வை கிடைக்கும்)</li>
+                    <li><strong>iCloud:</strong> சாதனங்கள் முழுவதும் பிடித்தவைகளை ஒத்திசைப்பதற்கு விருப்பமான</li>
+                </ul>
+                <p><strong>நவீன கட்டுமானம்:</strong> உகந்த செயல்திறன் மற்றும் பேட்டரி திறனுக்காக SwiftUI + UIKit கலப்பினத்துடன் கட்டப்பட்டது.</p>
+            </div>
+        </div>
+        
+        <div class="contact">
+            <h3>இன்னும் உதவி தேவையா?</h3>
+            <ul>
+                <li><strong>மின்னஞ்சல்:</strong> <a href="mailto:hi@bustro.app">hi@bustro.app</a></li>
+                <li><strong>பதில் நேரம்:</strong> 24-48 மணி நேரத்திற்குள்</li>
+                <li><strong>ஆதரவு நேரங்கள்:</strong> சிங்கப்பூர் நேர மண்டலம் (UTC+8)</li>
+            </ul>
+            
+            <h4>ஆதரவைத் தொடர்பு கொள்ளும்போது, தயவுசெய்து அடங்கும்:</h4>
+            <ul>
+                <li>உங்கள் iPhone மாதிரி மற்றும் iOS பதிப்பு</li>
+                <li>Bustro பயன்பாட்டு பதிப்பு (மேலும் -> பற்றி & ஆதரவில் காணப்படும்)</li>
+                <li>சிக்கலின் விரிவான விளக்கம்</li>
+                <li>நீங்கள் ஏற்கனவே முயற்சித்த படிகள்</li>
+                <li>உதவியாக இருந்தால் ஸ்கிரீன்ஷாட்கள்</li>
+            </ul>
+        </div>
+        
+        
+        <div class="version-info">
+            <p><small>© 2025 Bustro App. சிங்கப்பூர் பயணிகளுக்காக உருவாக்கப்பட்டது.</small></p>
+        </div>
+    </div>
+    <script>
+    function toggleFAQ(element) {
+        const answer = element.nextElementSibling;
+        const isActive = element.classList.contains('active');
+        
+        // Close all other FAQ items
+        document.querySelectorAll('.faq-question.active').forEach(question => {
+            if (question !== element) {
+                question.classList.remove('active');
+                question.nextElementSibling.classList.remove('show');
+            }
+        });
+        
+        // Toggle current item
+        if (isActive) {
+            element.classList.remove('active');
+            answer.classList.remove('show');
+        } else {
+            element.classList.add('active');
+            answer.classList.add('show');
+        }
+    }
+    </script>
+</body>
+</html>
