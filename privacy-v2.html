@@ -476,8 +476,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
   </div>
   <h1>Privacy Policy</h1>
   <div class="meta-strip">
-    <span class="chip"><span class="label">Updated</span>9 May 2026</span>
-    <span class="chip neutral"><span class="label">Effective</span>9 May 2026</span>
+    <span class="chip"><span class="label">Updated</span>13 May 2026</span>
+    <span class="chip neutral"><span class="label">Effective</span>13 May 2026</span>
     <span class="chip brand">Singapore · PDPA</span>
   </div>
   <div class="rule"></div>
@@ -503,7 +503,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <main class="doc">
 
 <div class="summary">
-<p><strong>Plain summary:</strong> Bustro is a free, ad-free public-transit app for Singapore. We use your location on your device to show nearby bus stops; we do not send it to our servers. We generate a random device ID (not linked to your name or Apple ID) so that, if you choose to post in the community feed or subscribe to traffic alerts, we can route notifications and let you delete your own posts. We use Firebase for crash reports, app-usage analytics, push delivery, and storing community messages. We do not show ads, sell data, or track you across other apps.</p>
+<p><strong>Plain summary:</strong> Bustro is a free, ad-free public-transit app for Singapore. We use your location on your device to show nearby bus stops; we do not send it to our servers. We generate a random device ID (not linked to your name or Apple ID) so that, if you choose to post in the Commute Feed or subscribe to traffic alerts, we can route notifications and let you delete your own posts. We use Firebase for crash reports, app-usage analytics, push delivery, and storing Commute Feed posts. We do not show ads, sell data, or track you across other apps.</p>
 </div>
 
 <p>This Privacy Policy explains what data Bustro collects, why we collect it, where it goes, how long we keep it, and the rights you have. It applies to the Bustro iOS application, the Bustro Home/Lock Screen widget, and any related online services we provide (collectively, the &quot;<strong>App</strong>&quot;). The App is operated by the Bustro team (&quot;<strong>we</strong>&quot;, &quot;<strong>us</strong>&quot;, &quot;<strong>our</strong>&quot;), based in Singapore.</p>
@@ -530,9 +530,9 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <table class="defs">
 <tbody>
 <tr><th scope="row">What</th><td>A randomly-generated UUID created on your device the first time you open the App.</td></tr>
-<tr><th scope="row">Why</th><td>To attribute community messages and reactions you submit, to route push notifications to your device, and to let you edit or delete your own community submissions.</td></tr>
+<tr><th scope="row">Why</th><td>To attribute Commute Feed posts and reactions you submit, to route push notifications to your device, and to let you edit or delete your own Commute Feed submissions.</td></tr>
 <tr><th scope="row">Linked to your identity?</th><td>No. The UUID is not linked to your name, email, Apple ID, phone number, or any other identifying information. Under Singapore's PDPA it is treated as <strong>pseudonymous personal data</strong>.</td></tr>
-<tr><th scope="row">Storage</th><td>Locally in app preferences (<code>UserDefaults</code>), and on Google's Firebase Firestore servers when accompanying a community submission, reaction, or push-notification subscription.</td></tr>
+<tr><th scope="row">Storage</th><td>Locally in app preferences (<code>UserDefaults</code>), and on Google's Firebase Firestore servers when accompanying a Commute Feed submission, reaction, or push-notification subscription.</td></tr>
 <tr><th scope="row">Reset</th><td>Reinstalling the App generates a new UUID and disconnects you from prior submissions. A future App update will add an in-app <em>Reset Device Identity</em> control.</td></tr>
 </tbody>
 </table>
@@ -542,15 +542,15 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tbody>
 <tr><th scope="row">What</th><td>Your favourite bus stops, custom labels, custom colours and icons, sort order, and pinned services.</td></tr>
 <tr><th scope="row">Why</th><td>To personalise the App and the widget.</td></tr>
-<tr><th scope="row">Storage</th><td>Locally on your device, and synced via <strong>Apple iCloud / CloudKit</strong> to your other Apple devices if you have iCloud enabled. CloudKit data is encrypted by Apple and is never visible to us. The CloudKit container holds only favourites and pinned services — no community content, no analytics, no usage history.</td></tr>
+<tr><th scope="row">Storage</th><td>Locally on your device, and synced via <strong>Apple iCloud / CloudKit</strong> to your other Apple devices if you have iCloud enabled. CloudKit data is encrypted by Apple and is never visible to us. The CloudKit container holds only favourites and pinned services — no Commute Feed content, no analytics, no usage history.</td></tr>
 <tr><th scope="row">Control</th><td>iOS Settings → [your name] → iCloud → Bustro.</td></tr>
 </tbody>
 </table>
 
-<h3><span class="sub">1.4</span>Community submissions (user-generated content)</h3>
+<h3><span class="sub">1.4</span>Commute Feed posts (user-generated content)</h3>
 <table class="defs">
 <tbody>
-<tr><th scope="row">What</th><td>The text of any message you post in the community feed, any URL you include, any reaction you tap, your device identifier (§1.2), a server-side timestamp, and the language detected on-device.</td></tr>
+<tr><th scope="row">What</th><td>The text of any message you post in the Commute Feed, any URL you include, any reaction you tap, your device identifier (§1.2), a server-side timestamp, and the language detected on-device.</td></tr>
 <tr><th scope="row">Why</th><td>To display your message to other users <strong>after admin review and approval</strong>, and to let you edit or delete it.</td></tr>
 <tr><th scope="row">Storage</th><td>Google Firebase Firestore. Messages enter a <code>pending</code> state and are reviewed by a member of the Bustro team before becoming visible to anyone else.</td></tr>
 <tr><th scope="row">Retention</th><td>User-submitted messages are deleted automatically <strong>7 days</strong> after submission. Reactions are deleted with the message. Official advisories from the Bustro team and automated LTA service alerts are retained indefinitely.</td></tr>
@@ -565,7 +565,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <table class="defs">
 <tbody>
 <tr><th scope="row">What</th><td>Your Apple Push Notification (APNs) device token, the Firebase Cloud Messaging (FCM) token derived from it, and the list of traffic-incident categories you have subscribed to (e.g. accident, road closure, weather disruption).</td></tr>
-<tr><th scope="row">Why</th><td>To deliver the traffic alerts and community notifications you have opted in to.</td></tr>
+<tr><th scope="row">Why</th><td>To deliver the traffic alerts and Commute Feed notifications you have opted in to.</td></tr>
 <tr><th scope="row">Storage</th><td>In Firebase Firestore, keyed to your device identifier.</td></tr>
 <tr><th scope="row">Control</th><td>iOS Settings → Notifications → Bustro to revoke permission entirely. In-app subscription preferences to change which categories you receive. Uninstalling the App removes your token from active rotation.</td></tr>
 </tbody>
@@ -599,7 +599,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <li>Browsing or usage data from other apps. We do not use the App Tracking Transparency (ATT) tracking permission.</li>
 <li>Any payment information — Bustro is free and contains no in-app purchases or advertising.</li>
 </ul>
-<p>We do not send marketing or commercial electronic messages. Push notifications carry only the operational alerts and community updates you have opted in to, and Bustro does not engage in any activity subject to the Spam Control Act 2007.</p>
+<p>We do not send marketing or commercial electronic messages. Push notifications carry only the operational alerts and Commute Feed updates you have opted in to, and Bustro does not engage in any activity subject to the Spam Control Act 2007.</p>
 </section>
 
 <section class="s" id="s2">
@@ -613,8 +613,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <ul>
 <li>Show bus stops near you, calculate walking distances, and power the widget;</li>
 <li>Save your favourites and sync them across your Apple devices via iCloud;</li>
-<li>Display, moderate, edit, and delete community-feed content you submit;</li>
-<li>Deliver traffic-alert and community-notification pushes you have opted in to;</li>
+<li>Display, moderate, edit, and delete Commute Feed content you submit;</li>
+<li>Deliver traffic-alert and Commute Feed notification pushes you have opted in to;</li>
 <li>Generate crash reports and usage analytics to fix bugs and improve features;</li>
 <li>Decide which version of the App to recommend (Firebase Remote Config gates an in-app &quot;update available&quot; prompt — it does not personalise content);</li>
 <li>Comply with applicable law and respond to lawful requests from authorities.</li>
@@ -634,11 +634,11 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Firebase Analytics</td><td>Google LLC</td><td>App Instance ID, event names, device model, OS version</td><td>Usage analytics</td><td>US / EU</td></tr>
 <tr><td>Firebase Crashlytics</td><td>Google LLC</td><td>App Instance ID, crash logs, device model, OS version</td><td>Diagnostics</td><td>US / EU</td></tr>
 <tr><td>Firebase Cloud Messaging</td><td>Google LLC</td><td>APNs token, FCM token, device identifier, subscription list</td><td>Push delivery</td><td>US / EU</td></tr>
-<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Community message text, URLs, reactions, device identifier, FCM token, subscriptions</td><td>UGC storage and push routing</td><td>US / EU</td></tr>
+<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Commute Feed post text, URLs, reactions, device identifier, FCM token, subscriptions</td><td>UGC storage and push routing</td><td>US / EU</td></tr>
 <tr><td>Firebase Remote Config</td><td>Google LLC</td><td>App version, App Instance ID</td><td>Gate in-app &quot;update available&quot; prompt</td><td>US / EU</td></tr>
 <tr><td>Apple Push Notification service</td><td>Apple Inc.</td><td>Device push token</td><td>Push delivery</td><td>Apple infrastructure</td></tr>
 <tr><td>Apple iCloud / CloudKit</td><td>Apple Inc.</td><td>Favourites and pinned services</td><td>Sync across your Apple devices</td><td>Apple infrastructure</td></tr>
-<tr><td>Apple <code>LinkPresentation</code></td><td>Apple Inc. (your device contacts the linked site)</td><td>URL, your IP</td><td>Render link previews in community messages</td><td>Direct from your device to the linked site</td></tr>
+<tr><td>Apple <code>LinkPresentation</code></td><td>Apple Inc. (your device contacts the linked site)</td><td>URL, your IP</td><td>Render link previews in Commute Feed posts</td><td>Direct from your device to the linked site</td></tr>
 <tr><td>Singapore LTA DataMall</td><td>Land Transport Authority of Singapore</td><td>Only an API key (no user data)</td><td>Real-time bus arrivals, stops, services, routes</td><td>Singapore</td></tr>
 <tr><td>BusRouter SG</td><td>data.busrouter.sg</td><td>Only an API key (no user data)</td><td>Bus route geometry</td><td>Singapore</td></tr>
 <tr><td>Singapore Government data.gov.sg</td><td>Government Technology Agency of Singapore</td><td>Only an API key (no user data)</td><td>Weather, rainfall, lightning, air quality, temperature — fetched in bulk for all of Singapore; the relevant zone for your location is selected on your device</td><td>Singapore</td></tr>
@@ -661,7 +661,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Location</td><td>Not retained — processed in memory on your device only</td></tr>
 <tr><td>Device identifier</td><td>Until you reinstall the App, reset device identity (planned), or request deletion</td></tr>
 <tr><td>Favourites &amp; pinned services</td><td>Until you delete them, sign out of iCloud, or delete the App</td></tr>
-<tr><td>User-submitted community messages</td><td><strong>7 days</strong>, then automatic deletion</td></tr>
+<tr><td>User-submitted Commute Feed posts</td><td><strong>7 days</strong>, then automatic deletion</td></tr>
 <tr><td>Official advisories and LTA alerts</td><td>Indefinite (no personal data)</td></tr>
 <tr><td>Reactions</td><td>Deleted with the message</td></tr>
 <tr><td>FCM token + subscriptions</td><td>Until you uninstall, revoke notifications, or change subscriptions</td></tr>
@@ -676,7 +676,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <header class="section-head"><span class="badge">§ 6</span><h2>Your rights</h2></header>
 <p>Under the PDPA you have the right to:</p>
 <ul>
-<li><strong>Access</strong> — request a copy of personal data we hold about you (community messages tied to your device, your push token, your subscription list). PDPA §21.</li>
+<li><strong>Access</strong> — request a copy of personal data we hold about you (Commute Feed posts tied to your device, your push token, your subscription list). PDPA §21.</li>
 <li><strong>Correction</strong> — request that inaccurate data be corrected. PDPA §22.</li>
 <li><strong>Withdraw consent</strong> at any time, which (subject to legal retention obligations) will result in deletion of your data. PDPA §16. See §7 below for the practical ways to do this.</li>
 <li><strong>Lodge a complaint</strong> with the Personal Data Protection Commission of Singapore at <a href="https://www.pdpc.gov.sg">https://www.pdpc.gov.sg</a>.</li>
@@ -692,7 +692,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <li>Revoking <strong>Location</strong> permission in iOS Settings;</li>
 <li>Revoking <strong>Notifications</strong> permission in iOS Settings;</li>
 <li>Disabling <strong>iCloud</strong> sync for Bustro;</li>
-<li>Deleting your community messages from within the App;</li>
+<li>Deleting your Commute Feed posts from within the App;</li>
 <li>Deleting the App, which removes the device identifier and ends push delivery;</li>
 <li>Emailing <strong>hi@bustro.app</strong> to request server-side deletion of any remaining data.</li>
 </ol>
@@ -705,7 +705,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <li>iOS sandboxing and Keychain protection on your device;</li>
 <li>HTTPS/TLS for all network communication;</li>
 <li>Firebase's encryption at rest and in transit;</li>
-<li>Server-side admin review on community submissions before publication;</li>
+<li>Server-side admin review on Commute Feed submissions before publication;</li>
 <li>The principle of least data — we do not collect data we do not need.</li>
 </ul>
 <p>No system is perfectly secure. If we become aware of a data breach affecting your personal data, we will notify the Personal Data Protection Commission of Singapore as soon as practicable, and in any case no later than <strong>3 calendar days</strong> after we determine that the breach (a) is of a significant scale (affecting 500 or more individuals) or (b) results in, or is likely to result in, significant harm to an affected individual, in accordance with PDPA Part VIA (Data Breach Notification). Where a breach is likely to result in significant harm to you, we will also notify you in a reasonable manner.</p>
@@ -713,8 +713,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 
 <section class="s" id="s9">
 <header class="section-head"><span class="badge">§ 9</span><h2>Children and minors</h2></header>
-<p>Bustro is a general-audience public-transit utility, rated <strong>4+</strong> on the App Store. It is designed to be useful to Singapore students and young commuters who rely on buses to get to and from school, and there is <strong>no minimum age</strong> for using it for its primary purpose: checking bus arrival times, viewing stops, services, and routes, saving favourites, using the widget, viewing weather and traffic information, or <strong>viewing</strong> the community feed.</p>
-<p>For <strong>posting</strong> in the community feed, you must be at least <strong>13 years old</strong>. Every community submission is reviewed and approved by a member of the Bustro team before it becomes visible to other users — this human review is part of our child-safety and content-quality controls, so that no harmful, identifying, or otherwise inappropriate content (whether about a young person or by one) is published. We may decline submissions and disable posting from a device if we have reason to believe the submitter is under 13.</p>
+<p>Bustro is a general-audience public-transit utility, rated <strong>4+</strong> on the App Store. It is designed to be useful to Singapore students and young commuters who rely on buses to get to and from school, and there is <strong>no minimum age</strong> for using it for its primary purpose: checking bus arrival times, viewing stops, services, and routes, saving favourites, using the widget, viewing weather and traffic information, or <strong>viewing</strong> the Commute Feed.</p>
+<p>For <strong>posting</strong> in the Commute Feed, you must be at least <strong>13 years old</strong>. Every Commute Feed submission is reviewed and approved by a member of the Bustro team before it becomes visible to other users — this human review is part of our child-safety and content-quality controls, so that no harmful, identifying, or otherwise inappropriate content (whether about a young person or by one) is published. We may decline submissions and disable posting from a device if we have reason to believe the submitter is under 13.</p>
 <p>If you are a parent or guardian and believe a child under 13 has submitted content, email <strong>hi@bustro.app</strong> and we will remove it.</p>
 </section>
 
