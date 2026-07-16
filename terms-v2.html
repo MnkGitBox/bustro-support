@@ -17,17 +17,17 @@
   --text-3:rgba(60,60,67,0.55);
   --text-4:rgba(60,60,67,0.32);
   --neutral:#212529;
-  --brand:#85C820;
-  --brand-text:#568215;
+  --brand:#85C71F;
+  --brand-text:#4E7712;
   --brand-deep:#334D0C;
   --brand-tint:#ADDB69;
   --brand-pale:#DDE9CB;
-  --brand-soft:rgba(133,200,32,0.14);
-  --brand-faint:rgba(133,200,32,0.07);
-  --accent:#007AFF;
-  --accent-press:#0062CC;
-  --accent-soft:rgba(0,122,255,0.10);
-  --accent-faint:rgba(0,122,255,0.06);
+  --brand-soft:rgba(133,199,31,0.14);
+  --brand-faint:rgba(133,199,31,0.07);
+  --accent:#4E7712;
+  --accent-press:#3D5E0E;
+  --accent-soft:rgba(133,199,31,0.35);
+  --accent-faint:rgba(133,199,31,0.10);
   --pink:#FF2D55;
   --orange:#FF9500;
   --hairline:rgba(60,60,67,0.18);
@@ -50,17 +50,17 @@
     --text-3:rgba(235,235,245,0.55);
     --text-4:rgba(235,235,245,0.32);
     --neutral:#D1D1D6;
-    --brand:#85C820;
-    --brand-text:#ADDB69;
+    --brand:#85C71F;
+    --brand-text:#A5DB55;
     --brand-deep:#1C2908;
     --brand-tint:#C7E0A1;
-    --brand-pale:rgba(133,200,32,0.08);
-    --brand-soft:rgba(133,200,32,0.18);
-    --brand-faint:rgba(133,200,32,0.10);
-    --accent:#0A84FF;
-    --accent-press:#409CFF;
-    --accent-soft:rgba(10,132,255,0.16);
-    --accent-faint:rgba(10,132,255,0.10);
+    --brand-pale:rgba(133,199,31,0.08);
+    --brand-soft:rgba(133,199,31,0.18);
+    --brand-faint:rgba(133,199,31,0.10);
+    --accent:#A5DB55;
+    --accent-press:#C0E883;
+    --accent-soft:rgba(133,199,31,0.30);
+    --accent-faint:rgba(133,199,31,0.14);
     --pink:#FF375F;
     --orange:#FF9F0A;
     --hairline:rgba(84,84,88,0.65);
@@ -69,7 +69,7 @@
   }
 }
 *{box-sizing:border-box;}
-html{-webkit-text-size-adjust:100%;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
 body{
   margin:0;
   background:var(--bg);
@@ -118,7 +118,8 @@ body{
   display:inline-block;
   transform:rotate(45deg);
 }
-.crumb .name{color:var(--text);}
+.crumb .name{color:var(--text);border-bottom:0;}
+.crumb a.name:hover{color:var(--accent);}
 .crumb .sep{color:var(--text-4);}
 .crumb .kind{color:var(--brand-text);}
 .masthead h1{
@@ -165,16 +166,33 @@ body{
 .chip.brand{background:var(--brand);color:var(--brand-deep);}
 .chip.brand .label{color:var(--brand-deep);opacity:.7;}
 .masthead .rule{height:1px;background:var(--hairline);margin-top:.4rem;}
-nav.toc{display:none;}
+nav.toc{
+  background:var(--card);
+  border:1px solid var(--hairline-2);
+  border-radius:var(--radius-l);
+  padding:1.1rem 1.2rem .6rem;
+  margin-bottom:2.25rem;
+  box-shadow:var(--shadow);
+}
+@media (min-width:560px){
+  nav.toc .toc-links{columns:2;column-gap:2rem;}
+  nav.toc .toc-links a{break-inside:avoid;}
+}
 @media (min-width:1100px){
   nav.toc{
-    display:block;
+    background:none;
+    border:0;
+    border-radius:0;
+    padding:0;
+    margin-bottom:0;
+    box-shadow:none;
     position:sticky;
     top:1.5rem;
     align-self:start;
     max-height:calc(100vh - 3rem);
     overflow-y:auto;
   }
+  nav.toc .toc-links{columns:auto;}
 }
 nav.toc .toc-head{
   font-size:.7rem;
@@ -401,8 +419,9 @@ footer.foot a:hover{
   border-color:transparent;
 }
 footer.foot .copy{font-weight:500;}
+footer.foot .links{display:flex;gap:.5rem;flex-wrap:wrap;}
 footer.foot .arrow{display:inline-block;transition:transform .15s ease;}
-footer.foot a:hover .arrow{transform:translateX(-3px);}
+footer.foot a:hover .arrow{transform:translateX(3px);}
 @media (prefers-reduced-motion: no-preference){
   .masthead h1{
     animation:rise .6s cubic-bezier(.2,.7,.2,1) both;
@@ -411,6 +430,23 @@ footer.foot a:hover .arrow{transform:translateX(-3px);}
     from{opacity:0;transform:translateY(8px);}
     to{opacity:1;transform:none;}
   }
+}
+@media print{
+  :root{
+    --bg:#fff;--card:#fff;--text:#000;--text-2:#333;--text-3:#555;
+    --brand:#E5E5E5;--brand-text:#333;--brand-deep:#000;
+    --brand-soft:#EEE;--brand-faint:#F4F4F4;
+    --accent:#000;--accent-soft:#DDD;--accent-faint:#F4F4F4;
+    --hairline:#BBB;--hairline-2:#CCC;--shadow:none;
+  }
+  body{font-size:11pt;}
+  .page{display:block;max-width:none;padding:0;}
+  nav.toc,footer.foot .links{display:none;}
+  a{color:#000;border-bottom:0;}
+  .scrollwrap{overflow:visible;border:0;box-shadow:none;}
+  .scrollwrap table{min-width:0;border:1px solid var(--hairline-2);}
+  table{break-inside:avoid;}
+  section.s{margin-top:1.5rem;scroll-margin-top:0;}
 }
 ::selection{background:var(--brand-soft);color:var(--text);}
 </style>
@@ -421,14 +457,14 @@ footer.foot a:hover .arrow{transform:translateX(-3px);}
 <header class="masthead">
   <div class="crumb">
     <span class="dot"></span>
-    <span class="name">Bustro</span>
+    <a class="name" href="index.html">Bustro</a>
     <span class="sep">/</span>
     <span class="kind">Terms &amp; Conditions</span>
   </div>
   <h1>Terms &amp; Conditions</h1>
   <div class="meta-strip">
-    <span class="chip"><span class="label">Updated</span>13 May 2026</span>
-    <span class="chip neutral"><span class="label">Effective</span>13 May 2026</span>
+    <span class="chip"><span class="label">Updated</span>16 July 2026</span>
+    <span class="chip neutral"><span class="label">Effective</span>16 July 2026</span>
     <span class="chip brand">Singapore law</span>
   </div>
   <div class="rule"></div>
@@ -436,6 +472,7 @@ footer.foot a:hover .arrow{transform:translateX(-3px);}
 
 <nav class="toc" aria-label="Table of contents">
   <div class="toc-head">Contents</div>
+  <div class="toc-links">
   <a href="#s1"><span class="n">1</span><span>About Bustro</span></a>
   <a href="#s2"><span class="n">2</span><span>Eligibility</span></a>
   <a href="#s3"><span class="n">3</span><span>Licence</span></a>
@@ -454,13 +491,14 @@ footer.foot a:hover .arrow{transform:translateX(-3px);}
   <a href="#s16"><span class="n">16</span><span>Governing law</span></a>
   <a href="#s17"><span class="n">17</span><span>Miscellaneous</span></a>
   <a href="#s18"><span class="n">18</span><span>Contact</span></a>
+  </div>
 </nav>
 
 <main class="doc">
 
 <p>These Terms &amp; Conditions (&quot;<strong>Terms</strong>&quot;) govern your use of the Bustro mobile application (&quot;<strong>Bustro</strong>&quot; or the &quot;<strong>App</strong>&quot;) for iPhone and iPad, including the Bustro Home Screen and Lock Screen widget, and any related services we provide (collectively, the &quot;<strong>Service</strong>&quot;). Bustro is operated by the Bustro app team (&quot;<strong>we</strong>&quot;, &quot;<strong>us</strong>&quot;, &quot;<strong>our</strong>&quot;), based in Singapore. By downloading, installing, or using the App you agree to these Terms. If you do not agree, do not use the App.</p>
 
-<p>These Terms incorporate by reference the <a href="privacy.html">Bustro Privacy Policy</a>, which explains how we handle your data.</p>
+<p>These Terms incorporate by reference the <a href="privacy-v2.html">Bustro Privacy Policy</a>, which explains how we handle your data.</p>
 
 <section class="s" id="s1">
 <header class="section-head"><span class="badge">§ 1</span><h2>About Bustro</h2></header>
@@ -469,6 +507,9 @@ footer.foot a:hover .arrow{transform:translateX(-3px);}
 <li>Bus arrival information sourced from the Singapore Land Transport Authority (&quot;<strong>LTA</strong>&quot;) DataMall;</li>
 <li>Bus stop and bus service search, route visualisation, and a metro map;</li>
 <li>A favourites and Home/Lock Screen widget for quick access to commute information;</li>
+<li><strong>Alight Reminder</strong> — an opt-in feature that follows your bus ride and alerts you before your alighting stop, with a live countdown shown as a Lock Screen / Dynamic Island Live Activity;</li>
+<li><strong>Track Arrival</strong> — an opt-in Live Activity showing a live countdown and alerts for a bus arriving at a stop;</li>
+<li><strong>My Journeys</strong> — saved trips that you can re-activate, synced through your iCloud account;</li>
 <li>Weather information sourced from the Singapore Government's data.gov.sg APIs;</li>
 <li>Traffic-incident alerts and an opt-in push-notification subscription system;</li>
 <li>A Commute Feed of transit-related updates, including (a) user-submitted messages, (b) official advisories from the Bustro team, and (c) automated LTA service alerts;</li>
@@ -499,16 +540,17 @@ footer.foot a:hover .arrow{transform:translateX(-3px);}
 <li>cached for short periods to reduce network usage (cache durations are documented in the Privacy Policy).</li>
 </ul>
 <p><strong>Do not rely solely on Bustro for time-critical journeys, emergency travel, evacuation, or any decision where the consequence of inaccurate information could be material.</strong> Always verify with official LTA channels (<a href="https://www.lta.gov.sg">https://www.lta.gov.sg</a>, MyTransport.SG) for safety-critical situations. We are not liable for missed buses, missed connections, late arrivals, journey costs, or any loss arising from reliance on data displayed in the App.</p>
+<p>This applies equally to <strong>Alight Reminder</strong> and <strong>Track Arrival</strong>: their countdowns and alerts are derived from the same third-party data together with your device's GPS, and may be delayed, inaccurate, or missed entirely (for example due to poor GPS signal, denied permissions, Focus modes, network conditions, or iOS ending a Live Activity). These features are conveniences, not guarantees — stay aware of your surroundings, and do not depend on them where missing a stop or a bus would have material consequences.</p>
 </section>
 
 <section class="s" id="s5">
 <header class="section-head"><span class="badge">§ 5</span><h2>Location data</h2></header>
-<p>Bustro is more useful when you grant location permission, but is functional without it. Location is processed on your device to find nearby stops, calculate walking distances, and display the closest favourite stop on the widget. We do not transmit your location to our servers or to LTA, the Singapore Government, BusRouter SG, or any other third party. See the Privacy Policy for the full description.</p>
+<p>Bustro is more useful when you grant location permission, but is functional without it. Location is processed on your device to find nearby stops, calculate walking distances, display the closest favourite stop on the widget, and — if you set an Alight Reminder — follow your ride so you can be alerted before your stop. Alight Reminder offers the optional <em>Always</em> location permission so it can keep working in the background; background location runs only while a reminder is active and stops when the ride ends. We do not transmit your location to our servers or to LTA, the Singapore Government, BusRouter SG, or any other third party. See the Privacy Policy for the full description.</p>
 </section>
 
 <section class="s" id="s6">
 <header class="section-head"><span class="badge">§ 6</span><h2>Push notifications</h2></header>
-<p>If you grant notification permission, we may send you traffic-incident alerts for the categories you subscribe to and notifications about new Commute Feed updates. You can unsubscribe at any time in <strong>Settings → Notifications → Bustro</strong> or by changing your in-app subscription preferences. We deliver pushes via Apple Push Notification service and Firebase Cloud Messaging.</p>
+<p>If you grant notification permission, we may send you traffic-incident alerts for the categories you subscribe to, notifications about new Commute Feed updates, and the alerts belonging to features you start yourself — Alight Reminder ("prepare to alight" / "time to alight") and Track Arrival ("arriving soon" / "arriving now"). Live Activities you start are updated by push while they run. You can unsubscribe at any time in <strong>Settings → Notifications → Bustro</strong>, by changing your in-app subscription preferences, or by ending the reminder or tracker. We deliver pushes via Apple Push Notification service and Firebase Cloud Messaging.</p>
 </section>
 
 <section class="s" id="s7">
@@ -590,7 +632,8 @@ footer.foot a:hover .arrow{transform:translateX(-3px);}
 <tr><td><strong>Apple iCloud / CloudKit</strong></td><td>Favourites sync between your devices</td><td>Apple Media Services Terms</td></tr>
 <tr><td><strong>Apple Maps / Google Maps</strong></td><td>Walking and driving directions when you tap a stop</td><td>Apple Maps Terms / Google Maps/Google Earth Additional Terms</td></tr>
 <tr><td><strong>Apple LinkPresentation framework</strong></td><td>Previews of links in Commute Feed posts</td><td>Apple developer terms; previews are fetched directly from the linked site by your device</td></tr>
-<tr><td><strong>Google Firebase</strong> (Analytics, Crashlytics, Cloud Messaging, Firestore, Remote Config)</td><td>App diagnostics, push routing, Commute Feed post storage, version gating</td><td>Firebase Terms of Service (<a href="https://firebase.google.com/terms">https://firebase.google.com/terms</a>)</td></tr>
+<tr><td><strong>Google Firebase</strong> (Analytics, Crashlytics, Cloud Messaging, Firestore, Remote Config)</td><td>App diagnostics, push routing, Commute Feed post storage, Live Activity updates for Alight Reminder and Track Arrival, version gating</td><td>Firebase Terms of Service (<a href="https://firebase.google.com/terms">https://firebase.google.com/terms</a>)</td></tr>
+<tr><td><strong>Google Forms</strong></td><td>Report a Bug and Request a Feature forms (opened only when you choose them)</td><td>Google Terms of Service</td></tr>
 </tbody>
 </table>
 </div>
@@ -679,8 +722,11 @@ footer.foot a:hover .arrow{transform:translateX(-3px);}
 </main>
 
 <footer class="foot">
-  <a href="privacy.html"><span class="arrow">←</span> Privacy Policy</a>
   <span class="copy">© Bustro · Singapore</span>
+  <nav class="links" aria-label="Related pages">
+    <a href="index.html">Help Center</a>
+    <a href="privacy-v2.html">Privacy Policy <span class="arrow">→</span></a>
+  </nav>
 </footer>
 
 </div>
