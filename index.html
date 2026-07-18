@@ -3,656 +3,648 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="Singapore's smartest bus companion — live arrivals, alight reminders, and journey tracking">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F2F2F7">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
     <title>Bustro Support - Singapore Bus Timing App</title>
     <style>
+        /* ---- Bustro design tokens (from the app's asset catalogs) ---- */
         :root {
             color-scheme: light dark;
+            --bg: #F2F2F7;
+            --card: #FFFFFF;
+            --label: #1C1C1E;
+            --secondary: #6E6E73;
+            --separator: rgba(60, 60, 67, 0.14);
+            --row-hover: rgba(120, 120, 128, 0.08);
+            --green: #85C71F;        /* BsBusGreen */
+            --on-green: #152900;     /* dark green text on BsBusGreen fills */
+            --accent: #4E7712;       /* SGBus shade for text on light */
+            --green-soft: rgba(133, 199, 31, 0.16);
+            --chip-bg: rgba(120, 120, 128, 0.12);
+            --nav-bg: rgba(242, 242, 247, 0.85);
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
         }
-        
-        body { 
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; 
-            margin: 40px auto;
-            line-height: 1.8;
-            max-width: 700px;
-            padding: 0 20px;
-            color: light-dark(#000, #fff);
-            background: light-dark(#fff, #000);
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #000000;
+                --card: #1C1C1E;
+                --label: #F2F2F7;
+                --secondary: #98989E;
+                --separator: rgba(84, 84, 88, 0.65);
+                --row-hover: rgba(120, 120, 128, 0.16);
+                --accent: #A5DB55;
+                --green-soft: rgba(133, 199, 31, 0.24);
+                --chip-bg: rgba(120, 120, 128, 0.26);
+                --nav-bg: rgba(0, 0, 0, 0.8);
+                --shadow: none;
+            }
         }
-        
-        h1 { 
-            color: light-dark(#000, #fff);
-            text-align: center;
-            font-weight: 600;
-            font-size: 2rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        .subtitle {
-            text-align: center;
-            color: light-dark(#666, #999);
-            font-size: 1.1rem;
-            margin-bottom: 2rem;
-        }
-        
-        h2 { 
-            color: light-dark(#333, #ccc);
-            font-weight: 500;
-            font-size: 1.25rem;
-            margin-top: 2rem;
-            margin-bottom: 1rem;
-            border-left: 3px solid #7AB82D;
-            padding-left: 1rem;
-        }
-        
-        h3 {
-            color: light-dark(#000, #fff);
-            font-weight: 500;
-            margin-top: 1.5rem;
-            margin-bottom: 1rem;
-        }
-        
-        .contact { 
-            background: light-dark(#f8f8f8, #1a1a1a);
-            color: light-dark(#000, #fff);
-            padding: 1.5rem;
-            margin: 2rem 0;
-            text-align: left;
-            border-left: 3px solid #7AB82D;
-        }
-        
-        .contact h3 {
-            color: #7AB82D;
-            margin-top: 0;
-        }
-        
-        .contact h4 {
-            color: light-dark(#000, #fff);
-            font-weight: 500;
-            margin-top: 1.5rem;
-            margin-bottom: 0.5rem;
-        }
-        
-        
-        .faq-item { 
-            margin-bottom: 1rem;
-            background: light-dark(#f8f8f8, #1a1a1a);
-            border-left: 3px solid #7AB82D;
-        }
-        
-        .faq-question {
-            padding: 1rem 1.5rem;
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
             margin: 0;
-            font-size: 1.1rem;
-            color: light-dark(#000, #fff);
-            cursor: pointer;
-            user-select: none;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            font-size: 1.0625rem;
+            line-height: 1.55;
+            color: var(--label);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        strong { font-weight: 600; }
+
+        /* ---- Hero ---- */
+        .hero {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 52px 20px 4px;
+            text-align: center;
+        }
+
+        .hero-otti { width: 150px; height: auto; }
+
+        .hero h1 {
+            font-size: 2.125rem;
+            font-weight: 700;
+            letter-spacing: -0.022em;
+            margin: 14px 0 8px;
+        }
+
+        .hero .subtitle {
+            color: var(--secondary);
+            font-size: 1.0625rem;
+            margin: 0 auto 24px;
+            max-width: 32em;
+        }
+
+        .langs {
             display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .langs a, .langs .current {
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            background: var(--chip-bg);
+            color: var(--label);
+        }
+
+        .langs a:hover { text-decoration: none; background: var(--row-hover); }
+
+        .langs .current {
+            background: var(--green-soft);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ---- Sticky topic bar (echoes the app's filter chips) ---- */
+        .topics {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            margin-top: 20px;
+            background: var(--nav-bg);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid var(--separator);
+        }
+
+        .topics-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 20px;
+            max-width: 680px;
+            margin: 0 auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .topics-scroll::-webkit-scrollbar { display: none; }
+
+        .chip {
+            flex: none;
+            padding: 7px 14px;
+            border-radius: 100px;
+            background: var(--chip-bg);
+            color: var(--label);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .chip:hover { text-decoration: none; }
+
+        .chip.active {
+            background: var(--green);
+            color: var(--on-green);
+            font-weight: 600;
+        }
+
+        /* ---- Layout ---- */
+        main {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 4px 20px 24px;
+        }
+
+        .topic { margin-top: 40px; scroll-margin-top: 72px; }
+
+        .topic-head {
+            display: flex;
+            align-items: flex-end;
             justify-content: space-between;
+            gap: 12px;
+            padding: 0 4px 10px;
+        }
+
+        .topic-head h2 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            letter-spacing: -0.017em;
+            margin: 0;
+        }
+
+        .topic-otti { width: 42px; height: 42px; }
+
+        .lede {
+            color: var(--secondary);
+            font-size: 0.9375rem;
+            margin: 0 4px 14px;
+        }
+
+        /* ---- Feature cards ---- */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .feature {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 14px 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .feature h3 {
+            margin: 0 0 4px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .feature p {
+            margin: 0;
+            font-size: 0.8125rem;
+            line-height: 1.45;
+            color: var(--secondary);
+        }
+
+        /* ---- FAQ groups (inset grouped list, like the app) ---- */
+        .group {
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .qa + .qa { border-top: 0.5px solid var(--separator); }
+
+        .qa-q {
+            display: flex;
+            width: 100%;
             align-items: center;
-            transition: background-color 0.2s ease;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 16px;
+            background: none;
+            border: 0;
+            font: inherit;
+            font-weight: 600;
+            color: var(--label);
+            text-align: left;
+            cursor: pointer;
         }
-        
-        .faq-question:hover {
-            background: light-dark(#f0f0f0, #2a2a2a);
-        }
-        
-        .faq-question::after {
-            content: '+';
-            font-size: 1.5rem;
-            font-weight: bold;
-            color: #7AB82D;
+
+        .qa-q:hover { background: var(--row-hover); }
+
+        .chev {
+            flex: none;
+            width: 18px;
+            height: 18px;
+            color: var(--green);
             transition: transform 0.3s ease;
         }
-        
-        .faq-question.active::after {
-            transform: rotate(45deg);
-        }
-        
-        .faq-answer {
-            padding: 0 1.5rem 1.5rem 1.5rem;
-            display: none;
-        }
-        
-        .faq-answer.show {
-            display: block;
-            animation: fadeIn 0.3s ease-in-out;
-        }
-        
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-        
-        .highlight {
-            background: light-dark(#f8f8f8, #1a1a1a);
-            padding: 1.5rem;
-            margin: 2rem 0;
-            border-left: 3px solid #7AB82D;
-        }
-        
-        .feature-grid {
+
+        .qa.open .chev { transform: rotate(180deg); }
+
+        .qa-a {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
-            gap: 1.5rem;
-            margin: 2rem 0;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
         }
-        
-        .feature-card {
-            background: light-dark(#f8f8f8, #1a1a1a);
-            padding: 1.5rem;
+
+        .qa-a-inner { overflow: hidden; min-height: 0; }
+
+        .qa.open .qa-a { grid-template-rows: 1fr; }
+
+        .qa-body {
+            padding: 2px 16px 16px;
+            font-size: 0.9375rem;
+        }
+
+        .qa-body > :first-child { margin-top: 0; }
+        .qa-body > :last-child { margin-bottom: 0; }
+        .qa-body p { margin: 8px 0; }
+        .qa-body ul, .qa-body ol { padding-left: 22px; margin: 8px 0; }
+        .qa-body li { margin: 4px 0; }
+        .qa-body small { color: var(--secondary); }
+
+        /* ---- Contact ---- */
+        .contact-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 22px 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .contact-head h2 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            letter-spacing: -0.017em;
+            margin: 0 0 6px;
+        }
+
+        .contact-otti { width: 76px; height: auto; flex: none; }
+
+        .contact-meta {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px;
+            color: var(--secondary);
+            font-size: 0.9375rem;
+        }
+
+        .contact-meta li { margin: 2px 0; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green);
+            color: var(--on-green);
+            font-weight: 600;
+            font-size: 1.0625rem;
+            padding: 12px 20px;
+            border-radius: 14px;
+        }
+
+        .btn:hover { text-decoration: none; filter: brightness(1.04); }
+
+        .contact-card h3 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            margin: 22px 0 6px;
+        }
+
+        .contact-card ul {
+            padding-left: 22px;
+            margin: 0 0 12px;
+            font-size: 0.9375rem;
+        }
+
+        .contact-card li { margin: 4px 0; }
+
+        .contact-card .tip {
+            font-size: 0.9375rem;
+            color: var(--secondary);
+            margin: 0;
+        }
+
+        /* ---- Footer ---- */
+        footer {
+            border-top: 0.5px solid var(--separator);
+            margin-top: 48px;
+            padding: 24px 20px 48px;
             text-align: center;
-            border-left: 3px solid #7AB82D;
         }
-        
-        .feature-card h3 {
-            color: #7AB82D;
-            margin-top: 0;
+
+        .legal {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-bottom: 14px;
         }
-        
-        .legal-links {
-            background: light-dark(#f8f8f8, #1a1a1a);
-            padding: 1.5rem;
-            text-align: center;
-            margin: 2rem 0;
-            border-left: 3px solid #7AB82D;
+
+        .legal a { font-size: 0.9375rem; font-weight: 600; }
+
+        .fineprint {
+            color: var(--secondary);
+            font-size: 0.8125rem;
+            margin: 2px 0;
         }
-        
-        .legal-links h3 {
-            color: #7AB82D;
-            margin-top: 0;
-        }
-        
-        .legal-links a {
-            color: light-dark(#000, #fff);
-            text-decoration: underline;
-            margin: 0 15px;
-            font-weight: 500;
-        }
-        
-        .legal-links a:hover {
-            text-decoration: none;
-        }
-        
-        .version-info {
-            text-align: center;
-            color: light-dark(#666, #999);
-            font-size: 0.9rem;
-            margin-top: 3rem;
-            padding-top: 1rem;
-            border-top: 1px solid light-dark(#e0e0e0, #333);
-        }
-        
-        ul, ol {
-            padding-left: 1.5rem;
-        }
-        
-        li {
-            margin-bottom: 0.5rem;
-        }
-        
-        strong {
-            color: light-dark(#000, #fff);
-        }
-        
-        p {
-            margin-bottom: 1rem;
-        }
-        
-        a {
-            color: light-dark(#000, #fff);
-            text-decoration: underline;
-        }
-        
-        a:hover {
-            text-decoration: none;
-        }
-        
-        /* Fallback for older browsers */
-        @media (prefers-color-scheme: dark) {
-            body {
-                color: #fff;
-                background: #000;
+
+        /* ---- Small screens ---- */
+        @media (max-width: 640px) {
+            .hero { padding-top: 40px; }
+            .hero-otti { width: 128px; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero .subtitle { font-size: 1rem; }
+
+            .features {
+                grid-template-columns: none;
+                grid-auto-flow: column;
+                grid-auto-columns: 76%;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                margin: 0 -20px;
+                padding: 0 20px 8px;
+                scrollbar-width: none;
             }
-            
-            h1 {
-                color: #fff;
-            }
-            
-            h2 {
-                color: #ccc;
-            }
-            
-            h3 {
-                color: #fff;
-            }
-            
-            .subtitle {
-                color: #999;
-            }
-            
-            .contact {
-                background: #1a1a1a;
-                color: #fff;
-            }
-            
-            .contact h4 {
-                color: #fff;
-            }
-            
-            
-            .faq-item {
-                background: #1a1a1a;
-            }
-            
-            .faq-question {
-                color: #fff;
-            }
-            
-            .faq-question:hover {
-                background: #2a2a2a;
-            }
-            
-            .highlight {
-                background: #1a1a1a;
-            }
-            
-            .feature-card {
-                background: #1a1a1a;
-            }
-            
-            .legal-links {
-                background: #1a1a1a;
-            }
-            
-            .legal-links a {
-                color: #fff;
-            }
-            
-            .version-info {
-                color: #999;
-                border-top-color: #333;
-            }
-            
-            strong {
-                color: #fff;
-            }
-            
-            a {
-                color: #fff;
-            }
-        }
-        
-        /* Responsive Design - Mobile First Approach */
-        
-        /* Very Small Phones: 0-480px */
-        @media (max-width: 480px) {
-            body {
-                margin: 15px auto;
-                padding: 0 15px;
-                max-width: 100%;
-                line-height: 1.6;
-            }
-            
-            h1 {
-                font-size: 1.6rem;
-                margin-bottom: 0.5rem;
-            }
-            
-            .subtitle {
-                font-size: 1rem;
-                margin-bottom: 1.5rem;
-                line-height: 1.4;
-            }
-            
-            h2 {
-                font-size: 1.1rem;
-                margin-top: 1.5rem;
-                margin-bottom: 0.8rem;
-                padding-left: 0.8rem;
-                border-left-width: 2px;
-            }
-            
-            h3 {
-                font-size: 1rem;
-                margin-top: 1rem;
-                margin-bottom: 0.8rem;
-            }
-            
-            .highlight {
-                padding: 1rem;
-                margin: 1.5rem 0;
-                border-left-width: 2px;
-            }
-            
-            .feature-grid {
-                grid-template-columns: 1fr;
-                gap: 0.8rem;
-                margin: 1.5rem 0;
-            }
-            
-            .feature-card {
-                padding: 1rem;
-                border-left-width: 2px;
-            }
-            
-            .feature-card h3 {
-                font-size: 0.95rem;
-                margin-top: 0;
-                margin-bottom: 0.5rem;
-            }
-            
-            .feature-card p {
-                font-size: 0.9rem;
-                margin-bottom: 0;
-                line-height: 1.5;
-            }
-            
-            .faq-item {
-                margin-bottom: 0.8rem;
-                border-left-width: 2px;
-            }
-            
-            .faq-question {
-                padding: 0.8rem 1rem;
-                font-size: 0.95rem;
-                min-height: 44px; /* Touch target minimum */
-                align-items: center;
-            }
-            
-            .faq-question::after {
-                font-size: 1.2rem;
-                margin-left: 0.5rem;
-            }
-            
-            .faq-answer {
-                padding: 0 1rem 1rem 1rem;
-                font-size: 0.9rem;
-            }
-            
-            .faq-answer ul, .faq-answer ol {
-                padding-left: 1.2rem;
-            }
-            
-            .faq-answer li {
-                margin-bottom: 0.3rem;
-            }
-            
-            .contact {
-                padding: 1rem;
-                margin: 1.5rem 0;
-                border-left-width: 2px;
-            }
-            
-            .contact h3 {
-                font-size: 1rem;
-                margin-bottom: 0.8rem;
-            }
-            
-            .contact p {
-                font-size: 0.9rem;
-                margin-bottom: 0.8rem;
-            }
-            
-            .version-info {
-                margin-top: 2rem;
-                padding-top: 1rem;
-                font-size: 0.8rem;
-            }
-            
-            .version-info p {
-                margin-bottom: 0.5rem;
-            }
-        }
-        
-        /* Standard Mobile Phones: 481-768px */
-        @media (min-width: 481px) and (max-width: 768px) {
-            body {
-                margin: 20px auto;
-                padding: 0 20px;
-                line-height: 1.7;
-            }
-            
-            h1 {
-                font-size: 1.8rem;
-            }
-            
-            .subtitle {
-                font-size: 1.05rem;
-                margin-bottom: 1.8rem;
-            }
-            
-            h2 {
-                font-size: 1.2rem;
-                margin-top: 1.8rem;
-                margin-bottom: 1rem;
-            }
-            
-            .feature-grid {
-                grid-template-columns: 1fr;
-                gap: 1rem;
-                margin: 1.8rem 0;
-            }
-            
-            .feature-card {
-                padding: 1.2rem;
-            }
-            
-            .faq-question {
-                padding: 1rem 1.2rem;
-                font-size: 1rem;
-                min-height: 48px; /* Slightly larger touch target */
-            }
-            
-            .faq-answer {
-                padding: 0 1.2rem 1.2rem 1.2rem;
-            }
-            
-            .contact {
-                padding: 1.2rem;
-                margin: 1.8rem 0;
-            }
-        }
-        
-        /* Tablets: 769-1024px */
-        @media (min-width: 769px) and (max-width: 1024px) {
-            body {
-                margin: 30px auto;
-                padding: 0 30px;
-                max-width: 90%;
-            }
-            
-            h1 {
-                font-size: 1.9rem;
-            }
-            
-            .subtitle {
-                font-size: 1.08rem;
-            }
-            
-            .feature-grid {
-                grid-template-columns: repeat(2, 1fr);
-                gap: 1.2rem;
-                margin: 2rem 0;
-            }
-            
-            .feature-card {
-                padding: 1.3rem;
-            }
-            
-            .faq-question {
-                padding: 1.1rem 1.3rem;
-                font-size: 1.05rem;
-            }
-            
-            .faq-answer {
-                padding: 0 1.3rem 1.3rem 1.3rem;
-            }
-            
-            .contact {
-                padding: 1.3rem;
-            }
-        }
-        
-        /* Large Tablets and Small Desktops: 1025px+ */
-        @media (min-width: 1025px) {
-            .feature-grid {
-                grid-template-columns: repeat(3, 1fr);
-            }
+
+            .features::-webkit-scrollbar { display: none; }
+            .feature { scroll-snap-align: start; }
+
+            .topic { margin-top: 32px; }
+            .contact-otti { width: 64px; }
+            .btn { width: 100%; justify-content: center; }
         }
     </style>
 </head>
 <body>
+    <header class="hero">
+        <img class="hero-otti" src="assets/otti-bus-stop.png" srcset="assets/otti-bus-stop@2x.png 2x, assets/otti-bus-stop@3x.png 3x" alt="" width="121" height="83">
         <h1>Bustro Support</h1>
-        <p class="subtitle">Singapore's smartest bus timing app with live tracking and weather integration</p>
-        
-        <div class="highlight">
-            <p><strong>Welcome to Bustro!</strong> Get real-time bus arrivals with live tracking, explore nearby stops on an interactive map, sync favorites across devices, and plan smarter journeys with integrated weather information. Features advanced auto-tracking technology and comprehensive MRT integration. Built specifically for Singapore's excellent public transport system.</p>
-        </div>
+        <p class="subtitle">Singapore's smartest bus companion — live arrivals, alight reminders, and journey tracking</p>
+        <nav class="langs" aria-label="Language">
+            <span class="current">English</span>
+            <a href="index.ms.html">Bahasa Melayu</a>
+            <a href="index.ta.html">தமிழ்</a>
+            <a href="index.zh-Hans.html">简体中文</a>
+        </nav>
+    </header>
 
-        <div class="feature-grid">
-            <div class="feature-card">
-                <h3>Smart Location</h3>
-                <p>Find nearby bus stops within customizable radius (100m-1000m) sorted by distance with precise walking times</p>
-            </div>
-            <div class="feature-card">
-                <h3>Live Timing</h3>
-                <p>Real-time arrivals from Singapore's LTA with vehicle types, wheelchair access, and passenger load indicators</p>
-            </div>
-            <div class="feature-card">
-                <h3>Live Bus Tracking</h3>
-                <p>Auto-track pinned bus arrivals with continuous real-time updates and intelligent background monitoring</p>
-            </div>
-            <div class="feature-card">
-                <h3>Custom Favorites</h3>
-                <p>Personalize stops with custom names, icons, and colors - syncs across devices via iCloud</p>
-            </div>
-            <div class="feature-card">
-                <h3>Weather Integration</h3>
-                <p>Apple WeatherKit integration with current conditions and hourly forecasts to plan your journey</p>
-            </div>
-            <div class="feature-card">
-                <h3>MRT Integration</h3>
-                <p>Interactive Singapore MRT network map for multi-modal journey planning combining buses and trains</p>
-            </div>
+    <nav class="topics" aria-label="Topics">
+        <div class="topics-scroll">
+            <a class="chip active" href="#features">Features</a>
+            <a class="chip" href="#getting-started">Getting Started</a>
+            <a class="chip" href="#alight-reminder">Alight Reminder &amp; Trip Tracking</a>
+            <a class="chip" href="#favourites-widget-map">Favourites, Widget &amp; Map</a>
+            <a class="chip" href="#weather-feed-mrt">Weather, Commute Feed &amp; MRT</a>
+            <a class="chip" href="#settings-feedback">Settings, Languages &amp; Feedback</a>
+            <a class="chip" href="#troubleshooting">Troubleshooting</a>
+            <a class="chip" href="#singapore">Singapore-Specific Information</a>
+            <a class="chip" href="#contact">Contact</a>
         </div>
-        
-        <h2>Frequently Asked Questions</h2>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">What is Live Bus Tracking and how do I use it?</h3>
-            <div class="faq-answer">
-                <p><strong>Live Bus Tracking</strong> automatically monitors your selected bus arrivals with real-time updates, even when you minimize the app.</p>
-                <p><strong>How to enable:</strong></p>
-                <ol>
-                    <li>Go to Settings > Preferences > Auto-Track Bus Arrivals (toggle on)</li>
-                    <li>When you view any bus stop details, tracking automatically begins</li>
-                    <li>You can also manually toggle tracking for specific stops</li>
-                </ol>
-                <p><strong>Benefits:</strong> Continuous monitoring, battery-optimized updates, and smart background refresh.</p>
+    </nav>
+
+    <main>
+        <section class="topic" id="features" data-topic>
+            <div class="topic-head">
+                <h2>What Bustro can do</h2>
             </div>
-        </div>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">How do I customize my search radius for nearby stops?</h3>
-            <div class="faq-answer">
-                <p><strong>Customize your search area:</strong></p>
-                <ol>
-                    <li>Open Settings from the main menu</li>
-                    <li>Go to Preferences</li>
-                    <li>Adjust "Search Radius" from 100m to 1000m</li>
-                    <li>Changes apply immediately to your nearby stops</li>
-                </ol>
-                <p><strong>Tip:</strong> Smaller radius (100-300m) for urban areas, larger radius (500-1000m) for suburban areas.</p>
+            <p class="lede"><strong>Welcome to Bustro!</strong> Get real-time bus arrivals for stops across Singapore, set an <strong>Alight Reminder</strong> so you never miss your stop, follow a live arrival countdown on your Lock Screen and Dynamic Island, and save your regular trips with <strong>My Journeys</strong>. Explore nearby stops on an interactive map, sync favourites across your devices with iCloud, check live Singapore weather, and stay ahead of disruptions with the Commute Feed — all available in English, Malay, Tamil, and Simplified Chinese.</p>
+            <div class="features">
+                <article class="feature">
+                    <h3>Live Arrivals</h3>
+                    <p>Real-time arrivals from Singapore's LTA with vehicle type, wheelchair access, and passenger load indicators</p>
+                </article>
+                <article class="feature">
+                    <h3>Alight Reminder</h3>
+                    <p>Get alerted before your stop, with a live countdown on the Lock Screen and Dynamic Island</p>
+                </article>
+                <article class="feature">
+                    <h3>Track Arrival</h3>
+                    <p>A live countdown to your bus, with alerts when it's about 5 minutes away and again as it arrives</p>
+                </article>
+                <article class="feature">
+                    <h3>My Journeys</h3>
+                    <p>Save the trips you take often and re-activate them with a single tap</p>
+                </article>
+                <article class="feature">
+                    <h3>Smart Location</h3>
+                    <p>Find nearby bus stops within a customisable radius (100 m – 1 km), sorted by distance</p>
+                </article>
+                <article class="feature">
+                    <h3>Custom Favourites</h3>
+                    <p>Personalise stops with names, icons, and colours — synced via iCloud, with a Home Screen widget</p>
+                </article>
+                <article class="feature">
+                    <h3>Live Weather</h3>
+                    <p>Singapore Government weather data: 2-hour forecast, rainfall, lightning alerts, air quality, and temperature</p>
+                </article>
+                <article class="feature">
+                    <h3>Commute Feed</h3>
+                    <p>Official LTA service alerts, Bustro team advisories, and commuter posts in one feed</p>
+                </article>
+                <article class="feature">
+                    <h3>MRT Integration</h3>
+                    <p>Interactive Singapore MRT/LRT network map for planning journeys that combine buses and trains</p>
+                </article>
             </div>
-        </div>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">Why can't I see nearby bus stops?</h3>
-            <div class="faq-answer">
-                <p><strong>Solution:</strong> Enable location permissions by going to <strong>Settings > Privacy & Security > Location Services > Bustro</strong> and select <strong>"While Using App"</strong>.</p>
+        </section>
+
+        <section class="topic" id="getting-started" data-topic>
+            <div class="topic-head">
+                <h2>Getting Started</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Why can't I see nearby bus stops?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Solution:</strong> Enable location permissions by going to <strong>Settings > Privacy &amp; Security > Location Services > Bustro</strong> and select <strong>"While Using App"</strong>.</p>
                 <p><strong>Additional checks:</strong></p>
                 <ul>
-                    <li>Ensure your search radius isn't too small (check Settings > Preferences)</li>
-                    <li>Try refreshing your location by pulling down on the nearby stops list</li>
-                    <li>Check if you're in an area with bus stops (Singapore only)</li>
+                    <li>Ensure your search radius isn't too small (Menu > Settings > Bus Stops > Search Radius)</li>
+                    <li>Check if you're in an area with bus stops (Bustro covers Singapore only)</li>
+                    <li>If your location was found while indoors, step outside or wait a moment for a fresh GPS fix</li>
                 </ul>
-                <p>Note: Bustro only uses your location when the app is open to show nearby stops and calculate walking distances.</p>
-            </div>
-        </div>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">Are the bus timings accurate?</h3>
-            <div class="faq-answer">
-                <p><strong>Answer:</strong> Yes! Our data comes directly from Singapore's Land Transport Authority (LTA) DataMall API v3 in real-time. Timing may vary slightly due to traffic conditions, but we show the most current information available.</p>
+                <p>Note: your location is processed on your device to show nearby stops and walking distances — it is never sent to our servers.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do I change the search radius for nearby stops?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Customise your search area:</strong></p>
+                <ol>
+                    <li>Open the menu and go to <strong>Settings > Bus Stops</strong></li>
+                    <li>Under "Nearby Stops", pick a <strong>Search Radius</strong> from 100 m to 1,000 m (default 300 m)</li>
+                    <li>Changes apply immediately to the nearby list and the map</li>
+                </ol>
+                <p><strong>Tip:</strong> The same panel also has favourite-stop options — "Show in Home Sheet" and "Auto-select Nearby Favourite", which picks whichever favourite stop is closest to you as you move.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Are the bus timings accurate?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Answer:</strong> Yes! Arrival data comes directly from Singapore's Land Transport Authority (LTA) DataMall in real time. Timing may vary slightly due to traffic conditions, but we show the most current information available.</p>
                 <p><strong>Data includes:</strong></p>
                 <ul>
-                    <li>Vehicle type indicators (single deck, double deck, bendy buses)</li>
+                    <li>Vehicle type indicators (single deck, double deck or bendy buses)</li>
                     <li>Wheelchair accessibility status</li>
-                    <li>Passenger load (seats available, standing room, limited standing)</li>
+                    <li>Passenger load levels</li>
                     <li>Precise arrival predictions ("Arriving", "2 min", etc.)</li>
                 </ul>
-                <p><strong>Refresh rate:</strong> You can customize refresh intervals from 15 seconds to 2 minutes in Settings.</p>
-            </div>
-        </div>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">How do I add a bus stop to favorites?</h3>
-            <div class="faq-answer">
-                <p><strong>Steps:</strong></p>
-                <ol>
-                    <li>Tap on any bus stop to open details</li>
-                    <li>Tap the heart icon (♡) to add to favorites</li>
-                    <li>Customize with a personal name, icon, and color</li>
-                    <li>Access quickly from the "Favorites" tab</li>
-                </ol>
-                <p><strong>Advanced features:</strong></p>
+                <p><strong>Refresh rate:</strong> Choose how often live arrivals refresh — from 15 seconds to 2 minutes (default 30 seconds) — in <strong>Menu > Settings > Bus Arrivals > Refresh Interval</strong>.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What do the passenger load indicators mean?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>Each arriving bus shows a crowding indicator:</p>
                 <ul>
-                    <li><strong>iCloud Sync:</strong> Favorites automatically sync across all your devices</li>
-                    <li><strong>Visual Organization:</strong> Choose custom colors and icons for easy identification</li>
-                    <li><strong>Reorder:</strong> Drag and drop to organize your favorites list</li>
-                    <li><strong>Map Integration:</strong> Favorites display with custom styling on the map</li>
+                    <li><strong>Seats Available</strong> — plenty of seating available</li>
+                    <li><strong>Standing Room Available</strong> — seats are limited, standing room is comfortable</li>
+                    <li><strong>Limited Standing</strong> — the bus is crowded with limited standing room</li>
+                    <li><strong>Not Reported</strong> — the bus didn't report its crowding level, so no data is available</li>
                 </ul>
+                <p>Arrival cards also show the vehicle type (single deck, or double deck / bendy bus) and whether the bus is wheelchair accessible.</p>
+                    </div></div></div>
+                </div>
             </div>
-        </div>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">What does the weather widget do?</h3>
-            <div class="faq-answer">
-                <p><strong>Feature:</strong> The weather widget uses Apple WeatherKit to show current conditions and help you plan your journey. Knowing if it's raining or sunny helps decide when to leave and what to bring.</p>
-                <p><strong>Information displayed:</strong></p>
-                <ul>
-                    <li>Current temperature and conditions</li>
-                    <li>Hourly precipitation chances</li>
-                    <li>Location-based weather (your current location or Singapore default)</li>
-                    <li>Automatic 15-minute updates</li>
-                </ul>
-                <p><strong>Tip:</strong> Tap the weather widget to open the full Weather app for detailed forecasts and radar.</p>
-            </div>
-        </div>
+        </section>
 
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">How do I access and use the MRT map?</h3>
-            <div class="faq-answer">
-                <p><strong>Access:</strong> Tap the MRT button from the main interface to view Singapore's complete MRT network map.</p>
-                <p><strong>Features:</strong></p>
-                <ul>
-                    <li><strong>Interactive Viewing:</strong> Pan and zoom to explore the entire network</li>
-                    <li><strong>High Resolution:</strong> Crystal clear map with all stations and lines</li>
-                    <li><strong>Legend:</strong> Comprehensive legend for all MRT lines and stations</li>
-                    <li><strong>Integration:</strong> Find bus stops near MRT stations for seamless transfers</li>
-                </ul>
-                <p><strong>Journey Planning:</strong> Perfect for planning multi-modal trips combining buses and trains across Singapore.</p>
+        <section class="topic" id="alight-reminder" data-topic>
+            <div class="topic-head">
+                <h2>Alight Reminder &amp; Trip Tracking</h2>
             </div>
-        </div>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">How does iCloud sync work with my favorites?</h3>
-            <div class="faq-answer">
-                <p><strong>Automatic Sync:</strong> When enabled, your favorites, custom names, colors, and icons automatically sync across all your Apple devices.</p>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What is Alight Reminder and how do I set one?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Alight Reminder</strong> watches your ride and alerts you before you reach your stop — so you can relax, read, or doze off without missing it.</p>
+                <p><strong>How to set one:</strong></p>
+                <ol>
+                    <li>Open your bus service's route page, or long-press an arrival card</li>
+                    <li>Tap <strong>"Remind to Alight"</strong></li>
+                    <li>In the <strong>Review Trip</strong> sheet, choose the stop where you want to get off</li>
+                    <li>Optionally turn on <strong>"Save this trip"</strong> to add it to My Journeys</li>
+                    <li>Tap <strong>"Set Reminder"</strong></li>
+                </ol>
+                <p><strong>What you get:</strong></p>
+                <ul>
+                    <li>A <strong>live countdown on the Lock Screen and Dynamic Island</strong> — no need to unlock your phone</li>
+                    <li><strong>Two-stage alerts</strong>: an early "prepare to alight" heads-up, then a "time to alight!" alert as your stop approaches — delivered even when the phone is locked</li>
+                    <li><strong>Swipeable status pages</strong> in the app showing upcoming arrivals while you wait, then live route progress once you're on board</li>
+                </ul>
+                <p>Alight Reminder works reliably on loop routes too, where the bus travels the same road in both directions.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What permissions does Alight Reminder need?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>For the full experience, Alight Reminder asks for two permissions:</p>
+                <ul>
+                    <li><strong>Notifications</strong> — to deliver the "prepare to alight" and "time to alight" alerts</li>
+                    <li><strong>Location — "Always"</strong> — so Bustro can keep following the ride and wake your phone as your stop approaches, even when the app is in the background or the phone is locked</li>
+                </ul>
+                <p><strong>Privacy notes:</strong></p>
+                <ul>
+                    <li>Background location runs <strong>only while a reminder is active</strong> and stops as soon as the ride ends</li>
+                    <li>Your location is processed entirely on your device — it is never sent to our servers</li>
+                </ul>
+                <p>If you prefer not to grant "Always" access, you can still use Alight Reminder — just keep Bustro open during your trip, as the reminder stops if you switch apps or lock your phone without background permission.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do I track a bus arrival on my Lock Screen?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Track Arrival</strong> starts a Live Activity that counts down to your bus arriving at your stop.</p>
+                <p><strong>How to start:</strong></p>
+                <ol>
+                    <li>Long-press any arrival card (on the home list or a stop's details), or use the service row on a stop's details or route page</li>
+                    <li>Tap <strong>"Track Arrival"</strong></li>
+                    <li>Review the trip in the confirmation sheet and tap <strong>"Start Tracking"</strong></li>
+                </ol>
+                <p><strong>What you get:</strong></p>
+                <ul>
+                    <li>A <strong>live countdown</strong> on the Lock Screen and Dynamic Island, including passenger load and whether the bus is GPS-tracked</li>
+                    <li><strong>Approach alerts</strong> — one when the bus is about 5 minutes away, and another as it's about to arrive</li>
+                    <li>Tracking <strong>ends automatically</strong> after your bus arrives</li>
+                </ul>
+                <p><strong>To stop early:</strong> tap the tracking pill in the app and choose <strong>"Stop Tracking"</strong>. You can track one arrival at a time — starting a new tracker replaces the current one, and setting an Alight Reminder for a different trip will also end an active tracker.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do My Journeys work?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>My Journeys</strong> saves the bus trips you take often so you can re-activate them in one tap.</p>
+                <ul>
+                    <li><strong>Save a journey:</strong> turn on <strong>"Save this trip"</strong> while setting an Alight Reminder</li>
+                    <li><strong>Re-activate:</strong> open <strong>Menu > My Journeys</strong> and tap a saved journey — the alight reminder is armed again for that trip</li>
+                    <li><strong>Rename:</strong> swipe left on a journey and tap the pencil to give it a name you recognise (e.g. "Home → Office")</li>
+                    <li><strong>Delete:</strong> swipe left and tap remove</li>
+                    <li><strong>End an active journey:</strong> the journey that's currently running shows an "End journey" action, which stops its alight reminder</li>
+                </ul>
+                <p>Saved journeys sync across your devices via iCloud, together with your favourites.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What's new on the bus route page?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>The route page was redesigned in 3.0.0 for faster scanning:</p>
+                <ul>
+                    <li><strong>Ride-time estimates</strong> — see the estimated time to each stop and to your destination</li>
+                    <li><strong>Collapsible earlier stops</strong> — stops you've already passed fold away so you jump straight to what's ahead</li>
+                    <li><strong>Fresh header and stop cells</strong> with live arrival info</li>
+                    <li>Set an <strong>Alight Reminder</strong> or start <strong>Track Arrival</strong> directly from the route page</li>
+                </ul>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="favourites-widget-map" data-topic>
+            <div class="topic-head">
+                <h2>Favourites, Widget &amp; Map</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do I add and manage favourite stops?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>To add:</strong></p>
+                <ol>
+                    <li>Tap on any bus stop to open its details</li>
+                    <li>Tap the heart icon (♡) in the toolbar</li>
+                    <li>Personalise it with a custom name, icon, and colour</li>
+                </ol>
+                <p><strong>To manage:</strong> open <strong>Menu > Favourite Stops</strong>, where you can:</p>
+                <ul>
+                    <li><strong>Reorder</strong> your favourites with the reorder button</li>
+                    <li><strong>Edit</strong> a favourite's name, icon, or colour (swipe left > Edit)</li>
+                    <li><strong>Remove</strong> favourites you no longer need (swipe left > Remove)</li>
+                </ul>
+                <p>Your custom colours and icons follow the stop everywhere — on the map, in the nearby-favourite card, and on the Home Screen widget.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How does iCloud sync work?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Automatic sync:</strong> your favourite stops (including custom names, colours, and icons), pinned services, and saved journeys sync across all your Apple devices through your private iCloud.</p>
                 <p><strong>Setup:</strong></p>
                 <ol>
-                    <li>Ensure you're signed into iCloud on all devices</li>
-                    <li>Favorites sync automatically in the background</li>
+                    <li>Sign in to iCloud on all your devices</li>
+                    <li>Everything syncs automatically in the background</li>
                     <li>Changes appear within minutes on other devices</li>
                 </ol>
                 <p><strong>Troubleshooting sync issues:</strong></p>
@@ -661,157 +653,342 @@
                     <li>Ensure you have internet connectivity</li>
                     <li>Try toggling airplane mode on/off to refresh sync</li>
                 </ul>
-            </div>
-        </div>
-        
-        <h2>Troubleshooting</h2>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">Live Bus Tracking not working or draining battery?</h3>
-            <div class="faq-answer">
-                <p><strong>Common solutions:</strong></p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do I use the Home Screen widget?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>The <strong>Favourite Stop widget</strong> shows live arrivals for a favourite stop right on your Home Screen or Lock Screen, in small and medium sizes.</p>
+                <p><strong>Setup:</strong></p>
                 <ol>
-                    <li><strong>Check Settings:</strong> Ensure "Auto-Track Bus Arrivals" is enabled in Settings > Preferences</li>
-                    <li><strong>Manual Toggle:</strong> Try manually enabling tracking for specific bus stops</li>
-                    <li><strong>Background Refresh:</strong> Enable Background App Refresh for Bustro in iOS Settings</li>
-                    <li><strong>Internet Connection:</strong> Tracking requires active internet connection</li>
+                    <li>Long-press your Home Screen and add the Bustro widget</li>
+                    <li>Long-press the widget > <strong>Edit Widget</strong> to choose a favourite stop, or turn on <strong>"Use Nearest Stop"</strong> to always show the favourite closest to you</li>
                 </ol>
-                <p><strong>Battery Optimization:</strong></p>
+                <p><strong>Features:</strong></p>
                 <ul>
-                    <li>Tracking is designed to be battery-efficient with smart refresh intervals</li>
-                    <li>Consider reducing refresh rate in Settings if battery usage is a concern</li>
-                    <li>Tracking automatically pauses when not needed</li>
+                    <li>Live arrival times with passenger load, refreshed on a timeline</li>
+                    <li>A <strong>refresh button</strong> to fetch the latest arrivals on demand</li>
+                    <li>Arrows to <strong>cycle between favourites</strong> (when a specific stop is selected)</li>
+                    <li>Tap the widget to jump straight to that stop — or a specific service — in the app</li>
                 </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do I see live bus positions on the map?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>While viewing a bus stop's details, Bustro can draw the live position of approaching buses on the map for the services you've <strong>pinned</strong>.</p>
+                <ol>
+                    <li>Open a bus stop's details</li>
+                    <li>Pin the services you care about ("Pin Service")</li>
+                    <li>Pinned services show their buses on the map — use each service's <strong>"Show on Map"</strong> toggle to control which ones are drawn</li>
+                </ol>
+                <p>Live tracking for pinned arrivals starts automatically when you open a stop's details. You can turn this off with <strong>Menu > Settings > Bus Arrivals > Auto-Track Bus Arrivals</strong>.</p>
+                <p><strong>Why pinned services only?</strong> Streaming every service at a busy interchange would clutter the map — pinning keeps it focused on the routes you actually take.</p>
+                    </div></div></div>
+                </div>
             </div>
-        </div>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">App is crashing or running slowly</h3>
-            <div class="faq-answer">
-                <p><strong>Quick fixes:</strong></p>
+        </section>
+
+        <section class="topic" id="weather-feed-mrt" data-topic>
+            <div class="topic-head">
+                <h2>Weather, Commute Feed &amp; MRT</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What weather information does Bustro show?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Feature:</strong> Bustro shows live Singapore weather sourced from the Singapore Government's data.gov.sg APIs, so you can decide when to leave and what to bring.</p>
+                <p><strong>Information displayed:</strong></p>
+                <ul>
+                    <li><strong>2-hour forecast</strong> for all 47 Singapore forecast areas</li>
+                    <li><strong>Rainfall</strong> readings from stations across the island</li>
+                    <li><strong>Lightning alerts</strong> — seek shelter if you're outdoors</li>
+                    <li><strong>Air quality</strong> (PSI) and <strong>temperature</strong> readings</li>
+                </ul>
+                <p>Switch between <strong>"Near Me"</strong> and <strong>"Island Wide"</strong> tabs in the weather sheet, and see weather zones directly on the map.</p>
+                <p><small>Contains information from the Singapore Government's data.gov.sg APIs, made available under the Singapore Open Data Licence version 1.0.</small></p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What is the Commute Feed?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>The <strong>Commute Feed</strong> brings three kinds of transit updates into one place:</p>
+                <ul>
+                    <li><strong>LTA Alerts</strong> — automated service alerts from LTA (disruptions, advisories)</li>
+                    <li><strong>Admin</strong> — official advisories from the Bustro team</li>
+                    <li><strong>User</strong> — short transit updates posted by fellow commuters</li>
+                </ul>
+                <p><strong>Filtering:</strong> use the filter bar to slice the feed by <strong>All, Last 2 hours, Today, Admin, User, or LTA Alerts</strong> — your selection is remembered between sessions.</p>
+                <p><strong>Posting:</strong> you can share short, transit-related updates yourself. Posts are reviewed by the Bustro team before they appear, must relate to Singapore public transport, require you to be at least 13 years old, and are automatically deleted after 7 days.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do I access and use the MRT map?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Access:</strong> Tap the train button on the main map screen to view Singapore's complete MRT/LRT network map.</p>
+                <p><strong>Features:</strong></p>
+                <ul>
+                    <li><strong>Interactive viewing:</strong> pan and pinch-zoom to explore the entire network</li>
+                    <li><strong>High resolution:</strong> crystal-clear map with all stations and lines</li>
+                    <li><strong>Legend:</strong> comprehensive legend for all MRT and LRT lines</li>
+                    <li><strong>Integration:</strong> find bus stops near MRT stations for seamless transfers</li>
+                </ul>
+                <p><strong>Journey planning:</strong> perfect for planning multi-modal trips combining buses and trains across Singapore.</p>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="settings-feedback" data-topic>
+            <div class="topic-head">
+                <h2>Settings, Languages &amp; Feedback</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What languages does Bustro support?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>Bustro 3.0.0 is fully localised in <strong>English, Malay (Bahasa Melayu), Tamil (தமிழ்), and Simplified Chinese (简体中文)</strong>.</p>
+                <p><strong>To change language:</strong></p>
+                <ol>
+                    <li>Open <strong>Menu > Settings > Change Language</strong></li>
+                    <li>Bustro opens iOS Settings, where you pick your preferred language for the app</li>
+                    <li>The app restarts with the new language applied</li>
+                </ol>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What does the Bus Data screen do?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Bus Data</strong> (under <strong>Menu > Updates</strong>) manages the offline dataset of bus stops, services, and routes that Bustro keeps on your device.</p>
+                <ul>
+                    <li><strong>Refresh Now:</strong> pulls the latest stops, services, and routes from LTA immediately</li>
+                    <li><strong>Refresh Every:</strong> choose an automatic refresh cadence — Never, 2 Weeks, 1 Month (default), or 3 Months. When the period has passed, Bustro refreshes the data the next time you open the app</li>
+                </ul>
+                <p>Live arrival times are separate — they always come in real time and are controlled by the Refresh Interval setting under <strong>Settings > Bus Arrivals</strong>.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do I report a bug or request a feature?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>Head to the <strong>Support</strong> section of the app menu:</p>
+                <ul>
+                    <li><strong>Report a Bug</strong> opens a short form pre-filled with your app version, iOS version, and device model — so you don't have to look them up. No personal data is included.</li>
+                    <li><strong>Request a Feature</strong> opens a form where you can tell us what you'd like to see next.</li>
+                </ul>
+                <p>You can also email us directly — see the contact details below.</p>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="troubleshooting" data-topic>
+            <div class="topic-head">
+                <h2>Troubleshooting</h2>
+                <img class="topic-otti" src="assets/otti-toolbox.png" srcset="assets/otti-toolbox@2x.png 2x, assets/otti-toolbox@3x.png 3x" alt="" width="38" height="38">
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Live Activity not appearing on the Lock Screen or Dynamic Island?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>If an Alight Reminder or Track Arrival countdown doesn't show up:</p>
+                <ol>
+                    <li>Check <strong>iOS Settings > Bustro > Live Activities</strong> is enabled</li>
+                    <li>Ensure notifications are allowed for Bustro</li>
+                    <li>Live Activities end automatically after your trip or after an extended period — start a new one if it has expired</li>
+                    <li>The Dynamic Island appears on supported iPhone models; on other models the countdown still shows on the Lock Screen</li>
+                </ol>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Not receiving alerts?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>If "prepare to alight", "time to alight", or "bus arriving soon" alerts aren't coming through:</p>
+                <ul>
+                    <li>Allow notifications in <strong>iOS Settings > Notifications > Bustro</strong></li>
+                    <li>Check that a Focus mode or Do Not Disturb isn't silencing Bustro</li>
+                    <li>For Alight Reminder alerts while the app is in the background, grant <strong>"Always"</strong> location permission — or keep the app open during your ride</li>
+                    <li>Alerts need an internet connection to receive live data</li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Worried about battery usage?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>Bustro is designed to be battery-friendly:</p>
+                <ul>
+                    <li>Background location runs <strong>only while an Alight Reminder is active</strong>, and only intensively during the final approach to your stop</li>
+                    <li>Live Activities are updated by efficient push notifications, not by the app running constantly</li>
+                    <li>You can lengthen the live-arrival <strong>Refresh Interval</strong> (Settings > Bus Arrivals) to reduce network activity</li>
+                    <li>Turn off <strong>Auto-Track Bus Arrivals</strong> if you don't want map tracking to start automatically</li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Bus timing not updating</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Solutions:</strong></p>
+                <ul>
+                    <li>Check your internet connection (WiFi or cellular)</li>
+                    <li>Try switching between WiFi and cellular data</li>
+                    <li>Check your Refresh Interval setting (Settings > Bus Arrivals) — or pull to refresh manually</li>
+                    <li>LTA occasionally has maintenance — timing will resume automatically</li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Widget not updating?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Troubleshooting:</strong></p>
+                <ul>
+                    <li>Tap the widget's <strong>refresh button</strong> to fetch the latest arrivals immediately</li>
+                    <li>iOS limits how often widgets refresh in the background — occasional short delays are normal</li>
+                    <li>"Use Nearest Stop" mode needs location access to pick the closest favourite</li>
+                    <li>Ensure you have at least one favourite stop saved in the app</li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>App is crashing or running slowly</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Quick fixes:</strong></p>
                 <ol>
                     <li>Force-close the app and reopen it</li>
                     <li>Restart your iPhone</li>
                     <li>Ensure you have the latest app version</li>
-                    <li>Check available storage space (need at least 1GB free)</li>
+                    <li>Check available storage space</li>
                 </ol>
-            </div>
-        </div>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">Bus timing not updating</h3>
-            <div class="faq-answer">
-                <p><strong>Solutions:</strong></p>
-                <ul>
-                    <li>Check your internet connection (WiFi or cellular)</li>
-                    <li>Try switching between WiFi and cellular data</li>
-                    <li>LTA occasionally has maintenance - timing will resume automatically</li>
-                </ul>
-            </div>
-        </div>
-
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">Map not loading properly</h3>
-            <div class="faq-answer">
-                <p><strong>Troubleshooting:</strong></p>
+                <p>If the problem persists, use <strong>Menu > Report a Bug</strong> — the form includes your device details automatically, which helps us fix the issue faster.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Map not loading properly</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Troubleshooting:</strong></p>
                 <ul>
                     <li>Ensure location services are enabled</li>
                     <li>Check internet connectivity</li>
                     <li>Try zooming out and back in</li>
-                    <li>Restart the app if map appears blank</li>
+                    <li>Restart the app if the map appears blank</li>
                 </ul>
+                    </div></div></div>
+                </div>
             </div>
-        </div>
-        
-        <h2>Singapore-Specific Information</h2>
-        
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">Which bus operators and data sources are supported?</h3>
-            <div class="faq-answer">
-                <p><strong>All Singapore bus operators:</strong></p>
+        </section>
+
+        <section class="topic" id="singapore" data-topic>
+            <div class="topic-head">
+                <h2>Singapore-Specific Information</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Which bus operators and data sources are supported?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>All Singapore bus operators:</strong></p>
                 <ul>
                     <li>SBS Transit (SBST)</li>
                     <li>SMRT Buses</li>
                     <li>Tower Transit Singapore</li>
                     <li>Go-Ahead Singapore</li>
                 </ul>
-                <p><strong>Data Source:</strong> Singapore Land Transport Authority (LTA) DataMall API v3</p>
-                <p><strong>Coverage:</strong></p>
+                <p><strong>Data sources:</strong></p>
                 <ul>
-                    <li>5,000+ bus stops across Singapore</li>
-                    <li>400+ bus routes and services</li>
-                    <li>Real-time arrival data with 30-second refresh capability</li>
-                    <li>Vehicle information and accessibility status</li>
+                    <li><strong>LTA DataMall</strong> — real-time arrivals, bus stops, services, and routes</li>
+                    <li><strong>BusRouter SG</strong> — bus route geometry drawn on the map</li>
+                    <li><strong>data.gov.sg</strong> — weather, rainfall, lightning, air quality, and temperature</li>
                 </ul>
+                <p><strong>Coverage:</strong> 5,000+ bus stops and 400+ bus services across Singapore, with real-time arrival data.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What are the technical requirements?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>Requirements:</strong></p>
+                <ul>
+                    <li><strong>iOS version:</strong> iOS 17.0 or later</li>
+                    <li><strong>Location services:</strong> optional, but needed for nearby stops, walking distances, and Alight Reminder</li>
+                    <li><strong>Internet:</strong> required for real-time data</li>
+                    <li><strong>iCloud:</strong> optional, for syncing favourites and journeys across devices</li>
+                    <li><strong>Live Activities:</strong> the countdown appears on every iPhone's Lock Screen; the Dynamic Island appears on models that have one</li>
+                </ul>
+                    </div></div></div>
+                </div>
             </div>
-        </div>
+        </section>
 
-        <div class="faq-item">
-            <h3 class="faq-question" onclick="toggleFAQ(this)">Does it work with MRT/LRT and what are the technical requirements?</h3>
-            <div class="faq-answer">
-                <p><strong>MRT/LRT Integration:</strong></p>
+        <section class="topic" id="contact" data-topic>
+            <div class="contact-card">
+                <div class="contact-head">
+                    <div>
+                        <h2>Still Need Help?</h2>
+                        <ul class="contact-meta">
+                            <li><strong>Response time:</strong> Within 24-48 hours</li>
+                            <li><strong>Support hours:</strong> Singapore timezone (UTC+8)</li>
+                        </ul>
+                    </div>
+                    <img class="contact-otti" src="assets/otti-megaphone.png" srcset="assets/otti-megaphone@2x.png 2x, assets/otti-megaphone@3x.png 3x" alt="" width="93" height="108">
+                </div>
+                <a class="btn" href="mailto:hi@bustro.app"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="2"/><path d="m4 7.5 8 5.5 8-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> hi@bustro.app</a>
+                <h3>When contacting support, please include:</h3>
                 <ul>
-                    <li>Find bus stops near MRT stations</li>
-                    <li>Interactive MRT network map with full-screen viewing</li>
-                    <li>Plan combined bus + train journeys</li>
-                    <li>Deep linking to Apple Maps and Google Maps for directions</li>
+                    <li>Your iPhone model and iOS version</li>
+                    <li>Bustro app version (shown in Menu > About)</li>
+                    <li>Detailed description of the issue</li>
+                    <li>Steps you've already tried</li>
+                    <li>Screenshots if helpful</li>
                 </ul>
-                <p><strong>Technical Requirements:</strong></p>
-                <ul>
-                    <li><strong>iOS Version:</strong> iOS 12.0 or later</li>
-                    <li><strong>Location Services:</strong> Required for nearby stops and distance calculation</li>
-                    <li><strong>Internet:</strong> Required for real-time data (offline map viewing available)</li>
-                    <li><strong>iCloud:</strong> Optional for favorites sync across devices</li>
-                </ul>
-                <p><strong>Modern Architecture:</strong> Built with SwiftUI + UIKit hybrid for optimal performance and battery efficiency.</p>
+                <p class="tip"><strong>Tip:</strong> the in-app <strong>Report a Bug</strong> form fills in your device details for you.</p>
             </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="legal">
+            <a href="privacy-v2.html">Privacy Policy</a>
+            <a href="terms-v2.html">Terms &amp; Conditions</a>
         </div>
-        
-        <div class="contact">
-            <h3>Still Need Help?</h3>
-            <ul>
-                <li><strong>Email:</strong> <a href="mailto:hi@bustro.app">hi@bustro.app</a></li>
-                <li><strong>Response time:</strong> Within 24-48 hours</li>
-                <li><strong>Support hours:</strong> Singapore timezone (UTC+8)</li>
-            </ul>
-            
-            <h4>When contacting support, please include:</h4>
-            <ul>
-                <li>Your iPhone model and iOS version</li>
-                <li>Bustro app version (found in More -> About & Support)</li>
-                <li>Detailed description of the issue</li>
-                <li>Steps you've already tried</li>
-                <li>Screenshots if helpful</li>
-            </ul>
-        </div>
-        
-        
-        <div class="version-info">
-            <p><small>© 2025 Bustro App. Made for Singapore commuters.</small></p>
-        </div>
-    </div>
+        <p class="fineprint">Updated for Bustro 3.0.0 · July 2026</p>
+        <p class="fineprint">© 2026 Bustro App. Made for Singapore commuters.</p>
+    </footer>
+
     <script>
-    function toggleFAQ(element) {
-        const answer = element.nextElementSibling;
-        const isActive = element.classList.contains('active');
-        
-        // Close all other FAQ items
-        document.querySelectorAll('.faq-question.active').forEach(question => {
-            if (question !== element) {
-                question.classList.remove('active');
-                question.nextElementSibling.classList.remove('show');
-            }
+    document.querySelectorAll('.qa-q').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var open = button.parentElement.classList.toggle('open');
+            button.setAttribute('aria-expanded', open ? 'true' : 'false');
         });
-        
-        // Toggle current item
-        if (isActive) {
-            element.classList.remove('active');
-            answer.classList.remove('show');
-        } else {
-            element.classList.add('active');
-            answer.classList.add('show');
+    });
+
+    (function () {
+        var sections = Array.prototype.slice.call(document.querySelectorAll('[data-topic]'));
+        var chips = Array.prototype.slice.call(document.querySelectorAll('.topics-scroll .chip'));
+        var lastActive = null;
+        var ticking = false;
+
+        function spy() {
+            ticking = false;
+            var y = window.scrollY + 88;
+            var active = sections[0];
+            sections.forEach(function (section) {
+                if (section.offsetTop <= y) { active = section; }
+            });
+            if (active === lastActive) { return; }
+            lastActive = active;
+            var activeChip = null;
+            chips.forEach(function (chip) {
+                var match = chip.getAttribute('href') === '#' + active.id;
+                chip.classList.toggle('active', match);
+                if (match) { activeChip = chip; }
+            });
+            if (activeChip) {
+                activeChip.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            }
         }
-    }
+
+        window.addEventListener('scroll', function () {
+            if (!ticking) { ticking = true; window.requestAnimationFrame(spy); }
+        }, { passive: true });
+        spy();
+    })();
     </script>
 </body>
 </html>

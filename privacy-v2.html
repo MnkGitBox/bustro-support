@@ -17,17 +17,17 @@
   --text-3:rgba(60,60,67,0.55);
   --text-4:rgba(60,60,67,0.32);
   --neutral:#212529;
-  --brand:#85C820;
-  --brand-text:#568215;
+  --brand:#85C71F;
+  --brand-text:#4E7712;
   --brand-deep:#334D0C;
   --brand-tint:#ADDB69;
   --brand-pale:#DDE9CB;
-  --brand-soft:rgba(133,200,32,0.14);
-  --brand-faint:rgba(133,200,32,0.07);
-  --accent:#007AFF;
-  --accent-press:#0062CC;
-  --accent-soft:rgba(0,122,255,0.10);
-  --accent-faint:rgba(0,122,255,0.06);
+  --brand-soft:rgba(133,199,31,0.14);
+  --brand-faint:rgba(133,199,31,0.07);
+  --accent:#4E7712;
+  --accent-press:#3D5E0E;
+  --accent-soft:rgba(133,199,31,0.35);
+  --accent-faint:rgba(133,199,31,0.10);
   --pink:#FF2D55;
   --orange:#FF9500;
   --hairline:rgba(60,60,67,0.18);
@@ -50,17 +50,17 @@
     --text-3:rgba(235,235,245,0.55);
     --text-4:rgba(235,235,245,0.32);
     --neutral:#D1D1D6;
-    --brand:#85C820;
-    --brand-text:#ADDB69;
+    --brand:#85C71F;
+    --brand-text:#A5DB55;
     --brand-deep:#1C2908;
     --brand-tint:#C7E0A1;
-    --brand-pale:rgba(133,200,32,0.08);
-    --brand-soft:rgba(133,200,32,0.18);
-    --brand-faint:rgba(133,200,32,0.10);
-    --accent:#0A84FF;
-    --accent-press:#409CFF;
-    --accent-soft:rgba(10,132,255,0.16);
-    --accent-faint:rgba(10,132,255,0.10);
+    --brand-pale:rgba(133,199,31,0.08);
+    --brand-soft:rgba(133,199,31,0.18);
+    --brand-faint:rgba(133,199,31,0.10);
+    --accent:#A5DB55;
+    --accent-press:#C0E883;
+    --accent-soft:rgba(133,199,31,0.30);
+    --accent-faint:rgba(133,199,31,0.14);
     --pink:#FF375F;
     --orange:#FF9F0A;
     --hairline:rgba(84,84,88,0.65);
@@ -69,7 +69,7 @@
   }
 }
 *{box-sizing:border-box;}
-html{-webkit-text-size-adjust:100%;}
+html{-webkit-text-size-adjust:100%;scroll-behavior:smooth;}
 body{
   margin:0;
   background:var(--bg);
@@ -123,7 +123,8 @@ body{
   display:inline-block;
   transform:rotate(45deg);
 }
-.crumb .name{color:var(--text);}
+.crumb .name{color:var(--text);border-bottom:0;}
+.crumb a.name:hover{color:var(--accent);}
 .crumb .sep{color:var(--text-4);}
 .crumb .kind{color:var(--brand-text);}
 .masthead h1{
@@ -174,16 +175,33 @@ body{
   background:var(--hairline);
   margin-top:.4rem;
 }
-nav.toc{display:none;}
+nav.toc{
+  background:var(--card);
+  border:1px solid var(--hairline-2);
+  border-radius:var(--radius-l);
+  padding:1.1rem 1.2rem .6rem;
+  margin-bottom:2.25rem;
+  box-shadow:var(--shadow);
+}
+@media (min-width:560px){
+  nav.toc .toc-links{columns:2;column-gap:2rem;}
+  nav.toc .toc-links a{break-inside:avoid;}
+}
 @media (min-width:1100px){
   nav.toc{
-    display:block;
+    background:none;
+    border:0;
+    border-radius:0;
+    padding:0;
+    margin-bottom:0;
+    box-shadow:none;
     position:sticky;
     top:1.5rem;
     align-self:start;
     max-height:calc(100vh - 3rem);
     overflow-y:auto;
   }
+  nav.toc .toc-links{columns:auto;}
 }
 nav.toc .toc-head{
   font-size:.7rem;
@@ -449,6 +467,7 @@ footer.foot a:hover{
   border-color:transparent;
 }
 footer.foot .copy{font-weight:500;}
+footer.foot .links{display:flex;gap:.5rem;flex-wrap:wrap;}
 footer.foot .arrow{display:inline-block;transition:transform .15s ease;}
 footer.foot a:hover .arrow{transform:translateX(3px);}
 @media (prefers-reduced-motion: no-preference){
@@ -461,6 +480,23 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
     to{opacity:1;transform:none;}
   }
 }
+@media print{
+  :root{
+    --bg:#fff;--card:#fff;--text:#000;--text-2:#333;--text-3:#555;
+    --brand:#E5E5E5;--brand-text:#333;--brand-deep:#000;
+    --brand-soft:#EEE;--brand-faint:#F4F4F4;
+    --accent:#000;--accent-soft:#DDD;--accent-faint:#F4F4F4;
+    --hairline:#BBB;--hairline-2:#CCC;--shadow:none;
+  }
+  body{font-size:11pt;}
+  .page{display:block;max-width:none;padding:0;}
+  nav.toc,footer.foot .links{display:none;}
+  a{color:#000;border-bottom:0;}
+  .scrollwrap{overflow:visible;border:0;box-shadow:none;}
+  .scrollwrap table{min-width:0;border:1px solid var(--hairline-2);}
+  table{break-inside:avoid;}
+  section.s{margin-top:1.5rem;scroll-margin-top:0;}
+}
 ::selection{background:var(--brand-soft);color:var(--text);}
 </style>
 </head>
@@ -470,14 +506,14 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <header class="masthead">
   <div class="crumb">
     <span class="dot"></span>
-    <span class="name">Bustro</span>
+    <a class="name" href="index.html">Bustro</a>
     <span class="sep">/</span>
     <span class="kind">Privacy Policy</span>
   </div>
   <h1>Privacy Policy</h1>
   <div class="meta-strip">
-    <span class="chip"><span class="label">Updated</span>13 May 2026</span>
-    <span class="chip neutral"><span class="label">Effective</span>13 May 2026</span>
+    <span class="chip"><span class="label">Updated</span>16 July 2026</span>
+    <span class="chip neutral"><span class="label">Effective</span>16 July 2026</span>
     <span class="chip brand">Singapore · PDPA</span>
   </div>
   <div class="rule"></div>
@@ -485,6 +521,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 
 <nav class="toc" aria-label="Table of contents">
   <div class="toc-head">Contents</div>
+  <div class="toc-links">
   <a href="#s1"><span class="n">1</span><span>Information we collect</span></a>
   <a href="#s2"><span class="n">2</span><span>On-device intelligence</span></a>
   <a href="#s3"><span class="n">3</span><span>How we use your information</span></a>
@@ -498,17 +535,18 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
   <a href="#s11"><span class="n">11</span><span>Changes to this Policy</span></a>
   <a href="#s12"><span class="n">12</span><span>Contact us</span></a>
   <a href="#s13"><span class="n">13</span><span>Compliance</span></a>
+  </div>
 </nav>
 
 <main class="doc">
 
 <div class="summary">
-<p><strong>Plain summary:</strong> Bustro is a free, ad-free public-transit app for Singapore. We use your location on your device to show nearby bus stops; we do not send it to our servers. We generate a random device ID (not linked to your name or Apple ID) so that, if you choose to post in the Commute Feed or subscribe to traffic alerts, we can route notifications and let you delete your own posts. We use Firebase for crash reports, app-usage analytics, push delivery, and storing Commute Feed posts. We do not show ads, sell data, or track you across other apps.</p>
+<p><strong>Plain summary:</strong> Bustro is a free, ad-free public-transit app for Singapore. We use your location on your device to show nearby bus stops; we do not send it to our servers. We generate a random device ID (not linked to your name or Apple ID) so that, if you choose to post in the Commute Feed or subscribe to traffic alerts, we can route notifications and let you delete your own posts. We use Firebase for crash reports, app-usage analytics, push delivery, and storing Commute Feed posts. If you set an Alight Reminder or track a bus arrival, we briefly store a push token together with the stop and bus service involved so our server can update the live countdown on your Lock Screen; that record is deleted when the activity ends. We do not show ads, sell data, or track you across other apps.</p>
 </div>
 
 <p>This Privacy Policy explains what data Bustro collects, why we collect it, where it goes, how long we keep it, and the rights you have. It applies to the Bustro iOS application, the Bustro Home/Lock Screen widget, and any related online services we provide (collectively, the &quot;<strong>App</strong>&quot;). The App is operated by the Bustro team (&quot;<strong>we</strong>&quot;, &quot;<strong>us</strong>&quot;, &quot;<strong>our</strong>&quot;), based in Singapore.</p>
 
-<p>This Policy is read together with the <a href="terms.html">Bustro Terms &amp; Conditions</a>.</p>
+<p>This Policy is read together with the <a href="terms-v2.html">Bustro Terms &amp; Conditions</a>.</p>
 
 <p>Bustro is a Singapore-only utility — bus stops, bus services, weather data, and traffic alerts are all Singapore-specific, and the App is operated and hosted with Singapore users in mind. We make our best effort to handle data in line with the <strong>Singapore Personal Data Protection Act 2012 (PDPA)</strong> and Apple's App Store privacy requirements.</p>
 
@@ -518,10 +556,10 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <h3><span class="sub">1.1</span>Location</h3>
 <table class="defs">
 <tbody>
-<tr><th scope="row">What</th><td>Your device's coarse and precise location, while the App or its widget is in use.</td></tr>
-<tr><th scope="row">Why</th><td>To show bus stops near you, calculate walking distances, and select the closest favourite stop for the Home/Lock Screen widget.</td></tr>
-<tr><th scope="row">When</th><td>Only when you have the App open or the widget on screen, and only if you grant the <em>When In Use</em> permission. Background location is disabled.</td></tr>
-<tr><th scope="row">Storage</th><td>On your device only. We never transmit your location to our servers, to Singapore LTA, to data.gov.sg, to Apple, or to any other third party.</td></tr>
+<tr><th scope="row">What</th><td>Your device's coarse and precise location, while the App or its widget is in use — and, only while an Alight Reminder is active, in the background during your ride.</td></tr>
+<tr><th scope="row">Why</th><td>To show bus stops near you, calculate walking distances, select the closest favourite stop for the Home/Lock Screen widget, and — if you set an Alight Reminder — follow your ride so we can alert you before your stop.</td></tr>
+<tr><th scope="row">When</th><td>With the <em>When In Use</em> permission, only when you have the App open or the widget on screen. The Alight Reminder feature additionally offers the <em>Always</em> permission: if you grant it, background location runs <strong>only while a reminder is active</strong> (most intensively during the final approach to your stop) and stops as soon as the ride ends. If you decline <em>Always</em>, Alight Reminder still works with the App kept open. No other feature uses background location.</td></tr>
+<tr><th scope="row">Storage</th><td>On your device only. All ride-progress calculation for Alight Reminder happens on-device. We never transmit your location to our servers, to Singapore LTA, to data.gov.sg, to Apple, or to any other third party.</td></tr>
 <tr><th scope="row">Control</th><td>iOS Settings → Privacy &amp; Security → Location Services → Bustro. The App remains functional without location, with reduced features.</td></tr>
 </tbody>
 </table>
@@ -530,19 +568,19 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <table class="defs">
 <tbody>
 <tr><th scope="row">What</th><td>A randomly-generated UUID created on your device the first time you open the App.</td></tr>
-<tr><th scope="row">Why</th><td>To attribute Commute Feed posts and reactions you submit, to route push notifications to your device, and to let you edit or delete your own Commute Feed submissions.</td></tr>
+<tr><th scope="row">Why</th><td>To attribute Commute Feed posts and reactions you submit, to route push notifications to your device (including Live Activity updates for Alight Reminder and arrival tracking, §1.6), and to let you edit or delete your own Commute Feed submissions.</td></tr>
 <tr><th scope="row">Linked to your identity?</th><td>No. The UUID is not linked to your name, email, Apple ID, phone number, or any other identifying information. Under Singapore's PDPA it is treated as <strong>pseudonymous personal data</strong>.</td></tr>
 <tr><th scope="row">Storage</th><td>Locally in app preferences (<code>UserDefaults</code>), and on Google's Firebase Firestore servers when accompanying a Commute Feed submission, reaction, or push-notification subscription.</td></tr>
 <tr><th scope="row">Reset</th><td>Reinstalling the App generates a new UUID and disconnects you from prior submissions. A future App update will add an in-app <em>Reset Device Identity</em> control.</td></tr>
 </tbody>
 </table>
 
-<h3><span class="sub">1.3</span>App preferences and favourites</h3>
+<h3><span class="sub">1.3</span>App preferences, favourites, and saved journeys</h3>
 <table class="defs">
 <tbody>
-<tr><th scope="row">What</th><td>Your favourite bus stops, custom labels, custom colours and icons, sort order, and pinned services.</td></tr>
-<tr><th scope="row">Why</th><td>To personalise the App and the widget.</td></tr>
-<tr><th scope="row">Storage</th><td>Locally on your device, and synced via <strong>Apple iCloud / CloudKit</strong> to your other Apple devices if you have iCloud enabled. CloudKit data is encrypted by Apple and is never visible to us. The CloudKit container holds only favourites and pinned services — no Commute Feed content, no analytics, no usage history.</td></tr>
+<tr><th scope="row">What</th><td>Your favourite bus stops, custom labels, custom colours and icons, sort order, pinned services, and the journeys you save in <em>My Journeys</em> (boarding and alighting stops, bus service, an optional label you give the journey, and when you last used it).</td></tr>
+<tr><th scope="row">Why</th><td>To personalise the App and the widget, and to let you re-activate a saved journey in one tap.</td></tr>
+<tr><th scope="row">Storage</th><td>Locally on your device, and synced via <strong>Apple iCloud / CloudKit</strong> to your other Apple devices if you have iCloud enabled. CloudKit data is encrypted by Apple and is never visible to us. The CloudKit container holds only favourites, pinned services, and saved journeys — no Commute Feed content, no analytics, no usage history.</td></tr>
 <tr><th scope="row">Control</th><td>iOS Settings → [your name] → iCloud → Bustro.</td></tr>
 </tbody>
 </table>
@@ -571,7 +609,18 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 </tbody>
 </table>
 
-<h3><span class="sub">1.6</span>Crash and error reports</h3>
+<h3><span class="sub">1.6</span>Live Activities — Alight Reminder and Track Arrival</h3>
+<table class="defs">
+<tbody>
+<tr><th scope="row">What</th><td>When you start an Alight Reminder or track a bus arrival on the Lock Screen, we store an Apple Live Activity push token, your device identifier (§1.2), the bus stop code involved (plus the stop's display name for arrival tracking), the bus service number, and the activity's state.</td></tr>
+<tr><th scope="row">Why</th><td>Our server uses this record to fetch live arrival data from LTA and push countdown updates and alerts to the Live Activity on your Lock Screen and Dynamic Island, even while the App is not running.</td></tr>
+<tr><th scope="row">What is <em>not</em> sent</th><td>Your location, your position along the route, and your journey's stop list never leave your device. During an Alight Reminder, ride progress is computed on-device (§1.1); the server knows only the stop and service you selected.</td></tr>
+<tr><th scope="row">Storage</th><td>Google Firebase Firestore, in the <strong>asia-southeast1 (Singapore)</strong> region.</td></tr>
+<tr><th scope="row">Retention</th><td>Deleted as soon as the reminder or tracker ends (whether you stop it or it completes). As a safety net, records also expire automatically — after at most 4 hours for an Alight Reminder and 2 hours for arrival tracking.</td></tr>
+</tbody>
+</table>
+
+<h3><span class="sub">1.7</span>Crash and error reports</h3>
 <table class="defs">
 <tbody>
 <tr><th scope="row">What</th><td>Stack traces, error messages, the iOS version, device model, App version, and the Firebase App Instance ID. We do <strong>not</strong> set a custom user ID in Crashlytics.</td></tr>
@@ -580,7 +629,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 </tbody>
 </table>
 
-<h3><span class="sub">1.7</span>Usage analytics</h3>
+<h3><span class="sub">1.8</span>Usage analytics</h3>
 <table class="defs">
 <tbody>
 <tr><th scope="row">What</th><td>Pseudonymous, event-level data: which screens you open (e.g. weather, traffic dashboard, favourites), interaction events such as community-message-submitted (with the detected language only — never the message content), reaction-tapped (with the reaction type only), App Store rating prompt shown, and engagement events. The Firebase <strong>App Instance ID</strong> and Apple's <strong>IDFV</strong> are automatically collected by the Firebase SDK.</td></tr>
@@ -591,10 +640,10 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 </tbody>
 </table>
 
-<h3><span class="sub">1.8</span>What we do <strong>not</strong> collect</h3>
+<h3><span class="sub">1.9</span>What we do <strong>not</strong> collect</h3>
 <ul>
 <li>Your name, email address, phone number, photos, contacts, microphone, camera, or health data.</li>
-<li>Your location while the App and widget are not in use.</li>
+<li>Your location while the App and widget are not in use (the only exception is during an active Alight Reminder, and even then your location stays on your device — see §1.1).</li>
 <li>Your search queries — these are processed locally on your device against bus-stop and bus-service data already on the device.</li>
 <li>Browsing or usage data from other apps. We do not use the App Tracking Transparency (ATT) tracking permission.</li>
 <li>Any payment information — Bustro is free and contains no in-app purchases or advertising.</li>
@@ -612,7 +661,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <p>We use the data described in §1 only to:</p>
 <ul>
 <li>Show bus stops near you, calculate walking distances, and power the widget;</li>
-<li>Save your favourites and sync them across your Apple devices via iCloud;</li>
+<li>Run the Alight Reminders and arrival trackers you start — including pushing live countdown updates and alerts to your Lock Screen (§1.6);</li>
+<li>Save your favourites and journeys and sync them across your Apple devices via iCloud;</li>
 <li>Display, moderate, edit, and delete Commute Feed content you submit;</li>
 <li>Deliver traffic-alert and Commute Feed notification pushes you have opted in to;</li>
 <li>Generate crash reports and usage analytics to fix bugs and improve features;</li>
@@ -634,8 +684,9 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Firebase Analytics</td><td>Google LLC</td><td>App Instance ID, event names, device model, OS version</td><td>Usage analytics</td><td>US / EU</td></tr>
 <tr><td>Firebase Crashlytics</td><td>Google LLC</td><td>App Instance ID, crash logs, device model, OS version</td><td>Diagnostics</td><td>US / EU</td></tr>
 <tr><td>Firebase Cloud Messaging</td><td>Google LLC</td><td>APNs token, FCM token, device identifier, subscription list</td><td>Push delivery</td><td>US / EU</td></tr>
-<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Commute Feed post text, URLs, reactions, device identifier, FCM token, subscriptions</td><td>UGC storage and push routing</td><td>US / EU</td></tr>
+<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Commute Feed post text, URLs, reactions, device identifier, FCM token, subscriptions, Live Activity push tokens with the tracked stop and service (§1.6)</td><td>UGC storage, push routing, Live Activity updates</td><td>Singapore (asia-southeast1)</td></tr>
 <tr><td>Firebase Remote Config</td><td>Google LLC</td><td>App version, App Instance ID</td><td>Gate in-app &quot;update available&quot; prompt</td><td>US / EU</td></tr>
+<tr><td>Google Forms</td><td>Google LLC</td><td>Only if you choose <em>Report a Bug</em> or <em>Request a Feature</em>: the form is pre-filled with your app version, iOS version, and device model, plus whatever you type</td><td>Bug reports and feature requests</td><td>US / EU</td></tr>
 <tr><td>Apple Push Notification service</td><td>Apple Inc.</td><td>Device push token</td><td>Push delivery</td><td>Apple infrastructure</td></tr>
 <tr><td>Apple iCloud / CloudKit</td><td>Apple Inc.</td><td>Favourites and pinned services</td><td>Sync across your Apple devices</td><td>Apple infrastructure</td></tr>
 <tr><td>Apple <code>LinkPresentation</code></td><td>Apple Inc. (your device contacts the linked site)</td><td>URL, your IP</td><td>Render link previews in Commute Feed posts</td><td>Direct from your device to the linked site</td></tr>
@@ -646,7 +697,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 </tbody>
 </table>
 </div>
-<p><strong>Cross-border data transfers (PDPA §26).</strong> Data sent to Firebase services is processed by Google LLC on infrastructure that may be in the United States or European Union. Google's data-protection terms (<a href="https://firebase.google.com/support/privacy">https://firebase.google.com/support/privacy</a>) bind Google to provide a standard of protection comparable to what the PDPA requires; we rely on those terms for compliance with PDPA Section 26.</p>
+<p><strong>Cross-border data transfers (PDPA §26).</strong> Firestore records (Commute Feed content, push-routing records, and Live Activity tokens) are stored in Google's <strong>asia-southeast1 (Singapore)</strong> region. Firebase Analytics, Crashlytics, Cloud Messaging, and Remote Config are processed by Google LLC on infrastructure that may be in the United States or European Union. Google's data-protection terms (<a href="https://firebase.google.com/support/privacy">https://firebase.google.com/support/privacy</a>) bind Google to provide a standard of protection comparable to what the PDPA requires; we rely on those terms for compliance with PDPA Section 26.</p>
 <p>We do <strong>not</strong> sell, rent, or trade your information. We do not share data with advertisers, data brokers, or analytics providers other than those listed above.</p>
 <p>We may disclose information when required to do so by Singapore law, by a valid order of a Singapore court, or by a Singapore regulator or law-enforcement authority acting within its statutory powers (including the Personal Data Protection Commission, the Infocomm Media Development Authority, and the Singapore Police Force under the Criminal Procedure Code), or to protect the rights, property, or safety of users, the public, or us. Where the law permits, we will notify the affected user before disclosing their information.</p>
 </section>
@@ -660,7 +711,9 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tbody>
 <tr><td>Location</td><td>Not retained — processed in memory on your device only</td></tr>
 <tr><td>Device identifier</td><td>Until you reinstall the App, reset device identity (planned), or request deletion</td></tr>
-<tr><td>Favourites &amp; pinned services</td><td>Until you delete them, sign out of iCloud, or delete the App</td></tr>
+<tr><td>Favourites, pinned services &amp; saved journeys</td><td>Until you delete them, sign out of iCloud, or delete the App</td></tr>
+<tr><td>Alight Reminder Live Activity token</td><td>Deleted when the reminder ends; expires automatically after at most 4 hours</td></tr>
+<tr><td>Track Arrival Live Activity token</td><td>Deleted when tracking stops; expires automatically after at most 2 hours</td></tr>
 <tr><td>User-submitted Commute Feed posts</td><td><strong>7 days</strong>, then automatic deletion</td></tr>
 <tr><td>Official advisories and LTA alerts</td><td>Indefinite (no personal data)</td></tr>
 <tr><td>Reactions</td><td>Deleted with the message</td></tr>
@@ -693,6 +746,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <li>Revoking <strong>Notifications</strong> permission in iOS Settings;</li>
 <li>Disabling <strong>iCloud</strong> sync for Bustro;</li>
 <li>Deleting your Commute Feed posts from within the App;</li>
+<li>Stopping an active Alight Reminder or arrival tracker, which deletes its push-token record;</li>
 <li>Deleting the App, which removes the device identifier and ends push delivery;</li>
 <li>Emailing <strong>hi@bustro.app</strong> to request server-side deletion of any remaining data.</li>
 </ol>
@@ -756,7 +810,10 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 
 <footer class="foot">
   <span class="copy">© Bustro · Singapore</span>
-  <a href="terms.html">Terms &amp; Conditions <span class="arrow">→</span></a>
+  <nav class="links" aria-label="Related pages">
+    <a href="index.html">Help Center</a>
+    <a href="terms-v2.html">Terms &amp; Conditions <span class="arrow">→</span></a>
+  </nav>
 </footer>
 
 </div>
