@@ -512,8 +512,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
   </div>
   <h1>Privacy Policy</h1>
   <div class="meta-strip">
-    <span class="chip"><span class="label">Updated</span>16 July 2026</span>
-    <span class="chip neutral"><span class="label">Effective</span>16 July 2026</span>
+    <span class="chip"><span class="label">Updated</span>2 August 2026</span>
+    <span class="chip neutral"><span class="label">Effective</span>2 August 2026</span>
     <span class="chip brand">Singapore · PDPA</span>
   </div>
   <div class="rule"></div>
@@ -644,11 +644,21 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <ul>
 <li>Your name, email address, phone number, photos, contacts, microphone, camera, or health data.</li>
 <li>Your location while the App and widget are not in use (the only exception is during an active Alight Reminder, and even then your location stays on your device — see §1.1).</li>
-<li>Your search queries — these are processed locally on your device against bus-stop and bus-service data already on the device.</li>
+<li>Your search queries by name, code, or service number — these are processed locally on your device against bus-stop and bus-service data already on the device. (A postal-code search is the one exception — see §1.10.)</li>
 <li>Browsing or usage data from other apps. We do not use the App Tracking Transparency (ATT) tracking permission.</li>
 <li>Any payment information — Bustro is free and contains no in-app purchases or advertising.</li>
 </ul>
 <p>We do not send marketing or commercial electronic messages. Push notifications carry only the operational alerts and Commute Feed updates you have opted in to, and Bustro does not engage in any activity subject to the Spam Control Act 2007.</p>
+
+<h3><span class="sub">1.10</span>Postal code search and search history</h3>
+<table class="defs">
+<tbody>
+<tr><th scope="row">What</th><td>When you search by postal code, the 6-digit code you type is sent to <strong>Apple's <code>CLGeocoder</code></strong> to resolve it to a location — this is the one search input that leaves your device. Separately, the bus stops and services you select from Search (including postal-code results) are kept in a local history, with the time of each selection.</td></tr>
+<tr><th scope="row">Why</th><td>Postal-code lookup: to find the bus stops nearest that address. Search history: to show your recent selections and favourites at the top of Search, so you can find them again in one tap.</td></tr>
+<tr><th scope="row">Storage</th><td>Postal-code lookups are not stored by us — Apple's geocoding privacy practices apply to that request. Search history is stored locally on your device only (<code>UserDefaults</code>), capped at 10 entries, not synced via iCloud, and never sent to our servers.</td></tr>
+<tr><th scope="row">Control</th><td>Swipe to remove a single history entry, or use &quot;Clear All&quot; in Search to erase your history. Uninstalling the App also clears it.</td></tr>
+</tbody>
+</table>
 </section>
 
 <section class="s" id="s2">
@@ -694,6 +704,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>BusRouter SG</td><td>data.busrouter.sg</td><td>Only an API key (no user data)</td><td>Bus route geometry</td><td>Singapore</td></tr>
 <tr><td>Singapore Government data.gov.sg</td><td>Government Technology Agency of Singapore</td><td>Only an API key (no user data)</td><td>Weather, rainfall, lightning, air quality, temperature — fetched in bulk for all of Singapore; the relevant zone for your location is selected on your device</td><td>Singapore</td></tr>
 <tr><td>Apple Maps / Google Maps</td><td>Apple Inc. / Google LLC</td><td>Stop coordinates when you tap &quot;Get Directions&quot;</td><td>External directions</td><td>Per provider</td></tr>
+<tr><td>Apple <code>CLGeocoder</code></td><td>Apple Inc.</td><td>The postal code you type in Search</td><td>Resolve a postal code to a location for bus stop search</td><td>Apple infrastructure</td></tr>
 </tbody>
 </table>
 </div>
@@ -721,6 +732,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Firebase Analytics events</td><td>14 months</td></tr>
 <tr><td>Crashlytics records</td><td>90 days (Google default)</td></tr>
 <tr><td>Email correspondence with us</td><td>Up to 24 months for support and dispute-resolution purposes</td></tr>
+<tr><td>Search history</td><td>Until you clear it, remove an entry, or delete the App — capped at 10 entries</td></tr>
 </tbody>
 </table>
 </section>
