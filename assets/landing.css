@@ -1,0 +1,116 @@
+/* Shared by index.html (served at /) and 404.html (served for every unmatched path).
+   GitHub Pages fixes both filenames and offers no rewrites, so the same page has to exist twice —
+   this keeps it one set of styles. The help and legal pages keep their own inline CSS. */
+
+:root {
+    color-scheme: light dark;
+    --bg: #F2F2F7;
+    --label: #1C1C1E;
+    --secondary: #6E6E73;
+    --green: #85C71F;        /* BsBusGreen */
+    --on-green: #152900;     /* dark green text on BsBusGreen fills */
+    --accent: #4E7712;       /* SGBus shade for text on light */
+    --hairline: rgba(60, 60, 67, 0.16);
+}
+
+@media (prefers-color-scheme: dark) {
+    :root {
+        --bg: #000000;
+        --label: #F2F2F7;
+        --secondary: #98989E;
+        --accent: #A5DB55;
+        --hairline: rgba(84, 84, 88, 0.5);
+    }
+}
+
+* { box-sizing: border-box; }
+
+body {
+    margin: 0;
+    min-height: 100vh;
+    display: flex;
+    flex-direction: column;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    font-size: 1.0625rem;
+    line-height: 1.55;
+    color: var(--label);
+    background: var(--bg);
+    -webkit-font-smoothing: antialiased;
+}
+
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+main {
+    flex: 1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 24px;
+}
+
+.hero {
+    max-width: 460px;
+    text-align: center;
+}
+
+.hero-otti { width: 148px; height: auto; }
+
+.hero h1 {
+    font-size: 2.25rem;
+    font-weight: 700;
+    letter-spacing: -0.02em;
+    margin: 16px 0 8px;
+}
+
+.hero .tagline {
+    color: var(--secondary);
+    margin: 0 0 32px;
+}
+
+.appstore {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    background: var(--green);
+    color: var(--on-green);
+    font-weight: 600;
+    padding: 15px 24px;
+    border-radius: 14px;
+}
+
+.appstore:hover { text-decoration: none; filter: brightness(1.04); }
+
+.help {
+    margin: 28px 0 0;
+    padding-top: 24px;
+    border-top: 1px solid var(--hairline);
+    font-size: 0.9375rem;
+    color: var(--secondary);
+}
+
+.help a { font-weight: 600; }
+
+.langs {
+    margin: 12px 0 0;
+    font-size: 0.875rem;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px 14px;
+    justify-content: center;
+}
+
+footer {
+    padding: 24px;
+    text-align: center;
+    font-size: 0.875rem;
+    color: var(--secondary);
+}
+
+footer a { margin: 0 10px; }
+
+@media (max-width: 480px) {
+    .hero h1 { font-size: 1.875rem; }
+    .hero-otti { width: 121px; }
+}

@@ -1,0 +1,1054 @@
+<!DOCTYPE html>
+<html lang="zh-Hans">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="description" content="新加坡最智能的巴士出行助手：实时到站、下车提醒、行程跟踪">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F2F2F7">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+    <title>Bustro 支持 - 新加坡巴士应用</title>
+    <style>
+        /* ---- Bustro design tokens (from the app's asset catalogs) ---- */
+        :root {
+            color-scheme: light dark;
+            --bg: #F2F2F7;
+            --card: #FFFFFF;
+            --label: #1C1C1E;
+            --secondary: #6E6E73;
+            --separator: rgba(60, 60, 67, 0.14);
+            --row-hover: rgba(120, 120, 128, 0.08);
+            --green: #85C71F;        /* BsBusGreen */
+            --on-green: #152900;     /* dark green text on BsBusGreen fills */
+            --accent: #4E7712;       /* SGBus shade for text on light */
+            --green-soft: rgba(133, 199, 31, 0.16);
+            --chip-bg: rgba(120, 120, 128, 0.12);
+            --nav-bg: rgba(242, 242, 247, 0.85);
+            --shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
+        }
+
+        @media (prefers-color-scheme: dark) {
+            :root {
+                --bg: #000000;
+                --card: #1C1C1E;
+                --label: #F2F2F7;
+                --secondary: #98989E;
+                --separator: rgba(84, 84, 88, 0.65);
+                --row-hover: rgba(120, 120, 128, 0.16);
+                --accent: #A5DB55;
+                --green-soft: rgba(133, 199, 31, 0.24);
+                --chip-bg: rgba(120, 120, 128, 0.26);
+                --nav-bg: rgba(0, 0, 0, 0.8);
+                --shadow: none;
+            }
+        }
+
+        * { box-sizing: border-box; }
+
+        html { scroll-behavior: smooth; }
+
+        body {
+            margin: 0;
+            font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+            font-size: 1.0625rem;
+            line-height: 1.55;
+            color: var(--label);
+            background: var(--bg);
+            -webkit-font-smoothing: antialiased;
+        }
+
+        a { color: var(--accent); text-decoration: none; }
+        a:hover { text-decoration: underline; }
+        strong { font-weight: 600; }
+
+        /* ---- Hero ---- */
+        .hero {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 52px 20px 4px;
+            text-align: center;
+        }
+
+        .hero-otti { width: 150px; height: auto; }
+
+        .hero h1 {
+            font-size: 2.125rem;
+            font-weight: 700;
+            letter-spacing: -0.022em;
+            margin: 14px 0 8px;
+        }
+
+        .hero .subtitle {
+            color: var(--secondary);
+            font-size: 1.0625rem;
+            margin: 0 auto 24px;
+            max-width: 32em;
+        }
+
+        .langs {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 8px;
+            justify-content: center;
+            margin-bottom: 8px;
+        }
+
+        .langs a, .langs .current {
+            padding: 6px 14px;
+            border-radius: 100px;
+            font-size: 0.9375rem;
+            font-weight: 500;
+            background: var(--chip-bg);
+            color: var(--label);
+        }
+
+        .langs a:hover { text-decoration: none; background: var(--row-hover); }
+
+        .langs .current {
+            background: var(--green-soft);
+            color: var(--accent);
+            font-weight: 600;
+        }
+
+        /* ---- Sticky topic bar (echoes the app's filter chips) ---- */
+        .topics {
+            position: sticky;
+            top: 0;
+            z-index: 10;
+            margin-top: 20px;
+            background: var(--nav-bg);
+            -webkit-backdrop-filter: blur(20px);
+            backdrop-filter: blur(20px);
+            border-bottom: 0.5px solid var(--separator);
+        }
+
+        .topics-scroll {
+            display: flex;
+            gap: 8px;
+            overflow-x: auto;
+            padding: 10px 20px;
+            max-width: 680px;
+            margin: 0 auto;
+            scrollbar-width: none;
+            -webkit-overflow-scrolling: touch;
+        }
+
+        .topics-scroll::-webkit-scrollbar { display: none; }
+
+        .chip {
+            flex: none;
+            padding: 7px 14px;
+            border-radius: 100px;
+            background: var(--chip-bg);
+            color: var(--label);
+            font-size: 0.9375rem;
+            font-weight: 500;
+            white-space: nowrap;
+        }
+
+        .chip:hover { text-decoration: none; }
+
+        .chip.active {
+            background: var(--green);
+            color: var(--on-green);
+            font-weight: 600;
+        }
+
+        /* ---- Layout ---- */
+        main {
+            max-width: 680px;
+            margin: 0 auto;
+            padding: 4px 20px 24px;
+        }
+
+        .topic { margin-top: 40px; scroll-margin-top: 72px; }
+
+        .topic-head {
+            display: flex;
+            align-items: flex-end;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 0 4px 10px;
+        }
+
+        .topic-head h2 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            letter-spacing: -0.017em;
+            margin: 0;
+        }
+
+        .topic-otti { width: 42px; height: 42px; }
+
+        .lede {
+            color: var(--secondary);
+            font-size: 0.9375rem;
+            margin: 0 4px 14px;
+        }
+
+        /* ---- Feature cards ---- */
+        .features {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 10px;
+        }
+
+        .feature {
+            background: var(--card);
+            border-radius: 16px;
+            padding: 14px 16px;
+            box-shadow: var(--shadow);
+        }
+
+        .feature h3 {
+            margin: 0 0 4px;
+            font-size: 0.9375rem;
+            font-weight: 600;
+            color: var(--accent);
+        }
+
+        .feature p {
+            margin: 0;
+            font-size: 0.8125rem;
+            line-height: 1.45;
+            color: var(--secondary);
+        }
+
+        /* ---- FAQ groups (inset grouped list, like the app) ---- */
+        .group {
+            background: var(--card);
+            border-radius: 20px;
+            box-shadow: var(--shadow);
+            overflow: hidden;
+        }
+
+        .qa + .qa { border-top: 0.5px solid var(--separator); }
+
+        .qa-q {
+            display: flex;
+            width: 100%;
+            align-items: center;
+            justify-content: space-between;
+            gap: 12px;
+            padding: 14px 16px;
+            background: none;
+            border: 0;
+            font: inherit;
+            font-weight: 600;
+            color: var(--label);
+            text-align: left;
+            cursor: pointer;
+        }
+
+        .qa-q:hover { background: var(--row-hover); }
+
+        .chev {
+            flex: none;
+            width: 18px;
+            height: 18px;
+            color: var(--green);
+            transition: transform 0.3s ease;
+        }
+
+        .qa.open .chev { transform: rotate(180deg); }
+
+        .qa-a {
+            display: grid;
+            grid-template-rows: 0fr;
+            transition: grid-template-rows 0.3s ease;
+        }
+
+        .qa-a-inner { overflow: hidden; min-height: 0; }
+
+        .qa.open .qa-a { grid-template-rows: 1fr; }
+
+        .qa-body {
+            padding: 2px 16px 16px;
+            font-size: 0.9375rem;
+        }
+
+        .qa-body > :first-child { margin-top: 0; }
+        .qa-body > :last-child { margin-bottom: 0; }
+        .qa-body p { margin: 8px 0; }
+        .qa-body ul, .qa-body ol { padding-left: 22px; margin: 8px 0; }
+        .qa-body li { margin: 4px 0; }
+        .qa-body small { color: var(--secondary); }
+
+        /* ---- Contact ---- */
+        .contact-card {
+            background: var(--card);
+            border-radius: 20px;
+            padding: 22px 20px;
+            box-shadow: var(--shadow);
+        }
+
+        .contact-head {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            gap: 16px;
+        }
+
+        .contact-head h2 {
+            font-size: 1.375rem;
+            font-weight: 700;
+            letter-spacing: -0.017em;
+            margin: 0 0 6px;
+        }
+
+        .contact-otti { width: 76px; height: auto; flex: none; }
+
+        .contact-meta {
+            list-style: none;
+            padding: 0;
+            margin: 0 0 16px;
+            color: var(--secondary);
+            font-size: 0.9375rem;
+        }
+
+        .contact-meta li { margin: 2px 0; }
+
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            background: var(--green);
+            color: var(--on-green);
+            font-weight: 600;
+            font-size: 1.0625rem;
+            padding: 12px 20px;
+            border-radius: 14px;
+        }
+
+        .btn:hover { text-decoration: none; filter: brightness(1.04); }
+
+        .contact-card h3 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            margin: 22px 0 6px;
+        }
+
+        .contact-card ul {
+            padding-left: 22px;
+            margin: 0 0 12px;
+            font-size: 0.9375rem;
+        }
+
+        .contact-card li { margin: 4px 0; }
+
+        .contact-card .tip {
+            font-size: 0.9375rem;
+            color: var(--secondary);
+            margin: 0;
+        }
+
+        /* ---- Footer ---- */
+        footer {
+            border-top: 0.5px solid var(--separator);
+            margin-top: 48px;
+            padding: 24px 20px 48px;
+            text-align: center;
+        }
+
+        .legal {
+            display: flex;
+            gap: 24px;
+            justify-content: center;
+            margin-bottom: 14px;
+        }
+
+        .legal a { font-size: 0.9375rem; font-weight: 600; }
+
+        .fineprint {
+            color: var(--secondary);
+            font-size: 0.8125rem;
+            margin: 2px 0;
+        }
+
+        /* ---- Small screens ---- */
+        @media (max-width: 640px) {
+            .hero { padding-top: 40px; }
+            .hero-otti { width: 128px; }
+            .hero h1 { font-size: 1.75rem; }
+            .hero .subtitle { font-size: 1rem; }
+
+            .features {
+                grid-template-columns: none;
+                grid-auto-flow: column;
+                grid-auto-columns: 76%;
+                overflow-x: auto;
+                scroll-snap-type: x mandatory;
+                margin: 0 -20px;
+                padding: 0 20px 8px;
+                scrollbar-width: none;
+            }
+
+            .features::-webkit-scrollbar { display: none; }
+            .feature { scroll-snap-align: start; }
+
+            .topic { margin-top: 32px; }
+            .contact-otti { width: 64px; }
+            .btn { width: 100%; justify-content: center; }
+        }
+    </style>
+</head>
+<body>
+    <header class="hero">
+        <img class="hero-otti" src="assets/otti-bus-stop.png" srcset="assets/otti-bus-stop@2x.png 2x, assets/otti-bus-stop@3x.png 3x" alt="" width="121" height="83">
+        <h1>Bustro 支持</h1>
+        <p class="subtitle">新加坡最智能的巴士出行助手：实时到站、下车提醒、行程跟踪</p>
+        <nav class="langs" aria-label="语言">
+            <a href="help.html">English</a>
+            <a href="help.ms.html">Bahasa Melayu</a>
+            <a href="help.ta.html">தமிழ்</a>
+            <span class="current">简体中文</span>
+        </nav>
+    </header>
+
+    <nav class="topics" aria-label="主题">
+        <div class="topics-scroll">
+            <a class="chip active" href="#features">功能</a>
+            <a class="chip" href="#getting-started">快速上手</a>
+            <a class="chip" href="#alight-reminder">下车提醒与行程跟踪</a>
+            <a class="chip" href="#favourites-widget-map">收藏、小组件与地图</a>
+            <a class="chip" href="#weather-feed-mrt">天气、通勤动态与地铁</a>
+            <a class="chip" href="#settings-feedback">设置、语言与反馈</a>
+            <a class="chip" href="#troubleshooting">疑难解答</a>
+            <a class="chip" href="#singapore">新加坡本地信息</a>
+            <a class="chip" href="#contact">联系</a>
+        </div>
+    </nav>
+
+    <main>
+        <section class="topic" id="features" data-topic>
+            <div class="topic-head">
+                <h2>Bustro 能做什么</h2>
+            </div>
+            <p class="lede"><strong>欢迎使用 Bustro！</strong>获取新加坡各站点的实时巴士到站信息，设置<strong>下车提醒</strong>再也不会坐过站，在锁定屏幕和灵动岛上查看实时到站倒计时，并用<strong>我的行程</strong>保存常用路线。在互动地图上探索附近站点，通过 iCloud 在多台设备间同步收藏，查看新加坡实时天气，并通过通勤动态及时了解服务变动。应用提供英文、马来文、泰米尔文和简体中文四种语言。</p>
+            <div class="features">
+                <article class="feature">
+                    <h3>实时到站</h3>
+                    <p>来自新加坡陆路交通管理局（LTA）的实时到站信息，包含车型、轮椅无障碍和乘客拥挤度指示</p>
+                </article>
+                <article class="feature">
+                    <h3>下车提醒</h3>
+                    <p>在到达下车站点前收到提醒，锁定屏幕和灵动岛上实时显示倒计时</p>
+                </article>
+                <article class="feature">
+                    <h3>跟踪到站</h3>
+                    <p>实时倒计时显示巴士何时到站，约 5 分钟前和即将进站时各提醒一次</p>
+                </article>
+                <article class="feature">
+                    <h3>我的行程</h3>
+                    <p>保存常坐的路线，下次一键重新启用</p>
+                </article>
+                <article class="feature">
+                    <h3>智能定位</h3>
+                    <p>在可自定义的半径范围内（100 米 – 1 公里）按距离查找附近巴士站</p>
+                </article>
+                <article class="feature">
+                    <h3>扫描站点</h3>
+                    <p>将相机对准巴士站牌即可打开该站点，可读取二维码或印在上面的 5 位站点编号</p>
+                </article>
+                <article class="feature">
+                    <h3>自定义收藏</h3>
+                    <p>为站点设置个性化名称、图标和颜色，通过 iCloud 同步，并支持主屏幕小组件</p>
+                </article>
+                <article class="feature">
+                    <h3>实时天气</h3>
+                    <p>新加坡政府天气数据：2 小时预报、降雨、闪电警报、空气质量和气温</p>
+                </article>
+                <article class="feature">
+                    <h3>通勤动态</h3>
+                    <p>LTA 官方服务警报、Bustro 团队公告和乘客动态，尽在同一信息流</p>
+                </article>
+                <article class="feature">
+                    <h3>交通与事件</h3>
+                    <p>实时 LTA 交通事件，地图上同步显示实时路况，并可订阅您关心的事件类型警报</p>
+                </article>
+                <article class="feature">
+                    <h3>地铁整合</h3>
+                    <p>互动式新加坡 MRT/LRT 线路图，采用 LTA 最新版本，地铁环线全线贯通</p>
+                </article>
+            </div>
+        </section>
+
+        <section class="topic" id="getting-started" data-topic>
+            <div class="topic-head">
+                <h2>快速上手</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>为什么看不到附近的巴士站？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>解决方法：</strong>前往 <strong>设置 > 隐私与安全性 > 定位服务 > Bustro</strong>，选择<strong>"使用 App 期间"</strong>以启用定位权限。</p>
+                <p><strong>其他检查项：</strong></p>
+                <ul>
+                    <li>确认搜索半径没有设得太小（菜单 > 设置 > 巴士站 > 搜索半径）</li>
+                    <li>确认您所在区域有巴士站（Bustro 仅覆盖新加坡）</li>
+                    <li>如果定位是在室内获取的，请到室外或稍等片刻以获得新的 GPS 定位</li>
+                </ul>
+                <p>注意：您的位置仅在设备上处理，用于显示附近站点和步行距离，绝不会发送到我们的服务器。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>如何更改附近站点的搜索半径？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>自定义搜索范围：</strong></p>
+                <ol>
+                    <li>打开菜单，进入<strong>设置 > 巴士站</strong></li>
+                    <li>在"附近站点"下选择<strong>搜索半径</strong>，范围为 100 米至 1,000 米（默认 300 米）</li>
+                    <li>更改会立即应用到附近站点列表和地图</li>
+                </ol>
+                <p><strong>提示：</strong>同一面板中还有收藏站点相关选项："在主页显示"和"自动选择附近收藏站点"（在您移动时自动选中离您最近的收藏站点）。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>可以扫描巴士站，而不用输入站点编号吗？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>可以。</strong>长按主屏幕上的搜索按钮并选择<strong>扫描搜索</strong>，或在搜索页内打开扫描器。将相机对准巴士站牌，Bustro 会读取二维码或印在上面的 5 位站点编号，然后打开该站点。</p>
+                <ul>
+                    <li>只读取画面取景框内的内容，因此票价表和旁边的指示牌都会被忽略</li>
+                    <li>若扫描到的站点距离你超过 2&nbsp;公里，Bustro 会先询问再打开，这通常表示你扫到的是海报而不是站牌</li>
+                    <li>若编号与任何站点都不匹配，你可以重新扫描，或改用手动搜索</li>
+                </ul>
+                <p>相机只在扫描器打开时使用。不会拍照、保存或上传任何内容，识别完全在你的设备上完成。若你此前拒绝了相机权限，可在 <strong>Settings > Privacy &amp; Security > Camera > Bustro</strong> 中开启。</p>
+                <p>不支持扫描的设备不会显示这个选项。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>可以按邮政编码搜索巴士站吗？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>可以。</strong>在搜索栏中输入任意 6 位新加坡邮政编码，即可按距离查看该地址附近的巴士站。</p>
+                <p>如果编码无法识别，或该地址 1&nbsp;公里范围内没有巴士站，Bustro 会清楚说明原因，而不是显示一个空列表。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Bustro 会记住我最近的搜索吗？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>会。搜索会在本地保留一份简短的历史记录，包含你最近选择过的站点和线路（也包括通过邮政编码搜索到的结果），这样下次打开搜索时它们就在那里，一点即达。</p>
+                <ul>
+                    <li>最多保留 <strong>10 条最近记录</strong>，按最新排在最前</li>
+                    <li>你<strong>最常用的 5 个收藏站点</strong>会与历史记录一起显示</li>
+                    <li><strong>滑动</strong>可移除某条历史记录，或使用<strong>"全部清除"</strong>重置历史</li>
+                </ul>
+                <p>搜索历史只保存在你的设备上，不会通过 iCloud 同步。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>巴士到站时间准确吗？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>回答：</strong>准确！到站数据直接来自新加坡陆路交通管理局（LTA）DataMall 的实时接口。受路况影响时间可能略有偏差，但我们始终显示当前可用的最新信息。</p>
+                <p><strong>数据包括：</strong></p>
+                <ul>
+                    <li>车型指示（单层、双层或铰接巴士）</li>
+                    <li>轮椅无障碍状态</li>
+                    <li>乘客拥挤度</li>
+                    <li>精确的到站预测（"即将到站"、"2 分钟"等）</li>
+                </ul>
+                <p><strong>刷新频率：</strong>在<strong>菜单 > 设置 > 巴士到站 > 刷新间隔</strong>中选择实时到站的刷新频率，从 15 秒到 2 分钟（默认 30 秒）。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>乘客拥挤度指示是什么意思？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>每辆即将到站的巴士都会显示拥挤度指示：</p>
+                <ul>
+                    <li><strong>有座位：</strong>座位充足</li>
+                    <li><strong>有站位：</strong>座位有限，但站立空间宽松</li>
+                    <li><strong>有限站位：</strong>车内拥挤，站立空间有限</li>
+                    <li><strong>未报告：</strong>该巴士未报告拥挤度，暂无数据</li>
+                </ul>
+                <p>到站卡片还会显示车型（单层，或双层/铰接巴士）以及该车是否轮椅无障碍。</p>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="alight-reminder" data-topic>
+            <div class="topic-head">
+                <h2>下车提醒与行程跟踪</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>什么是下车提醒？如何设置？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>下车提醒</strong>会全程关注您的乘车过程，在到站前提醒您，您可以放心休息、看书甚至打个盹，不怕坐过站。</p>
+                <p><strong>设置方法：</strong></p>
+                <ol>
+                    <li>打开巴士服务的路线页面，或长按到站卡片</li>
+                    <li>点按<strong>"提醒下车"</strong></li>
+                    <li>在<strong>查看行程</strong>面板中选择您要下车的站点</li>
+                    <li>可选：开启<strong>"保存此行程"</strong>将其加入我的行程</li>
+                    <li>点按<strong>"设置提醒"</strong></li>
+                </ol>
+                <p><strong>您将获得：</strong></p>
+                <ul>
+                    <li><strong>锁定屏幕和灵动岛上的实时倒计时：</strong>无需解锁手机</li>
+                    <li><strong>两阶段提醒</strong>：先是"准备下车"的预先提示，临近站点时再收到"该下车了！"提醒，即使手机锁定也能送达</li>
+                    <li>应用内的<strong>可滑动状态页</strong>：候车时显示即将到站的班次，上车后显示实时路线进度</li>
+                </ul>
+                <p>即使在同一条路双向行驶的环形路线上，下车提醒也能可靠工作。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>下车提醒需要哪些权限？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>要获得完整体验，下车提醒会请求两项权限：</p>
+                <ul>
+                    <li><strong>通知：</strong>用于发送"准备下车"和"该下车了"提醒</li>
+                    <li><strong>定位（"始终"）：</strong>让 Bustro 在应用处于后台或手机锁定时也能持续跟进行程，并在临近站点时唤醒手机</li>
+                </ul>
+                <p><strong>隐私说明：</strong></p>
+                <ul>
+                    <li>后台定位<strong>仅在提醒生效期间</strong>运行，行程结束后立即停止</li>
+                    <li>您的位置完全在设备上处理，绝不会发送到我们的服务器</li>
+                </ul>
+                <p>如果您不想授予"始终"定位权限，也可以使用下车提醒，只需在乘车期间保持 Bustro 打开；没有后台权限时，切换应用或锁定手机会使提醒停止。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>如何在锁定屏幕上跟踪巴士到站？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>跟踪到站</strong>会启动一个实时活动，倒计时显示您的巴士何时到达站点。</p>
+                <p><strong>开始方法：</strong></p>
+                <ol>
+                    <li>长按任意到站卡片（主页列表或站点详情中），或使用站点详情/路线页面上的服务行</li>
+                    <li>点按<strong>"跟踪到站"</strong></li>
+                    <li>在确认面板中核对行程，然后点按<strong>"开始跟踪"</strong></li>
+                </ol>
+                <p><strong>您将获得：</strong></p>
+                <ul>
+                    <li>锁定屏幕和灵动岛上的<strong>实时倒计时</strong>，包括乘客拥挤度以及该车是否有 GPS 实时定位</li>
+                    <li><strong>临近提醒：</strong>巴士距离约 5 分钟时提醒一次，即将进站时再提醒一次</li>
+                    <li>巴士到站后跟踪会<strong>自动结束</strong></li>
+                </ul>
+                <p><strong>提前停止：</strong>点按应用内的跟踪胶囊，选择<strong>"停止跟踪"</strong>。一次只能跟踪一趟到站，开始新的跟踪会替换当前跟踪；为其他行程设置下车提醒也会结束正在进行的跟踪。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>我的行程如何使用？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>我的行程</strong>可保存您常坐的巴士路线，下次一键重新启用。</p>
+                <ul>
+                    <li><strong>保存行程：</strong>设置下车提醒时开启<strong>"保存此行程"</strong></li>
+                    <li><strong>重新启用：</strong>打开<strong>菜单 > 我的行程</strong>，点按已保存的行程，该行程的下车提醒会重新生效</li>
+                    <li><strong>重命名：</strong>在行程上向左轻扫并点按铅笔图标，起一个好记的名字（如"家 → 公司"）</li>
+                    <li><strong>删除：</strong>向左轻扫并点按移除</li>
+                    <li><strong>结束进行中的行程：</strong>正在进行的行程会显示"结束行程"操作，用于停止其下车提醒</li>
+                </ul>
+                <p>已保存的行程会与您的收藏一起通过 iCloud 在多台设备间同步。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>巴士路线页面有什么新变化？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>3.0.0 重新设计了路线页面，浏览更高效：</p>
+                <ul>
+                    <li><strong>乘车时间估算：</strong>查看到达每个站点及目的地的预计时间</li>
+                    <li><strong>可折叠的已过站点：</strong>已经过的站点自动折叠，直接聚焦前方站点</li>
+                    <li><strong>全新的页头和站点卡片</strong>，附带实时到站信息</li>
+                    <li>可直接在路线页面设置<strong>下车提醒</strong>或开始<strong>跟踪到站</strong></li>
+                </ul>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="favourites-widget-map" data-topic>
+            <div class="topic-head">
+                <h2>收藏、小组件与地图</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>如何添加和管理收藏站点？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>添加方法：</strong></p>
+                <ol>
+                    <li>点按任意巴士站打开详情</li>
+                    <li>点按工具栏中的心形图标（♡）</li>
+                    <li>设置个性化名称、图标和颜色</li>
+                </ol>
+                <p><strong>管理方法：</strong>打开<strong>菜单 > 收藏站点</strong>，您可以：</p>
+                <ul>
+                    <li>使用排序按钮<strong>重新排序</strong>收藏</li>
+                    <li><strong>编辑</strong>收藏的名称、图标或颜色（向左轻扫 > 编辑）</li>
+                    <li><strong>移除</strong>不再需要的收藏（向左轻扫 > 移除）</li>
+                </ul>
+                <p>您的自定义颜色和图标会随站点出现在各处：地图上、附近收藏卡片中以及主屏幕小组件上。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>iCloud 同步如何工作？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>自动同步：</strong>您的收藏站点（包括自定义名称、颜色和图标）、固定的服务以及已保存的行程，都会通过您的个人 iCloud 在所有 Apple 设备间同步。</p>
+                <p><strong>设置：</strong></p>
+                <ol>
+                    <li>在所有设备上登录 iCloud</li>
+                    <li>一切都会在后台自动同步</li>
+                    <li>更改会在几分钟内出现在其他设备上</li>
+                </ol>
+                <p><strong>同步问题排查：</strong></p>
+                <ul>
+                    <li>检查 iOS 设置 > [您的姓名] > iCloud 中的 iCloud 设置</li>
+                    <li>确保网络连接正常</li>
+                    <li>尝试开关飞行模式以刷新同步</li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>如何使用主屏幕小组件？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>收藏站点</strong>小组件可在主屏幕或锁定屏幕上直接显示收藏站点的实时到站信息，提供小号和中号两种尺寸。</p>
+                <p><strong>设置：</strong></p>
+                <ol>
+                    <li>长按主屏幕，添加 Bustro 小组件</li>
+                    <li>长按小组件 > <strong>编辑小组件</strong>选择一个收藏站点，或开启<strong>"使用最近站点"</strong>始终显示离您最近的收藏站点</li>
+                </ol>
+                <p><strong>功能：</strong></p>
+                <ul>
+                    <li>实时到站时间及乘客拥挤度，按时间线自动刷新</li>
+                    <li><strong>刷新按钮</strong>可立即获取最新到站信息</li>
+                    <li>箭头可在收藏站点间<strong>切换</strong>（选定特定站点时）</li>
+                    <li>在"编辑小组件"中开启<strong>"仅显示已固定线路"</strong>：只显示你在该站点固定的线路，而不是固定线路优先、其余线路补足</li>
+                    <li>点按小组件可直接跳转到应用中的该站点或特定服务</li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>如何在地图上查看巴士的实时位置？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>查看巴士站详情时，Bustro 可以在地图上绘制您<strong>固定</strong>的服务中正在驶来的巴士的实时位置。</p>
+                <ol>
+                    <li>打开巴士站详情</li>
+                    <li>固定您关注的服务（"固定服务"）</li>
+                    <li>已固定的服务会在地图上显示其巴士，使用每项服务的<strong>"在地图显示"</strong>开关控制显示哪些</li>
+                </ol>
+                <p>打开站点详情时，已固定到站的实时跟踪会自动开始。您可以在<strong>菜单 > 设置 > 巴士到站 > 自动跟踪巴士到站</strong>中关闭此功能。</p>
+                <p><strong>为什么只显示固定的服务？</strong>在繁忙的转换站显示所有服务会让地图杂乱不堪，固定功能让地图专注于您真正乘坐的路线。</p>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="weather-feed-mrt" data-topic>
+            <div class="topic-head">
+                <h2>天气、通勤动态与地铁</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Bustro 显示哪些天气信息？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>功能：</strong>Bustro 显示来自新加坡政府 data.gov.sg API 的实时新加坡天气，帮您决定何时出发、需要带什么。</p>
+                <p><strong>显示的信息：</strong></p>
+                <ul>
+                    <li>覆盖新加坡全部 47 个预报区域的 <strong>2 小时预报</strong></li>
+                    <li>来自全岛观测站的<strong>降雨</strong>读数</li>
+                    <li><strong>闪电警报：</strong>在户外时请注意避险</li>
+                    <li><strong>空气质量</strong>（PSI）和<strong>气温</strong>读数</li>
+                </ul>
+                <p>在天气面板中可切换<strong>"附近"</strong>和<strong>"全岛"</strong>两个标签页，还可直接在地图上查看天气分区。</p>
+                <p><small>包含来自新加坡政府 data.gov.sg API 的信息，依据 Singapore Open Data Licence 1.0 版提供。</small></p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>什么是通勤动态？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>通勤动态</strong>将三类交通信息汇聚在同一处：</p>
+                <ul>
+                    <li><strong>LTA 警报：</strong>来自 LTA 的自动服务警报（服务中断、出行提示）</li>
+                    <li><strong>管理员：</strong>来自 Bustro 团队的官方公告</li>
+                    <li><strong>用户：</strong>其他乘客发布的简短交通动态</li>
+                </ul>
+                <p><strong>筛选：</strong>使用筛选栏按<strong>全部、过去2小时、今天、管理员、用户或 LTA 警报</strong>查看，您的选择会在会话之间保留。</p>
+                <p><strong>发布：</strong>您也可以分享简短的交通动态。发布内容须经 Bustro 团队审核后才会显示，必须与新加坡公共交通相关，发布者须年满 13 岁，且内容会在 7 天后自动删除。</p>
+                <p><strong>回应：</strong>可以用<strong>赞、看到了、谢谢、有用或好笑</strong>回应任何帖子。您在更新前留下的回应会保留，现在显示为“谢谢”。</p>
+                <p><strong>交通警报：</strong>当 LTA 警报提到交通事件时，警报中会出现一个按钮，点按即可打开已按该事件类型筛选的交通状况仪表盘。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>交通状况仪表盘如何使用？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>访问方式：</strong>点按主地图界面上的交通灯按钮（与列车按钮排列在一起）即可打开交通状况仪表盘。</p>
+                <p><strong>显示内容：</strong></p>
+                <ul>
+                    <li><strong>实时 LTA 事件：</strong>事故、道路施工、道路封闭、严重拥堵、车辆故障以及天气相关的交通中断，均在地图上标注</li>
+                    <li><strong>实时路况：</strong>事件图钉下方会绘制实时拥堵情况，让您看出事件对道路的实际影响程度。只有拥堵路段会着色，通畅路段显示正常</li>
+                    <li><strong>按类别筛选：</strong>点按某个类别，即只显示该类事件。地图会根据您的筛选结果自动调整显示范围</li>
+                </ul>
+                <p><strong>警报：</strong>在仪表盘中订阅您关心的事件类别，有新事件报告时 Bustro 会通知您。</p>
+                <p><strong>在巴士站：</strong>实时路况也会显示在巴士站地图上，与实时巴士位置并列，巴士为何不动，一看便知。</p>
+                <p><small>交通事件数据由新加坡陆路交通管理局（LTA）提供。实时路况由 Apple Maps 提供。</small></p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>如何访问和使用地铁线路图？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>访问方式：</strong>点按主地图界面上的列车按钮，即可查看完整的新加坡 MRT/LRT 线路图。</p>
+                <p><strong>功能：</strong></p>
+                <ul>
+                    <li><strong>保持最新：</strong>采用 LTA 最新线路图版本，<strong>地铁环线已全线贯通</strong>，包括 Keppel（CC30）、Cantonment（CC31）和 Prince Edward Road（CC32）</li>
+                    <li><strong>互动浏览：</strong>平移和双指缩放，探索整个线路网络</li>
+                    <li><strong>高分辨率：</strong>清晰显示所有车站和线路</li>
+                    <li><strong>图例：</strong>涵盖所有 MRT 和 LRT 线路的完整图例</li>
+                    <li><strong>四种语言：</strong>线路图及其图例均提供英文、马来文、泰米尔文和简体中文版本</li>
+                    <li><strong>整合：</strong>查找地铁站附近的巴士站，轻松换乘</li>
+                </ul>
+                <p><strong>行程规划：</strong>规划巴士与地铁联程出行的理想工具。</p>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="settings-feedback" data-topic>
+            <div class="topic-head">
+                <h2>设置、语言与反馈</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Bustro 支持哪些语言？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>Bustro 3.3.0 已完整本地化为<strong>英文、马来文（Bahasa Melayu）、泰米尔文（தமிழ்）和简体中文</strong>。</p>
+                <p><strong>更改语言：</strong></p>
+                <ol>
+                    <li>打开<strong>菜单 > 设置 > 更改语言</strong></li>
+                    <li>Bustro 会打开 iOS 设置，您可在其中选择应用的首选语言</li>
+                    <li>应用会以新语言重新启动</li>
+                </ol>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>巴士数据页面有什么用？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>巴士数据</strong>（位于<strong>菜单 > 更新</strong>下）管理 Bustro 在您设备上保存的巴士站、服务和路线离线数据集。</p>
+                <ul>
+                    <li><strong>立即刷新：</strong>立即从 LTA 拉取最新的站点、服务和路线</li>
+                    <li><strong>刷新频率：</strong>选择自动刷新周期：从不、2 周、1 个月（默认）或 3 个月。周期到期后，Bustro 会在您下次打开应用时刷新数据</li>
+                </ul>
+                <p>实时到站时间与此无关，它们始终实时获取，由<strong>设置 > 巴士到站</strong>下的刷新间隔设置控制。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>如何报告错误或提出功能建议？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>前往应用菜单的<strong>支持</strong>板块：</p>
+                <ul>
+                    <li><strong>报告错误</strong>会打开一个已预先填好应用版本、iOS 版本和设备型号的简短表单，无需您自行查找。不包含任何个人数据。</li>
+                    <li><strong>功能建议</strong>会打开一个表单，告诉我们您希望看到的新功能。</li>
+                </ul>
+                <p>您也可以直接给我们发邮件，详见下方联系方式。</p>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="troubleshooting" data-topic>
+            <div class="topic-head">
+                <h2>疑难解答</h2>
+                <img class="topic-otti" src="assets/otti-toolbox.png" srcset="assets/otti-toolbox@2x.png 2x, assets/otti-toolbox@3x.png 3x" alt="" width="38" height="38">
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>实时活动没有出现在锁定屏幕或灵动岛上？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>如果下车提醒或跟踪到站的倒计时没有显示：</p>
+                <ol>
+                    <li>检查 <strong>iOS 设置 > Bustro > 实时活动</strong>是否已启用</li>
+                    <li>确认已允许 Bustro 发送通知</li>
+                    <li>实时活动会在行程结束后或较长时间后自动结束，如已过期请重新开始</li>
+                    <li>灵动岛仅在支持的 iPhone 机型上出现；其他机型的倒计时仍会显示在锁定屏幕上</li>
+                </ol>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>收不到提醒？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>如果收不到"准备下车"、"该下车了"或"巴士即将到站"提醒：</p>
+                <ul>
+                    <li>在 <strong>iOS 设置 > 通知 > Bustro</strong> 中允许通知</li>
+                    <li>检查专注模式或勿扰模式是否屏蔽了 Bustro</li>
+                    <li>要在应用处于后台时收到下车提醒，请授予<strong>"始终"</strong>定位权限，或在乘车期间保持应用打开</li>
+                    <li>提醒需要网络连接才能接收实时数据</li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>担心耗电？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>Bustro 在设计上非常注重省电：</p>
+                <ul>
+                    <li>后台定位<strong>仅在下车提醒生效期间</strong>运行，且仅在临近下车站点的最后阶段密集工作</li>
+                    <li>实时活动通过高效的推送通知更新，而不是让应用持续运行</li>
+                    <li>可以调长实时到站的<strong>刷新间隔</strong>（设置 > 巴士到站）以减少网络活动</li>
+                    <li>如果不希望地图跟踪自动开始，可关闭<strong>自动跟踪巴士到站</strong></li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>巴士时间不更新</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>解决方法：</strong></p>
+                <ul>
+                    <li>检查网络连接（WiFi 或蜂窝数据）</li>
+                    <li>尝试在 WiFi 和蜂窝数据之间切换</li>
+                    <li>检查刷新间隔设置（设置 > 巴士到站），或下拉手动刷新</li>
+                    <li>LTA 偶尔会进行维护，时间信息会自动恢复</li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>小组件不更新？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>排查方法：</strong></p>
+                <ul>
+                    <li>点按小组件上的<strong>刷新按钮</strong>立即获取最新到站信息</li>
+                    <li>iOS 会限制小组件的后台刷新频率，偶尔出现短暂延迟属于正常现象</li>
+                    <li>"使用最近站点"模式需要定位权限才能选出最近的收藏站点</li>
+                    <li>确认应用中至少保存了一个收藏站点</li>
+                </ul>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>应用崩溃或运行缓慢</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>快速解决：</strong></p>
+                <ol>
+                    <li>强制关闭应用后重新打开</li>
+                    <li>重启 iPhone</li>
+                    <li>确认已安装最新版本</li>
+                    <li>检查可用存储空间</li>
+                </ol>
+                <p>如果问题仍然存在，请使用<strong>菜单 > 报告错误</strong>。表单会自动附上您的设备信息，帮助我们更快修复问题。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>地图无法正常加载</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>排查方法：</strong></p>
+                <ul>
+                    <li>确认定位服务已启用</li>
+                    <li>检查网络连接</li>
+                    <li>尝试缩小再放大地图</li>
+                    <li>如果地图空白，请重启应用</li>
+                </ul>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="singapore" data-topic>
+            <div class="topic-head">
+                <h2>新加坡本地信息</h2>
+            </div>
+            <div class="group">
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>支持哪些巴士运营商和数据来源？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>新加坡全部巴士运营商：</strong></p>
+                <ul>
+                    <li>SBS Transit（新捷运）</li>
+                    <li>SMRT Buses</li>
+                    <li>Tower Transit Singapore</li>
+                    <li>Go-Ahead Singapore</li>
+                </ul>
+                <p><strong>数据来源：</strong></p>
+                <ul>
+                    <li><strong>LTA DataMall：</strong>实时到站、巴士站、服务和路线</li>
+                    <li><strong>BusRouter SG：</strong>地图上绘制的巴士路线几何数据</li>
+                    <li><strong>data.gov.sg：</strong>天气、降雨、闪电、空气质量和气温</li>
+                </ul>
+                <p><strong>覆盖范围：</strong>新加坡全岛 5,000 多个巴士站和 400 多条巴士服务，均提供实时到站数据。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>技术要求是什么？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p><strong>要求：</strong></p>
+                <ul>
+                    <li><strong>iOS 版本：</strong>iOS 17.0 或更高</li>
+                    <li><strong>定位服务：</strong>可选，但附近站点、步行距离和下车提醒需要</li>
+                    <li><strong>网络：</strong>实时数据需要网络连接</li>
+                    <li><strong>iCloud：</strong>可选，用于跨设备同步收藏和行程</li>
+                    <li><strong>实时活动：</strong>倒计时可在所有 iPhone 的锁定屏幕上显示；灵动岛仅在配备该功能的机型上出现</li>
+                </ul>
+                    </div></div></div>
+                </div>
+            </div>
+        </section>
+
+        <section class="topic" id="contact" data-topic>
+            <div class="contact-card">
+                <div class="contact-head">
+                    <div>
+                        <h2>仍需帮助？</h2>
+                        <ul class="contact-meta">
+                            <li><strong>回复时间：</strong>24-48 小时内</li>
+                            <li><strong>支持时间：</strong>新加坡时区（UTC+8）</li>
+                        </ul>
+                    </div>
+                    <img class="contact-otti" src="assets/otti-megaphone.png" srcset="assets/otti-megaphone@2x.png 2x, assets/otti-megaphone@3x.png 3x" alt="" width="93" height="108">
+                </div>
+                <a class="btn" href="mailto:hi@bustro.app"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><rect x="3" y="5" width="18" height="14" rx="3" stroke="currentColor" stroke-width="2"/><path d="m4 7.5 8 5.5 8-5.5" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg> hi@bustro.app</a>
+                <h3>联系支持时请提供：</h3>
+                <ul>
+                    <li>您的 iPhone 型号和 iOS 版本</li>
+                    <li>Bustro 应用版本（在菜单 > 关于中查看）</li>
+                    <li>问题的详细描述</li>
+                    <li>您已尝试过的步骤</li>
+                    <li>如有帮助请附上截图</li>
+                </ul>
+                <p class="tip"><strong>提示：</strong>应用内的<strong>报告错误</strong>表单会自动填写您的设备信息。</p>
+            </div>
+        </section>
+    </main>
+
+    <footer>
+        <div class="legal">
+            <a href="privacy.html">隐私政策</a>
+            <a href="terms.html">条款与条件</a>
+        </div>
+        <p class="fineprint">为 Bustro 3.3.0 更新 · 2026 年 8 月</p>
+        <p class="fineprint">© 2026 Bustro App. 为新加坡通勤者而造。</p>
+    </footer>
+
+    <script>
+    document.querySelectorAll('.qa-q').forEach(function (button) {
+        button.addEventListener('click', function () {
+            var open = button.parentElement.classList.toggle('open');
+            button.setAttribute('aria-expanded', open ? 'true' : 'false');
+        });
+    });
+
+    (function () {
+        var sections = Array.prototype.slice.call(document.querySelectorAll('[data-topic]'));
+        var chips = Array.prototype.slice.call(document.querySelectorAll('.topics-scroll .chip'));
+        var lastActive = null;
+        var ticking = false;
+
+        function spy() {
+            ticking = false;
+            var y = window.scrollY + 88;
+            var active = sections[0];
+            sections.forEach(function (section) {
+                if (section.offsetTop <= y) { active = section; }
+            });
+            if (active === lastActive) { return; }
+            lastActive = active;
+            var activeChip = null;
+            chips.forEach(function (chip) {
+                var match = chip.getAttribute('href') === '#' + active.id;
+                chip.classList.toggle('active', match);
+                if (match) { activeChip = chip; }
+            });
+            if (activeChip) {
+                activeChip.scrollIntoView({ block: 'nearest', inline: 'nearest' });
+            }
+        }
+
+        window.addEventListener('scroll', function () {
+            if (!ticking) { ticking = true; window.requestAnimationFrame(spy); }
+        }, { passive: true });
+        spy();
+    })();
+    </script>
+</body>
+</html>
