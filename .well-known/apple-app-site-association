@@ -1,0 +1,13 @@
+{
+  "applinks": {
+    "details": [
+      {
+        "appIDs": ["8AYR4E8CE4.com.mnkapps.citytravel.app"],
+        "components": [
+          { "/": "/stop/*", "comment": "Bus stop details" },
+          { "/": "/service/*", "comment": "Bus service route" }
+        ]
+      }
+    ]
+  }
+}
