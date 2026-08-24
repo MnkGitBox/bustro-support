@@ -4,8 +4,8 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta name="description" content="Live bus arrivals, alight reminders, and journey tracking for Singapore.">
-    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#F2F2F7">
-    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#000000">
+    <meta name="theme-color" media="(prefers-color-scheme: light)" content="#E7E7EC">
+    <meta name="theme-color" media="(prefers-color-scheme: dark)" content="#0A0A0C">
     <title>Bustro — Singapore bus arrivals</title>
 
     <!-- Read by Messages, WhatsApp and the like when someone shares this link. Absolute URLs only;
@@ -24,27 +24,146 @@
     <link rel="stylesheet" href="assets/landing.css">
 </head>
 <body>
-<main>
-    <div class="hero">
-        <img class="hero-otti" src="assets/otti-bus-stop.png" srcset="assets/otti-bus-stop@2x.png 2x, assets/otti-bus-stop@3x.png 3x" alt="" width="121" height="83">
-        <h1>Bustro</h1>
-        <p class="tagline">Live bus arrivals, alight reminders, and journey tracking for Singapore.</p>
+<div class="shell">
 
-        <a class="appstore" href="https://apps.apple.com/app/id6740473324">Download on the App Store</a>
+    <svg class="threads" viewBox="0 0 1800 1280" preserveAspectRatio="none" aria-hidden="true" focusable="false">
+        <g fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke">
+            <path d="M-40 470 C 420 330 900 300 1310 246"/>
+            <path d="M-40 690 C 460 640 980 560 1860 250"/>
+            <path d="M-40 980 C 520 900 1020 900 1180 1020"/>
+            <path d="M-40 1180 C 560 1160 1000 1180 1200 1250"/>
+            <path d="M1860 640 C 1500 660 1180 720 900 900"/>
+        </g>
+    </svg>
 
-        <!-- Builds shipped before this page existed open `/` for Help, so that has to be one tap away. -->
-        <p class="help">Already have the app? <a href="help.html">Help &amp; Support</a></p>
-        <nav class="langs" aria-label="Help in other languages">
-            <a href="help.ms.html">Bahasa Melayu</a>
-            <a href="help.ta.html">தமிழ்</a>
-            <a href="help.zh-Hans.html">简体中文</a>
+    <header class="topbar">
+        <!-- Apple's app-icon artwork element: their squircle mask plus the hairline they ship
+             with it. Links to the App Store, which is the only place the mark can usefully go. -->
+        <a class="brand" href="https://apps.apple.com/us/app/bustro-singapore-bus/id6740473324?itscg=30200&amp;itsct=apps_box_artwork&amp;mttnsubad=6740473324" aria-label="Bustro on the App Store">
+            <span class="brand-icon">
+                <img src="assets/app-icon.jpg" alt="" width="256" height="256">
+                <svg viewBox="0 0 230.5 230.5" aria-hidden="true" focusable="false">
+                    <path fill="none" stroke="#000" stroke-linejoin="round" stroke-miterlimit="1.4" stroke-opacity=".1" stroke-width="1" d="M158.2 230H64.1a320 320 0 0 1-7-.1c-5 0-10-.5-15-1.3a50.8 50.8 0 0 1-14.4-4.8 48.2 48.2 0 0 1-21-21 50.9 50.9 0 0 1-4.8-14.4 100.7 100.7 0 0 1-1.3-15v-7l-.1-8.2V64.1a320 320 0 0 1 .1-7c0-5 .5-10 1.3-15a50.7 50.7 0 0 1 4.8-14.4 48.2 48.2 0 0 1 21-21 51 51 0 0 1 14.4-4.8c5-.8 10-1.2 15-1.3a320 320 0 0 1 7 0l8.2-.1h94.1a320 320 0 0 1 7 .1c5 0 10 .5 15 1.3a52 52 0 0 1 14.4 4.8 48.2 48.2 0 0 1 21 21 50.9 50.9 0 0 1 4.8 14.4c.8 5 1.2 10 1.3 15a320 320 0 0 1 .1 7v102.3l-.1 7c0 5-.5 10-1.3 15a50.7 50.7 0 0 1-4.8 14.4 48.2 48.2 0 0 1-21 21 50.8 50.8 0 0 1-14.4 4.8c-5 .8-10 1.2-15 1.3a320 320 0 0 1-7 0l-8.2.1z" clip-rule="evenodd" vector-effect="non-scaling-stroke"/>
+                </svg>
+            </span>
+            Bustro
+        </a>
+        <!-- Builds shipped before this page existed open `/` when the user taps Help,
+             so Help has to stay reachable from the top of it. -->
+        <nav class="mainnav" aria-label="Main">
+            <a href="help.html">Help</a>
+            <a href="privacy.html">Privacy</a>
+            <a href="terms.html">Terms</a>
         </nav>
-    </div>
-</main>
+    </header>
 
-<footer>
-    <a href="privacy.html">Privacy Policy</a>
-    <a href="terms.html">Terms &amp; Conditions</a>
-</footer>
+    <div class="hero">
+        <h1 class="headline" id="headline">Never miss<br><span class="hl">your bus</span><br>again</h1>
+        <p class="lead" id="tagline">Live arrivals for every Singapore stop, a reminder before it is
+            time to alight, and your journey counting down on the Lock Screen. Weather, MRT and LTA
+            traffic alerts come along for the ride.</p>
+
+        <div class="cta">
+            <a class="badge" href="https://apps.apple.com/us/app/bustro-singapore-bus/id6740473324?itscg=30200&amp;itsct=apps_box_badge&amp;mttnsubad=6740473324">
+                <picture>
+                    <source media="(prefers-color-scheme: light)" srcset="assets/app-store-badge-black.svg">
+                    <img src="assets/app-store-badge-white.svg" alt="Download on the App Store" width="245" height="82">
+                </picture>
+            </a>
+        </div>
+
+        <p class="langs">Help in
+            <a href="help.ms.html">Bahasa Melayu</a> ·
+            <a href="help.ta.html">தமிழ்</a> ·
+            <a href="help.zh-Hans.html">简体中文</a>
+        </p>
+    </div>
+
+    <div class="proof">
+        <div class="proof-row">
+            <span class="proof-num">4.6</span>
+            <span class="proof-pill">
+                <span class="proof-stars">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false">
+                        <defs><linearGradient id="half"><stop offset="60%" stop-color="currentColor"/><stop offset="60%" class="star-empty"/></linearGradient></defs>
+                        <path fill="url(#half)" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/>
+                    </svg>
+                </span>
+            </span>
+        </div>
+        <p class="proof-label">Average rating on the App Store</p>
+    </div>
+
+        <!-- Verbatim openings of the 5-star App Store reviews, baked in so the page keeps its
+             zero external requests. Current as of 2026-08-23; refresh by hand from
+             https://itunes.apple.com/sg/rss/customerreviews/id=6740473324/sortby=mostrecent/json
+             (and the /us/ equivalent). Quotes are cut at a sentence boundary, never reworded. -->
+        <ul class="reviews" tabindex="0" aria-label="Recent App Store reviews">
+            <li class="review">
+                <div class="review-stars" role="img" aria-label="Rated 5 out of 5">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                </div>
+                <p class="review-title">Best Bus App</p>
+                <blockquote class="review-quote"><p>Beautiful updated app 👍🏼</p></blockquote>
+                <p class="review-by">L41N4D &middot; Singapore</p>
+            </li>
+            <li class="review">
+                <div class="review-stars" role="img" aria-label="Rated 5 out of 5">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                </div>
+                <p class="review-title">Makes Catching the Bus So Easy</p>
+                <blockquote class="review-quote"><p>I use this app almost daily during work. It really helps when I’m deciding when to leave the office to catch my bus.</p></blockquote>
+                <p class="review-by">PriyankaChandima &middot; Singapore</p>
+            </li>
+            <li class="review">
+                <div class="review-stars" role="img" aria-label="Rated 5 out of 5">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                </div>
+                <p class="review-title">Reliable and Convenient for Singapore Commuters</p>
+                <blockquote class="review-quote"><p>Bustro is a must-have app for anyone relying on public transport in Singapore.</p></blockquote>
+                <p class="review-by">k rajitha &middot; Singapore</p>
+            </li>
+            <li class="review">
+                <div class="review-stars" role="img" aria-label="Rated 5 out of 5">
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                    <svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path fill="currentColor" d="M12.00 0.60L14.79 8.16L22.84 8.48L16.52 13.47L18.70 21.22L12.00 16.75L5.30 21.22L7.48 13.47L1.16 8.48L9.21 8.16Z"/></svg>
+                </div>
+                <p class="review-title">Excellent Resource</p>
+                <blockquote class="review-quote"><p>Simple layout. Not inundated with ads or bugs. Timely.</p></blockquote>
+                <p class="review-by">BAS2181 &middot; United States</p>
+            </li>
+        </ul>
+
+    <div class="panel">
+    </div>
+
+    <div class="stage">
+        <picture class="hero-shot">
+            <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.webp">
+            <img src="assets/hero-dark.webp" alt="A hand holding an iPhone running Bustro: a map of Clementi with saved stops pinned, and a sheet below listing live arrivals for Opp Home — bus 52 arriving, 106 in 4 minutes, 189 in 17 minutes." width="1000" height="1276">
+        </picture>
+    </div>
+
+
+</div>
 </body>
 </html>

@@ -4,113 +4,521 @@
 
 :root {
     color-scheme: light dark;
-    --bg: #F2F2F7;
-    --label: #1C1C1E;
-    --secondary: #6E6E73;
-    --green: #85C71F;        /* BsBusGreen */
-    --on-green: #152900;     /* dark green text on BsBusGreen fills */
-    --accent: #4E7712;       /* SGBus shade for text on light */
-    --hairline: rgba(60, 60, 67, 0.16);
+
+    --page: #E7E7EC;
+    --shell: #FFFFFF;
+    --line: rgba(0, 0, 0, 0.10);
+    --ink: #0E0E12;
+    --muted: #5C5C66;
+    --faint: #6A6A74;
+
+    /* BsBusGreen is 2.1:1 on white. This is the brightest step toward it that still clears
+       3:1, the bar for the large headline highlight, the 4.6 and the focus ring. */
+    --green: #669A18;
+    --green-lite: #669A18;
+    /* Conventional review gold. It sits below 3:1 on a pale ground — unavoidable, since gold
+       is mid-luminance — which is fine here: the stars repeat a rating already given in text
+       beside them and carry their own aria-label. */
+    --star: #F5A623;
+
+    --card: #F3F3F7;         /* review card surface */
+    --pill: #F7F7FA;         /* rating pill, barely off the shell so it reads as a chip */
+    --pill-line: rgba(0, 0, 0, 0.09);
+    --star-empty: rgba(0, 0, 0, 0.18);   /* unfilled half of the last star */
+    --thread: rgba(0, 0, 0, 0.09);
+    --grain: 0.035;
+
+    /* BsBusGreen's hue at the same angle, stops and lightness as before, so the panel
+       reads at the same weight as the blue it replaces. Same in both schemes. */
+    --panel: linear-gradient(158deg, #DDF6B6 0%, #BEE77F 38%, #9ACB4E 100%);
+
+    --pad: clamp(22px, 6vw, 104px);
+    --inset: clamp(16px, 2vw, 28px);
 }
 
 @media (prefers-color-scheme: dark) {
     :root {
-        --bg: #000000;
-        --label: #F2F2F7;
-        --secondary: #98989E;
-        --accent: #A5DB55;
-        --hairline: rgba(84, 84, 88, 0.5);
+        --page: #0A0A0C;
+        --shell: #161619;
+        --line: rgba(255, 255, 255, 0.085);
+        --ink: #FFFFFF;
+        --muted: #9C9CA4;
+        --faint: #8A8A92;
+
+        --green: #85C71F;
+        --green-lite: #A9E24B;
+        --star: #FFB93E;
+
+        --card: #1C1C20;
+        --pill: #17171B;
+        --pill-line: rgba(255, 255, 255, 0.085);
+        --star-empty: rgba(255, 255, 255, 0.22);
+        --thread: rgba(255, 255, 255, 0.11);
+        --grain: 0.05;
     }
 }
 
 * { box-sizing: border-box; }
 
+html { -webkit-text-size-adjust: 100%; }
+
 body {
     margin: 0;
+    padding: clamp(0px, 4.5vw, 72px);
     min-height: 100vh;
-    display: flex;
-    flex-direction: column;
-    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Text", "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+    font-family: -apple-system, BlinkMacSystemFont, "SF Pro Display", "SF Pro Text",
+                 "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
     font-size: 1.0625rem;
     line-height: 1.55;
-    color: var(--label);
-    background: var(--bg);
+    color: var(--ink);
+    background: var(--page);
     -webkit-font-smoothing: antialiased;
 }
 
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+/* Film grain over the whole page, the way the reference sits on a photographed black. */
+body::before {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 9;
+    pointer-events: none;
+    opacity: var(--grain);
+    mix-blend-mode: overlay;
+    background-image: url("data:image/svg+xml,%3Csvg%20xmlns=%22http://www.w3.org/2000/svg%22%20width=%22300%22%20height=%22300%22%20viewBox=%220%200%20300%20300%22%3E%3Cg%20fill=%22%232C5A10%22%20fill-opacity=%22.085%22%3E%3Crect%20x=%22104%22%20y=%22106%22%20width=%2244%22%20height=%2234%22%20rx=%225%22/%3E%3Crect%20x=%22160%22%20y=%2298%22%20width=%2226%22%20height=%2250%22%20rx=%225%22/%3E%3Crect%20x=%2222%22%20y=%22122%22%20width=%2232%22%20height=%2226%22%20rx=%225%22/%3E%3Crect%20x=%22252%22%20y=%22112%22%20width=%2234%22%20height=%2242%22%20rx=%225%22/%3E%3Crect%20x=%22112%22%20y=%22246%22%20width=%2248%22%20height=%2230%22%20rx=%225%22/%3E%3Crect%20x=%2234%22%20y=%22250%22%20width=%2228%22%20height=%2228%22%20rx=%225%22/%3E%3Crect%20x=%22248%22%20y=%22252%22%20width=%2236%22%20height=%2226%22%20rx=%225%22/%3E%3Crect%20x=%22116%22%20y=%2218%22%20width=%2236%22%20height=%2228%22%20rx=%225%22/%3E%3Crect%20x=%22238%22%20y=%2214%22%20width=%2228%22%20height=%2236%22%20rx=%225%22/%3E%3Crect%20x=%22166%22%20y=%22176%22%20width=%2230%22%20height=%2230%22%20rx=%225%22/%3E%3C/g%3E%3Cg%20fill=%22none%22%20stroke=%22%23FFFFFF%22%20stroke-opacity=%22.22%22%20stroke-width=%2222%22%20stroke-linecap=%22round%22%3E%3Cpath%20d=%22M0%2075H49M101%2075H300%22/%3E%3Cpath%20d=%22M0%20225H199M251%20225H300%22/%3E%3Cpath%20d=%22M75%200V49M75%20101V300%22/%3E%3Cpath%20d=%22M225%200V199M225%20251V300%22/%3E%3Cpath%20d=%22M75%20225C75%20150%20150%2075%20225%2075%22/%3E%3Ccircle%20cx=%2275%22%20cy=%2275%22%20r=%2226%22/%3E%3Ccircle%20cx=%22225%22%20cy=%22225%22%20r=%2226%22/%3E%3C/g%3E%3Cg%20fill=%22none%22%20stroke=%22%23FFFFFF%22%20stroke-opacity=%22.36%22%20stroke-width=%222.2%22%20stroke-dasharray=%2210%2010%22%20stroke-linecap=%22round%22%3E%3Cpath%20d=%22M0%2075H49M101%2075H300%22/%3E%3Cpath%20d=%22M0%20225H199M251%20225H300%22/%3E%3Cpath%20d=%22M75%200V49M75%20101V300%22/%3E%3Cpath%20d=%22M225%200V199M225%20251V300%22/%3E%3Cpath%20d=%22M75%20225C75%20150%20150%2075%20225%2075%22/%3E%3Ccircle%20cx=%2275%22%20cy=%2275%22%20r=%2226%22/%3E%3Ccircle%20cx=%22225%22%20cy=%22225%22%20r=%2226%22/%3E%3C/g%3E%3C/svg%3E");
+}
 
-main {
-    flex: 1;
+a { color: inherit; text-decoration: none; }
+
+:focus-visible {
+    outline: 2px solid var(--green-lite);
+    outline-offset: 3px;
+    border-radius: 6px;
+}
+
+/* ── Shell ────────────────────────────────────────────────────────────────── */
+
+.shell {
+    position: relative;
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) clamp(290px, 34.5%, 700px);
+    grid-template-rows: auto 1fr auto auto;
+    min-height: calc(100vh - clamp(0px, 9vw, 144px));
+    border: 1px solid var(--line);
+    border-radius: clamp(18px, 2.4vw, 40px);
+    background: var(--shell);
+    overflow: hidden;
+}
+
+/* Hairlines sweeping the full composition, carried over from the reference layout. */
+.threads {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    color: var(--thread);
+}
+
+/* ── Top bar ──────────────────────────────────────────────────────────────── */
+
+.topbar {
+    grid-column: 1 / -1;
+    grid-row: 1;
+    z-index: 5;
     display: flex;
     align-items: center;
-    justify-content: center;
-    padding: 48px 24px;
+    gap: clamp(20px, 4.6vw, 78px);
+    padding: clamp(20px, 3.6vw, 60px) clamp(20px, 2.6vw, 44px) 0 var(--pad);
 }
 
-.hero {
-    max-width: 460px;
-    text-align: center;
-}
-
-.hero-otti { width: 148px; height: auto; }
-
-.hero h1 {
-    font-size: 2.25rem;
-    font-weight: 700;
-    letter-spacing: -0.02em;
-    margin: 16px 0 8px;
-}
-
-.hero .tagline {
-    color: var(--secondary);
-    margin: 0 0 32px;
-}
-
-.appstore {
+.brand {
     display: inline-flex;
     align-items: center;
-    justify-content: center;
+    gap: 12px;
+    font-size: clamp(1.15rem, 1.5vw, 1.5rem);
+    font-weight: 700;
+    letter-spacing: -0.02em;
+}
+
+/* Apple ships the squircle as a mask; a border-radius is not the same shape. */
+.brand-icon {
+    position: relative;
+    display: block;
+    flex: none;
+    width: clamp(28px, 2.2vw, 36px);
+    aspect-ratio: 1;
+    --app-icon-mask: url("data:image/svg+xml,%0A%3Csvg%20xmlns%3D%22http%3A%2F%2Fwww.w3.org%2F2000%2Fsvg%22%20xml%3Aspace%3D%22preserve%22%20viewBox%3D%220%200%20230.5%20230.5%22%3E%0A%20%20%3Cpath%20fill-rule%3D%22evenodd%22%20stroke-linejoin%3D%22round%22%20stroke-miterlimit%3D%221.4%22%20clip-rule%3D%22evenodd%22%20d%3D%22M158.2%20230H64.1a320%20320%200%200%201-7-.1c-5%200-10-.5-15-1.3a50.8%2050.8%200%200%201-14.4-4.8%2048.2%2048.2%200%200%201-21-21%2050.9%2050.9%200%200%201-4.8-14.4%20100.7%20100.7%200%200%201-1.3-15v-7l-.1-8.2V64.1a320%20320%200%200%201%20.1-7c0-5%20.5-10%201.3-15a50.7%2050.7%200%200%201%204.8-14.4%2048.2%2048.2%200%200%201%2021-21%2051%2051%200%200%201%2014.4-4.8c5-.8%2010-1.2%2015-1.3a320%20320%200%200%201%207%200l8.2-.1h94.1a320%20320%200%200%201%207%20.1c5%200%2010%20.5%2015%201.3a52%2052%200%200%201%2014.4%204.8%2048.2%2048.2%200%200%201%2021%2021%2050.9%2050.9%200%200%201%204.8%2014.4c.8%205%201.2%2010%201.3%2015a320%20320%200%200%201%20.1%207v102.3l-.1%207c0%205-.5%2010-1.3%2015a50.7%2050.7%200%200%201-4.8%2014.4%2048.2%2048.2%200%200%201-21%2021%2050.8%2050.8%200%200%201-14.4%204.8c-5%20.8-10%201.2-15%201.3a320%20320%200%200%201-7%200l-8.2.1z%22%2F%3E%0A%3C%2Fsvg%3E%0A");
+}
+
+.brand-icon img {
+    display: block;
     width: 100%;
-    background: var(--green);
-    color: var(--on-green);
-    font-weight: 600;
-    padding: 15px 24px;
-    border-radius: 14px;
+    height: 100%;
+    object-fit: contain;
+    -webkit-mask-image: var(--app-icon-mask);
+    mask-image: var(--app-icon-mask);
+    -webkit-mask-size: 100% 100%;
+    mask-size: 100% 100%;
 }
 
-.appstore:hover { text-decoration: none; filter: brightness(1.04); }
-
-.help {
-    margin: 28px 0 0;
-    padding-top: 24px;
-    border-top: 1px solid var(--hairline);
-    font-size: 0.9375rem;
-    color: var(--secondary);
+.brand-icon svg {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    pointer-events: none;
 }
 
-.help a { font-weight: 600; }
+.mainnav {
+    display: flex;
+    gap: clamp(18px, 3.6vw, 62px);
+    color: var(--muted);
+    font-size: clamp(0.9375rem, 1.05vw, 1.0625rem);
+}
 
-.langs {
-    margin: 12px 0 0;
-    font-size: 0.875rem;
+.mainnav a:hover { color: var(--ink); }
+
+/* ── Hero copy ────────────────────────────────────────────────────────────── */
+
+.hero {
+    grid-column: 1;
+    grid-row: 2;
+    z-index: 3;
+    /* Top-anchored, not centred: the reference leaves the gap below the copy, not above it. */
+    align-self: start;
+    padding: clamp(20px, 3.4vw, 54px) var(--pad) clamp(12px, 1.4vw, 22px);
+}
+
+.headline {
+    margin: 0;
+    font-size: clamp(2.15rem, 4.5vw, 4.5rem);
+    font-weight: 700;
+    letter-spacing: -0.037em;
+    line-height: 1.04;
+}
+
+.headline .hl { color: var(--green); font-style: normal; }
+
+.lead {
+    max-width: 38rem;
+    margin: clamp(14px, 1.6vw, 26px) 0 0;
+    color: var(--muted);
+    font-size: clamp(0.95rem, 1.05vw, 1.1rem);
+    line-height: 1.65;
+}
+
+.cta {
     display: flex;
     flex-wrap: wrap;
-    gap: 6px 14px;
-    justify-content: center;
+    gap: 16px;
+    margin-top: clamp(22px, 2.4vw, 38px);
 }
 
-footer {
-    padding: 24px;
-    text-align: center;
-    font-size: 0.875rem;
-    color: var(--secondary);
+.badge { display: inline-block; }
+
+.badge img {
+    display: block;
+    width: clamp(150px, 13.5vw, 218px);
+    height: auto;
 }
 
-footer a { margin: 0 10px; }
+.badge:hover { opacity: 0.9; }
 
-@media (max-width: 480px) {
-    .hero h1 { font-size: 1.875rem; }
-    .hero-otti { width: 121px; }
+.langs {
+    margin: clamp(14px, 1.3vw, 20px) 0 0;
+    color: var(--muted);
+    font-size: 0.9375rem;
 }
+
+.langs a { color: var(--muted); text-decoration: underline; text-underline-offset: 3px; }
+.langs a:hover { color: var(--ink); }
+
+/* ── Rating block ─────────────────────────────────────────────────────────── */
+
+.proof {
+    grid-column: 1;
+    grid-row: 3;
+    z-index: 3;
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    padding: 0 var(--pad) clamp(12px, 1.3vw, 20px);
+}
+
+.proof-row {
+    display: flex;
+    align-items: center;
+    gap: clamp(12px, 1.3vw, 22px);
+}
+
+.proof-num {
+    display: block;
+    color: var(--green-lite);
+    font-size: clamp(2.5rem, 4.8vw, 4.6rem);
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    line-height: 1;
+}
+
+
+.proof-label {
+    margin: clamp(7px, 0.7vw, 12px) 0 0;
+    font-size: clamp(0.9375rem, 1.05vw, 1.1875rem);
+    line-height: 1.35;
+}
+
+.proof-pill {
+    display: inline-flex;
+    align-items: center;
+    padding: clamp(7px, 0.75vw, 12px) clamp(13px, 1.3vw, 21px);
+    border-radius: 999px;
+    background: var(--pill);
+    border: 1px solid var(--pill-line);
+}
+
+.proof-stars {
+    display: flex;
+    gap: clamp(3px, 0.35vw, 6px);
+    color: var(--star);
+}
+
+.proof-stars svg {
+    width: clamp(16px, 1.55vw, 26px);
+    height: auto;
+    display: block;
+}
+
+/* ── Panel ────────────────────────────────────────────────────────────────── */
+
+.panel {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    z-index: 1;
+    position: relative;
+    min-height: 0;
+    margin: var(--inset) var(--inset) var(--inset) 0;
+    border-radius: clamp(16px, 1.8vw, 30px);
+    /* Road network sitting just under the surface of the gradient. */
+    background:
+        url("road-pattern.webp") center / cover no-repeat,
+        var(--panel);
+    overflow: hidden;
+}
+
+/* Same grid cell as the panel but unclipped, so the phone and hand break past the
+   panel's left edge onto the dark shell the way the reference does. */
+.stage {
+    grid-column: 2;
+    grid-row: 1 / -1;
+    z-index: 4;
+    position: relative;
+    min-height: 0;
+    margin: var(--inset) var(--inset) var(--inset) 0;
+    pointer-events: none;
+    container-type: inline-size;
+}
+
+/* Anchored to the panel's bottom and sized from its width, so the composition is
+   driven entirely by width and can't drift when the viewport's aspect changes. */
+/* Sized from the panel's WIDTH so the phone keeps a constant size, capped at the panel's
+   height so a short viewport can't clip its top. Pulled left so it breaks past the panel's
+   edge onto the dark shell, the way the reference does. */
+.hero-shot {
+    position: absolute;
+    left: -46%;
+    bottom: 0;
+    height: min(100%, 157cqw);
+    display: block;
+    filter: drop-shadow(0 24px 38px rgba(6, 18, 34, 0.42));
+}
+
+.hero-shot img {
+    display: block;
+    width: auto;
+    height: 100%;
+}
+
+/* ── Reviews ──────────────────────────────────────────────────────────────── */
+
+.reviews {
+    grid-column: 1;
+    grid-row: 4;
+    z-index: 3;
+    display: flex;
+    gap: clamp(10px, 0.9vw, 16px);
+    margin: 0 16% 0 0;
+    /* No right padding: the cards run under the fade so the row reads as scrollable. */
+    padding: 0 0 clamp(14px, 1.5vw, 24px) var(--pad);
+    list-style: none;
+    overflow-x: auto;
+    overscroll-behavior-x: contain;
+    scroll-snap-type: x proximity;
+    /* Without this the first card snaps to the scrollport edge on load, scrolling the row by
+       exactly padding-left and breaking its alignment with the copy above it. */
+    scroll-padding-left: var(--pad);
+    scrollbar-width: none;
+    -webkit-mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent 100%);
+    mask-image: linear-gradient(to right, #000 calc(100% - 64px), transparent 100%);
+}
+
+.reviews::-webkit-scrollbar { display: none; }
+
+.review {
+    flex: 0 0 clamp(210px, 16.5vw, 262px);
+    display: flex;
+    flex-direction: column;
+    scroll-snap-align: start;
+    padding: clamp(11px, 1vw, 16px) clamp(13px, 1.15vw, 19px);
+    border: 1px solid var(--line);
+    border-radius: 14px;
+    background: var(--card);
+}
+
+.review-stars {
+    display: flex;
+    gap: 2px;
+    color: var(--star);
+}
+
+.review-stars svg { width: clamp(10px, 0.8vw, 13px); height: auto; display: block; }
+
+.review-title {
+    margin: clamp(7px, 0.6vw, 11px) 0 clamp(3px, 0.3vw, 5px);
+    font-size: clamp(0.8125rem, 0.9vw, 0.9375rem);
+    font-weight: 600;
+    letter-spacing: -0.01em;
+    line-height: 1.3;
+}
+
+.review-quote {
+    margin: 0;
+    color: var(--muted);
+    font-size: clamp(0.75rem, 0.82vw, 0.875rem);
+    line-height: 1.45;
+}
+
+/* Two lines each, so a long title and a long quote still leave every card the same height. */
+.review-title,
+.review-quote p {
+    display: -webkit-box;
+    -webkit-box-orient: vertical;
+    -webkit-line-clamp: 2;
+    overflow: hidden;
+}
+
+.review-quote p { margin: 0 0 clamp(5px, 0.45vw, 8px); }
+
+/* auto top margin drops the attribution to a shared baseline across unequal cards. */
+.review-by {
+    margin: clamp(8px, 0.7vw, 13px) 0 0;
+    margin-top: auto;
+    font-size: clamp(0.6875rem, 0.72vw, 0.75rem);
+    color: var(--faint);
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* ── Entrance ─────────────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: no-preference) {
+    .topbar, .hero, .proof, .reviews, .panel, .stage {
+        animation: rise 0.7s cubic-bezier(0.22, 0.61, 0.36, 1) backwards;
+    }
+    .hero  { animation-delay: 0.06s; }
+    .panel { animation-delay: 0.12s; }
+    .stage { animation-delay: 0.12s; }
+    .proof { animation-delay: 0.18s; }
+    .reviews { animation-delay: 0.24s; }
+}
+
+@keyframes rise {
+    from { opacity: 0; transform: translateY(14px); }
+    to   { opacity: 1; transform: none; }
+}
+
+/* ── Short ────────────────────────────────────────────────────────────────── */
+
+/* The reference is a 4:3 composition. On a 16:10 laptop the same rhythm runs past the
+   fold, so the vertical spacing tightens rather than the rating block falling off it. */
+@media (min-width: 1001px) and (max-height: 1120px) {
+    .topbar { padding-top: clamp(12px, 1.4vw, 21px); }
+    .hero   { padding: clamp(14px, 2vw, 32px) var(--pad) clamp(12px, 1.4vw, 22px); }
+
+    .headline { font-size: clamp(2.05rem, 3.9vw, 3.8rem); line-height: 1.02; }
+    .lead     { margin-top: clamp(10px, 1.1vw, 18px); line-height: 1.55; }
+    .cta      { margin-top: clamp(16px, 1.7vw, 27px); }
+    .langs    { margin-top: clamp(9px, 0.9vw, 14px); }
+
+    .proof       { padding-bottom: clamp(8px, 0.9vw, 13px); }
+    .proof-num   { font-size: clamp(1.8rem, 2.3vw, 2.3rem); }
+    .proof-label { font-size: clamp(0.875rem, 0.92vw, 1rem); line-height: 1.3; }
+    .proof-pill  { padding: clamp(6px, 0.65vw, 10px) clamp(11px, 1.1vw, 18px); }
+    .proof-stars svg { width: clamp(14px, 1.35vw, 22px); }
+
+    .reviews      { padding-bottom: clamp(9px, 0.9vw, 14px); }
+    .review       { padding: clamp(8px, 0.75vw, 12px) clamp(11px, 0.95vw, 15px); }
+    /* One line of title once vertical room is tight; the quote is what earns the space. */
+    .review-title { margin-top: clamp(4px, 0.4vw, 7px); -webkit-line-clamp: 1; }
+    .review-by    { margin-top: clamp(5px, 0.45vw, 8px); }
+}
+
+@media (min-width: 1001px) and (max-height: 820px) {
+    .topbar   { padding-top: clamp(10px, 1.1vw, 16px); }
+    .hero     { padding: clamp(8px, 1.1vw, 18px) var(--pad) clamp(8px, 0.8vw, 12px); }
+    .headline { font-size: clamp(1.8rem, 3.5vw, 3.2rem); }
+    .lead     { font-size: clamp(0.9rem, 0.95vw, 1rem); margin-top: clamp(8px, 0.9vw, 14px); }
+    .cta      { margin-top: clamp(11px, 1.1vw, 17px); }
+    .langs    { margin-top: clamp(7px, 0.7vw, 11px); }
+    .proof-num  { font-size: clamp(1.6rem, 2vw, 2rem); }
+    .proof      { padding-bottom: clamp(5px, 0.6vw, 9px); }
+    .proof-label { font-size: clamp(0.8125rem, 0.86vw, 0.9375rem); }
+
+    /* One line of title at this height; the quote is what earns the space. */
+    .reviews      { padding-bottom: clamp(8px, 0.75vw, 12px); }
+    .review       { padding: clamp(8px, 0.7vw, 11px) clamp(11px, 0.9vw, 14px); }
+    .review-title { -webkit-line-clamp: 1; }
+}
+
+/* ── Narrow ───────────────────────────────────────────────────────────────── */
+
+@media (max-width: 1000px) {
+    .shell {
+        grid-template-columns: minmax(0, 1fr);
+        grid-template-rows: auto auto auto auto auto;
+    }
+
+    .topbar { grid-column: 1; grid-row: 1; padding-right: var(--pad); }
+    .hero   { grid-row: 2; }
+
+    .panel, .stage {
+        grid-column: 1;
+        grid-row: 3;
+        margin: 0 var(--pad);
+        aspect-ratio: 1 / 1.42;
+    }
+
+    .proof   { grid-row: 4; padding-top: clamp(28px, 5vw, 48px); }
+    .reviews { grid-row: 5; margin-right: 0; }
+
+    /* Stacked, the panel is full width, so the desktop overhang would run the phone off
+       the shell. Centre it on the phone instead and fit it inside the panel. */
+    .hero-shot {
+        left: 53%;
+        transform: translateX(-50%);
+        height: min(100%, 126cqw);
+    }
+
+
+
+}
+
+@media (max-width: 720px) {
+    .mainnav { display: none; }
+    .proof { flex-wrap: wrap; }
+}
+
+/* The unfilled half of the 4.6th star: it needs a different neutral per scheme, so it is
+   styled here rather than baked into the gradient stop as a presentation attribute. */
+.proof-stars .star-empty { stop-color: var(--star-empty); }
