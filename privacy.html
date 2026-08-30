@@ -512,8 +512,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
   </div>
   <h1>Privacy Policy</h1>
   <div class="meta-strip">
-    <span class="chip"><span class="label">Updated</span>2 August 2026</span>
-    <span class="chip neutral"><span class="label">Effective</span>9 August 2026</span>
+    <span class="chip"><span class="label">Updated</span>30 August 2026</span>
+    <span class="chip neutral"><span class="label">Effective</span>30 August 2026</span>
     <span class="chip brand">Singapore · PDPA</span>
   </div>
   <div class="rule"></div>
@@ -556,8 +556,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <h3><span class="sub">1.1</span>Location</h3>
 <table class="defs">
 <tbody>
-<tr><th scope="row">What</th><td>Your device's coarse and precise location, while the App or its widget is in use; and, only while an Alight Reminder is active, in the background during your ride.</td></tr>
-<tr><th scope="row">Why</th><td>To show bus stops near you, calculate walking distances, select the closest favourite stop for the Home/Lock Screen widget, and, if you set an Alight Reminder, follow your ride so we can alert you before your stop.</td></tr>
+<tr><th scope="row">What</th><td>Your device's coarse and precise location, while the App, its widget, or the Apple Watch app is in use; and, only while an Alight Reminder is active, in the background during your ride.</td></tr>
+<tr><th scope="row">Why</th><td>To show bus stops near you, calculate walking distances, select the closest favourite stop for the Home/Lock Screen widget and the Apple Watch app, and, if you set an Alight Reminder, follow your ride so we can alert you before your stop.</td></tr>
 <tr><th scope="row">When</th><td>With the <em>When In Use</em> permission, only when you have the App open or the widget on screen. The Alight Reminder feature additionally offers the <em>Always</em> permission: if you grant it, background location runs <strong>only while a reminder is active</strong> (most intensively during the final approach to your stop) and stops as soon as the ride ends. If you decline <em>Always</em>, Alight Reminder still works with the App kept open. No other feature uses background location.</td></tr>
 <tr><th scope="row">Storage</th><td>On your device only. All ride-progress calculation for Alight Reminder happens on-device. We never transmit your location to our servers, to Singapore LTA, to data.gov.sg, to Apple, or to any other third party.</td></tr>
 <tr><th scope="row">Control</th><td>iOS Settings → Privacy &amp; Security → Location Services → Bustro. The App remains functional without location, with reduced features.</td></tr>
@@ -580,7 +580,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tbody>
 <tr><th scope="row">What</th><td>Your favourite bus stops, custom labels, custom colours and icons, sort order, pinned services, and the journeys you save in <em>My Journeys</em> (boarding and alighting stops, bus service, an optional label you give the journey, and when you last used it).</td></tr>
 <tr><th scope="row">Why</th><td>To personalise the App and the widget, and to let you re-activate a saved journey in one tap.</td></tr>
-<tr><th scope="row">Storage</th><td>Locally on your device, and synced via <strong>Apple iCloud / CloudKit</strong> to your other Apple devices if you have iCloud enabled. CloudKit data is encrypted by Apple and is never visible to us. The CloudKit container holds only favourites, pinned services, and saved journeys: no Commute Feed content, no analytics, no usage history.</td></tr>
+<tr><th scope="row">Storage</th><td>Locally on your device, and synced via <strong>Apple iCloud / CloudKit</strong> to your other Apple devices if you have iCloud enabled. CloudKit data is encrypted by Apple and is never visible to us. The CloudKit container holds only favourites, pinned services, and saved journeys: no Commute Feed content, no analytics, no usage history. If you have a paired Apple Watch, your favourites and Singapore's bus stop list are also sent to it directly from your iPhone over Apple's device-to-device connection, so the watch app keeps working when your phone is out of reach. That transfer does not pass through our servers or any third party.</td></tr>
 <tr><th scope="row">Control</th><td>iOS Settings → [your name] → iCloud → Bustro.</td></tr>
 </tbody>
 </table>
@@ -670,6 +670,17 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><th scope="row">Control</th><td>iOS Settings → Privacy &amp; Security → Camera → Bustro. Declining camera access disables only the scanner; every other way of finding a stop continues to work.</td></tr>
 </tbody>
 </table>
+
+<h3><span class="sub">1.12</span>Video tutorials (YouTube)</h3>
+<table class="defs">
+<tbody>
+<tr><th scope="row">What</th><td>The list of Bustro tutorial videos is fetched from YouTube using an API key that carries no information about you. When you open a video, it plays in an embedded YouTube player inside the App, and your device contacts YouTube directly.</td></tr>
+<tr><th scope="row">Why</th><td>To show you how to use the App in video form, without leaving it.</td></tr>
+<tr><th scope="row">When</th><td>The list is fetched when you open the Video Tutorials screen. YouTube is contacted for playback only when you open a video.</td></tr>
+<tr><th scope="row">What YouTube receives</th><td>Playing a video is a direct connection from your device to Google's servers, so YouTube receives your IP address and may set or read its own cookies, exactly as it would if you opened the video in a browser. Its handling of that is governed by <strong>Google's Privacy Policy</strong>, not by ours. We do not receive, see, or store anything about which videos you watch.</td></tr>
+<tr><th scope="row">Control</th><td>Not opening a video means YouTube is never contacted. No other part of the App loads YouTube content.</td></tr>
+</tbody>
+</table>
 </section>
 
 <section class="s" id="s2">
@@ -683,6 +694,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <ul>
 <li>Show bus stops near you, calculate walking distances, and power the widget;</li>
 <li>Read a bus stop's QR code or printed stop number through the camera, on your device, to open that stop (§1.11);</li>
+<li>Show you the Bustro video tutorials, played from YouTube (§1.12);</li>
 <li>Run the Alight Reminders and arrival trackers you start, including pushing live countdown updates and alerts to your Lock Screen (§1.6);</li>
 <li>Save your favourites and journeys and sync them across your Apple devices via iCloud;</li>
 <li>Display, moderate, edit, and delete Commute Feed content you submit;</li>
@@ -716,6 +728,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>BusRouter SG</td><td>data.busrouter.sg</td><td>Only an API key (no user data)</td><td>Bus route geometry</td><td>Singapore</td></tr>
 <tr><td>Singapore Government data.gov.sg</td><td>Government Technology Agency of Singapore</td><td>Only an API key (no user data)</td><td>Weather, rainfall, lightning, air quality, temperature. Fetched in bulk for all of Singapore; the relevant zone for your location is selected on your device</td><td>Singapore</td></tr>
 <tr><td>Apple Maps / Google Maps</td><td>Apple Inc. / Google LLC</td><td>Stop coordinates when you tap &quot;Get Directions&quot;</td><td>External directions</td><td>Per provider</td></tr>
+<tr><td>YouTube Data API</td><td>Google LLC</td><td>Only an API key (no user data)</td><td>List the Bustro tutorial videos</td><td>US / EU</td></tr>
+<tr><td>YouTube embedded player</td><td>Google LLC (your device contacts YouTube)</td><td>Your IP address, plus any cookies YouTube sets, when you play a tutorial video</td><td>Play tutorial videos inside the App</td><td>Direct from your device to YouTube</td></tr>
 <tr><td>Apple <code>CLGeocoder</code></td><td>Apple Inc.</td><td>The postal code you type in Search</td><td>Resolve a postal code to a location for bus stop search</td><td>Apple infrastructure</td></tr>
 </tbody>
 </table>
