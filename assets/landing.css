@@ -603,8 +603,22 @@ a { color: inherit; text-decoration: none; }
 }
 
 @media (max-width: 720px) {
-    .mainnav { display: none; }
     .proof { flex-wrap: wrap; }
+}
+
+/* The nav is the only route to Help, Privacy and Terms anywhere on this page, and builds shipped
+   before this page existed open `/` when someone taps Help — on a phone, which is exactly where
+   it used to be hidden. So it stays at every width; below ~430px the spacing tightens instead of
+   the links going away. */
+@media (max-width: 430px) {
+    .topbar  { gap: 14px; padding-right: 16px; }
+    .mainnav { gap: 14px; }
+}
+
+/* Narrower than any current iPhone. The wordmark goes and the app icon carries the brand on its
+   own — it is the same App Store link, and .brand's aria-label names it either way. */
+@media (max-width: 359px) {
+    .brand-name { display: none; }
 }
 
 /* The unfilled half of the 4.6th star: it needs a different neutral per scheme, so it is
