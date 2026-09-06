@@ -32,6 +32,7 @@
        reads at the same weight as the blue it replaces. Same in both schemes. */
     --panel: linear-gradient(158deg, #DDF6B6 0%, #BEE77F 38%, #9ACB4E 100%);
 
+    --panel-radius: clamp(16px, 1.8vw, 30px);
     --pad: clamp(22px, 6vw, 104px);
     --inset: clamp(16px, 2vw, 28px);
 }
@@ -128,7 +129,10 @@ a { color: inherit; text-decoration: none; }
     z-index: 5;
     display: flex;
     align-items: center;
-    gap: clamp(20px, 4.6vw, 78px);
+    /* Wraps rather than overflowing: four links stop fitting beside the brand on a phone, and
+       the nav drops to a line of its own. The row gap only comes into play once it has. */
+    flex-wrap: wrap;
+    gap: 10px clamp(20px, 4.6vw, 78px);
     padding: clamp(20px, 3.6vw, 60px) clamp(20px, 2.6vw, 44px) 0 var(--pad);
 }
 
@@ -199,6 +203,23 @@ a { color: inherit; text-decoration: none; }
 }
 
 .headline .hl { color: var(--green); font-style: normal; }
+
+/* The three device leads share a single grid cell, so the block is always as tall as the
+   longest of them and the CTA below it never moves when a shorter one fades in. The margin
+   stays on .lead itself so the short-viewport overrides further down keep working. */
+.leads { display: grid; }
+
+.leads > .lead {
+    grid-area: 1 / 1;
+    align-self: start;
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(14px);
+    transition:
+        opacity 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+        transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+        visibility 0s linear 0.45s;
+}
 
 .lead {
     max-width: 38rem;
@@ -298,7 +319,7 @@ a { color: inherit; text-decoration: none; }
     position: relative;
     min-height: 0;
     margin: var(--inset) var(--inset) var(--inset) 0;
-    border-radius: clamp(16px, 1.8vw, 30px);
+    border-radius: var(--panel-radius);
     /* Road network sitting just under the surface of the gradient. */
     background:
         url("road-pattern.webp") center / cover no-repeat,
@@ -315,22 +336,93 @@ a { color: inherit; text-decoration: none; }
     position: relative;
     min-height: 0;
     margin: var(--inset) var(--inset) var(--inset) 0;
-    pointer-events: none;
+    /* The panel is the tap target: a tap anywhere on it skips to the next device. */
+    pointer-events: auto;
+    cursor: pointer;
     container-type: inline-size;
 }
 
-/* Anchored to the panel's bottom and sized from its width, so the composition is
-   driven entirely by width and can't drift when the viewport's aspect changes. */
-/* Sized from the panel's WIDTH so the phone keeps a constant size, capped at the panel's
-   height so a short viewport can't clip its top. Pulled left so it breaks past the panel's
-   edge onto the dark shell, the way the reference does. */
+/* Anchored to the panel's bottom; each device brings its own framing below. */
 .hero-shot {
     position: absolute;
-    left: -46%;
     bottom: 0;
-    height: min(100%, 157cqw);
     display: block;
     filter: drop-shadow(0 24px 38px rgba(6, 18, 34, 0.42));
+    /* Clicks belong to .stage, whose box is the panel. The phone hangs 46% past the panel's
+       left edge over the reviews strip, and taking clicks out here would swallow scrolling
+       on that list. */
+    pointer-events: none;
+    /* Parked 14px low and transparent: the outgoing shot drifts down into this, the incoming
+       one rises out of it. visibility is what removes an inactive shot from the accessibility
+       tree, so a screen reader meets exactly one alt at a time; it flips after the fade. */
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(14px);
+    transition:
+        opacity 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+        transform 0.45s cubic-bezier(0.22, 0.61, 0.36, 1),
+        visibility 0s linear 0.45s;
+}
+
+/* The iPhone keeps its size — from the panel's WIDTH so it stays constant, capped at the panel's
+   height so a short viewport can't clip its top — and still runs past the panel's left edge onto
+   the shell the way the reference does. It is pinned right rather than offset left because the
+   wrist leaves the artwork at its right and bottom edges: anywhere short of the panel's edge and
+   that cut floats in the middle of the green with a hard vertical line, which is also what left
+   the dead space on the right.
+
+   It is the one shot that cannot use `overflow: hidden` to pick up the panel's corner, since the
+   same box has to spill past the panel on the left. clip-path does both: the right and bottom are
+   held at the panel's edge with its bottom-right corner rounded to match, while the top and left
+   are pushed far outside so the overhang, and its shadow, are untouched. */
+.hero-shot[data-device="iphone"] {
+    right: 0;
+    height: min(100%, 157cqw);
+    -webkit-clip-path: inset(-40% 0 0 -40% round 0 0 var(--panel-radius) 0);
+    clip-path: inset(-40% 0 0 -40% round 0 0 var(--panel-radius) 0);
+}
+
+/* The watch and iPad artwork both run off the edge of their own frame — the watch because it had
+   to be cropped in close for its face to be legible, the iPad because the hand leaves the source
+   at the right and bottom. Both are therefore laid out AS the panel's box and clipped to its
+   corners, so those cuts land on the panel's own rounded edge and read as framing rather than
+   slicing. Being aspect-independent, neither needs a stacked-layout override. */
+.hero-shot[data-device="watch"],
+.hero-shot[data-device="ipad"] {
+    inset: 0;
+    width: auto;
+    height: auto;
+    overflow: hidden;
+    border-radius: var(--panel-radius);
+}
+
+.hero-shot[data-device="watch"] img,
+.hero-shot[data-device="ipad"] img {
+    width: 100%;
+    height: 100%;
+}
+
+/* The watch is cropped to the panel's aspect, so it covers the box and the green shows only
+   through the shot's own transparency. The iPad keeps its whole silhouette inside the box,
+   pinned to the corner its hand runs off. */
+.hero-shot[data-device="watch"] img { object-fit: cover;   object-position: center bottom; }
+.hero-shot[data-device="ipad"]  img { object-fit: contain; object-position: right bottom; }
+
+/* CSS cannot compare one attribute against another, so the three pairings are spelled out.
+   Both the lead and the shot for the active device are matched by these. */
+.shell[data-device="iphone"] [data-device="iphone"],
+.shell[data-device="watch"]  [data-device="watch"],
+.shell[data-device="ipad"]   [data-device="ipad"] {
+    opacity: 1;
+    visibility: visible;
+    transform: none;
+    transition-delay: 0s;
+}
+
+/* An opacity fade is acceptable under reduce; the 14px rise is the part that has to go. */
+@media (prefers-reduced-motion: reduce) {
+    .leads > .lead,
+    .hero-shot { transform: none; }
 }
 
 .hero-shot img {
@@ -347,7 +439,10 @@ a { color: inherit; text-decoration: none; }
     z-index: 3;
     display: flex;
     gap: clamp(10px, 0.9vw, 16px);
-    margin: 0 16% 0 0;
+    /* Stops short of the phone's overhang, which is 23% of the panel's width; across the middle
+       of the panel's clamp the left column runs about 1.9x the panel, so the strip can reach
+       ~12% before the two touch. 13% keeps a few px of clearance at every width. */
+    margin: 0 13% 0 0;
     /* No right padding: the cards run under the fade so the row reads as scrollable. */
     padding: 0 0 clamp(14px, 1.5vw, 24px) var(--pad);
     list-style: none;
@@ -502,21 +597,32 @@ a { color: inherit; text-decoration: none; }
     .proof   { grid-row: 4; padding-top: clamp(28px, 5vw, 48px); }
     .reviews { grid-row: 5; margin-right: 0; }
 
-    /* Stacked, the panel is full width, so the desktop overhang would run the phone off
-       the shell. Centre it on the phone instead and fit it inside the panel. */
-    .hero-shot {
-        left: 53%;
-        transform: translateX(-50%);
-        height: min(100%, 126cqw);
-    }
+    /* Stacked, the panel is full width, so the desktop overhang would run the phone off the
+       shell. Only the size changes here; the right-edge pin and the corner clip still apply. */
+    .hero-shot[data-device="iphone"] { height: min(100%, 126cqw); }
 
 
 
 }
 
 @media (max-width: 720px) {
-    .mainnav { display: none; }
     .proof { flex-wrap: wrap; }
+}
+
+/* The nav is the only route to Help, Privacy and Terms anywhere on this page, and builds shipped
+   before this page existed open `/` when someone taps Help — on a phone, which is exactly where
+   it used to be hidden. So it stays at every width: the spacing tightens here, and past that the
+   topbar wraps rather than dropping anything. */
+@media (max-width: 430px) {
+    .topbar  { gap: 10px 14px; padding-right: 16px; }
+    .mainnav { gap: 14px; }
+}
+
+/* "your bus or stop" is a long phrase to hold on one line. At the clamp's floor it just fits in
+   SF, but not in Helvetica or Arial further down the stack, so the floor eases on the narrowest
+   phones rather than letting the highlight break mid-phrase. */
+@media (max-width: 380px) {
+    .headline { font-size: clamp(1.95rem, 4.5vw, 4.5rem); }
 }
 
 /* The unfilled half of the 4.6th star: it needs a different neutral per scheme, so it is

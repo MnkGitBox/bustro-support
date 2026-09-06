@@ -24,7 +24,7 @@
     <link rel="stylesheet" href="assets/landing.css">
 </head>
 <body>
-<div class="shell">
+<div class="shell" data-device="iphone">
 
     <svg class="threads" viewBox="0 0 1800 1280" preserveAspectRatio="none" aria-hidden="true" focusable="false">
         <g fill="none" stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke">
@@ -52,16 +52,25 @@
              so Help has to stay reachable from the top of it. -->
         <nav class="mainnav" aria-label="Main">
             <a href="help.html">Help</a>
+            <a href="https://www.youtube.com/playlist?list=PLP44WiKmdRuQ">Tutorials</a>
             <a href="privacy.html">Privacy</a>
             <a href="terms.html">Terms</a>
         </nav>
     </header>
 
     <div class="hero">
-        <h1 class="headline" id="headline">Never miss<br><span class="hl">your bus</span><br>again</h1>
-        <p class="lead" id="tagline">Live arrivals for every Singapore stop, a reminder before it is
-            time to alight, and your journey counting down on the Lock Screen. Weather, MRT and LTA
-            traffic alerts come along for the ride.</p>
+        <h1 class="headline" id="headline">Never miss<br><span class="hl">your bus or stop</span><br>again</h1>
+        <!-- One lead per device, stacked in a single grid cell so the block is always as tall
+             as the longest of them and the CTA below it never moves when a shorter one fades in. -->
+        <div class="leads">
+            <p class="lead" id="tagline" data-device="iphone">Live arrivals for every Singapore stop, a reminder
+                before it is time to alight, and your journey counting down on the Lock Screen. Weather, MRT
+                and LTA traffic alerts come along for the ride.</p>
+            <p class="lead" data-device="watch">Your next bus, on your wrist. A complication on the watch face
+                keeps your usual stop one glance away.</p>
+            <p class="lead" data-device="ipad">Your stops in a side panel, the map live beside them. Slide it
+                away for the whole island.</p>
+        </div>
 
         <div class="cta">
             <a class="badge" href="https://apps.apple.com/us/app/bustro-singapore-bus/id6740473324?itscg=30200&amp;itsct=apps_box_badge&amp;mttnsubad=6740473324">
@@ -157,13 +166,65 @@
     </div>
 
     <div class="stage">
-        <picture class="hero-shot">
+        <picture class="hero-shot" data-device="iphone">
             <source media="(prefers-color-scheme: light)" srcset="assets/hero-light.webp">
-            <img src="assets/hero-dark.webp" alt="A hand holding an iPhone running Bustro: a map of Clementi with saved stops pinned, and a sheet below listing live arrivals for Opp Home — bus 52 arriving, 106 in 4 minutes, 189 in 17 minutes." width="1000" height="1276">
+            <img src="assets/hero-dark.webp" alt="A hand holding an iPhone running Bustro: a map of Clementi with saved stops pinned, and a sheet below listing live arrivals for Opp Home — bus 52 arriving, 106 in 4 minutes, 189 in 17 minutes." width="1000" height="1276" fetchpriority="high">
+        </picture>
+        <!-- Cropped from Resources/watch-dark-light.png at (151,193)-(871,1224), the panel's own
+             0.698 aspect, so the watch face reads as the subject without cropping so close that
+             the hand is lost. A higher-resolution re-export can be recropped with the same box. -->
+        <picture class="hero-shot" data-device="watch">
+            <img src="assets/hero-watch.webp" alt="An Apple Watch on a wrist running Bustro: favourite stops for Work, Home and Gym as coloured buttons, and Orchard Stn/Tang Plaza 160 m away under Nearby." width="720" height="1031" fetchpriority="low">
+        </picture>
+        <picture class="hero-shot" data-device="ipad">
+            <source media="(prefers-color-scheme: light)" srcset="assets/hero-ipad-light.webp">
+            <img src="assets/hero-ipad-dark.webp" alt="A hand holding an iPad running Bustro: a side panel listing Home and six nearby Clementi stops with their bus numbers, and a live map of Clementi beside it." width="1086" height="1307" fetchpriority="low">
         </picture>
     </div>
 
 
 </div>
+<!-- The hero rotates iPhone -> Watch -> iPad on a fixed beat. Tapping the panel skips ahead
+     but never ends the rotation, it only restarts the clock so the device you asked for gets
+     a full turn. The fade itself is CSS; this only moves data-device on the shell. -->
+<script>
+(function () {
+    var shell = document.querySelector('.shell');
+    var stage = document.querySelector('.stage');
+    if (!shell || !stage) return;
+
+    var DEVICES = ['iphone', 'watch', 'ipad'];
+    var HOLD = 4500;
+    var ENTRANCE = 900;   // let the .stage rise animation land before anything swaps
+
+    var index = 0, timer = null, hovering = false;
+
+    function show(next) {
+        index = (next + DEVICES.length) % DEVICES.length;
+        shell.setAttribute('data-device', DEVICES[index]);
+    }
+
+    function stop() { if (timer) { timer = clearInterval(timer); } }
+
+    function start() {
+        stop();
+        if (hovering || document.hidden) return;
+        timer = setInterval(function () { show(index + 1); }, HOLD);
+    }
+
+    stage.addEventListener('click', function () { show(index + 1); start(); });
+
+    // Only where a pointer can genuinely rest: on touch the hover state can stick after a
+    // tap, which would stall the rotation for good.
+    if (window.matchMedia('(hover: hover)').matches) {
+        stage.addEventListener('pointerenter', function () { hovering = true;  stop();  });
+        stage.addEventListener('pointerleave', function () { hovering = false; start(); });
+    }
+
+    document.addEventListener('visibilitychange', start);
+
+    setTimeout(start, ENTRANCE);
+}());
+</script>
 </body>
 </html>
