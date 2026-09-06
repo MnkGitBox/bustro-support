@@ -618,6 +618,13 @@ a { color: inherit; text-decoration: none; }
     .mainnav { gap: 14px; }
 }
 
+/* "your bus or stop" is a long phrase to hold on one line. At the clamp's floor it just fits in
+   SF, but not in Helvetica or Arial further down the stack, so the floor eases on the narrowest
+   phones rather than letting the highlight break mid-phrase. */
+@media (max-width: 380px) {
+    .headline { font-size: clamp(1.95rem, 4.5vw, 4.5rem); }
+}
+
 /* The unfilled half of the 4.6th star: it needs a different neutral per scheme, so it is
    styled here rather than baked into the gradient stop as a presentation attribute. */
 .proof-stars .star-empty { stop-color: var(--star-empty); }
