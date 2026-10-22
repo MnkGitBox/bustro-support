@@ -513,7 +513,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
   <h1>Privacy Policy</h1>
   <div class="meta-strip">
     <span class="chip"><span class="label">Updated</span>30 August 2026</span>
-    <span class="chip neutral"><span class="label">Effective</span>30 August 2026</span>
+    <span class="chip neutral"><span class="label">Effective</span>20 October 2026</span>
     <span class="chip brand">Singapore · PDPA</span>
   </div>
   <div class="rule"></div>
@@ -602,10 +602,10 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <h3><span class="sub">1.5</span>Push-notification token and subscriptions</h3>
 <table class="defs">
 <tbody>
-<tr><th scope="row">What</th><td>Your Apple Push Notification (APNs) device token, the Firebase Cloud Messaging (FCM) token derived from it, and the list of traffic-incident categories you have subscribed to (e.g. accident, road closure, weather disruption).</td></tr>
-<tr><th scope="row">Why</th><td>To deliver the traffic alerts and Commute Feed notifications you have opted in to.</td></tr>
+<tr><th scope="row">What</th><td>Your Apple Push Notification (APNs) device token, the Firebase Cloud Messaging (FCM) token derived from it, the list of traffic-incident categories you have subscribed to (e.g. accident, road closure, weather disruption), the Commute Feed notification types you have turned off, and any MRT/LRT lines and bus service numbers you have added in Notification Settings.</td></tr>
+<tr><th scope="row">Why</th><td>To deliver the traffic alerts and Commute Feed notifications you have opted in to, and to send you only the Commute Feed notifications that match the types, lines, and bus services you have chosen.</td></tr>
 <tr><th scope="row">Storage</th><td>In Firebase Firestore, keyed to your device identifier.</td></tr>
-<tr><th scope="row">Control</th><td>iOS Settings → Notifications → Bustro to revoke permission entirely. In-app subscription preferences to change which categories you receive. Uninstalling the App removes your token from active rotation.</td></tr>
+<tr><th scope="row">Control</th><td>iOS Settings → Notifications → Bustro to revoke permission entirely. In-app subscription preferences and <strong>Notification Settings</strong> to change which categories, notification types, lines, and bus services you receive. Uninstalling the App removes your token from active rotation.</td></tr>
 </tbody>
 </table>
 
@@ -718,7 +718,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Firebase Analytics</td><td>Google LLC</td><td>App Instance ID, event names, device model, OS version</td><td>Usage analytics</td><td>US / EU</td></tr>
 <tr><td>Firebase Crashlytics</td><td>Google LLC</td><td>App Instance ID, crash logs, device model, OS version</td><td>Diagnostics</td><td>US / EU</td></tr>
 <tr><td>Firebase Cloud Messaging</td><td>Google LLC</td><td>APNs token, FCM token, device identifier, subscription list</td><td>Push delivery</td><td>US / EU</td></tr>
-<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Commute Feed post text, URLs, reactions, device identifier, FCM token, subscriptions, Live Activity push tokens with the tracked stop and service (§1.6)</td><td>UGC storage, push routing, Live Activity updates</td><td>Singapore (asia-southeast1)</td></tr>
+<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Commute Feed post text, URLs, reactions, device identifier, FCM token, subscriptions and notification preferences, Live Activity push tokens with the tracked stop and service (§1.6)</td><td>UGC storage, push routing, Live Activity updates</td><td>Singapore (asia-southeast1)</td></tr>
 <tr><td>Firebase Remote Config</td><td>Google LLC</td><td>App version, App Instance ID</td><td>Gate in-app &quot;update available&quot; prompt</td><td>US / EU</td></tr>
 <tr><td>Google Forms</td><td>Google LLC</td><td>Only if you choose <em>Report a Bug</em> or <em>Request a Feature</em>: the form is pre-filled with your app version, iOS version, and device model, plus whatever you type</td><td>Bug reports and feature requests</td><td>US / EU</td></tr>
 <tr><td>Apple Push Notification service</td><td>Apple Inc.</td><td>Device push token</td><td>Push delivery</td><td>Apple infrastructure</td></tr>
@@ -754,7 +754,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>User-submitted Commute Feed posts</td><td><strong>7 days</strong>, then automatic deletion</td></tr>
 <tr><td>Official advisories and LTA alerts</td><td>Indefinite (no personal data)</td></tr>
 <tr><td>Reactions</td><td>Deleted with the message</td></tr>
-<tr><td>FCM token + subscriptions</td><td>Until you uninstall, revoke notifications, or change subscriptions</td></tr>
+<tr><td>FCM token + subscriptions and notification preferences</td><td>Until you uninstall, revoke notifications, or change subscriptions or preferences</td></tr>
 <tr><td>Firebase Analytics events</td><td>14 months</td></tr>
 <tr><td>Crashlytics records</td><td>90 days (Google default)</td></tr>
 <tr><td>Email correspondence with us</td><td>Up to 24 months for support and dispute-resolution purposes</td></tr>
