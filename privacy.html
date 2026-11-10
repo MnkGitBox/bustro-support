@@ -512,8 +512,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
   </div>
   <h1>Privacy Policy</h1>
   <div class="meta-strip">
-    <span class="chip"><span class="label">Updated</span>30 August 2026</span>
-    <span class="chip neutral"><span class="label">Effective</span>20 October 2026</span>
+    <span class="chip"><span class="label">Updated</span>10 November 2026</span>
+    <span class="chip neutral"><span class="label">Effective</span>24 November 2026</span>
     <span class="chip brand">Singapore · PDPA</span>
   </div>
   <div class="rule"></div>
@@ -541,7 +541,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <main class="doc">
 
 <div class="summary">
-<p><strong>Plain summary:</strong> Bustro is a free, ad-free public-transit app for Singapore. We use your location on your device to show nearby bus stops; we do not send it to our servers. We generate a random device ID (not linked to your name or Apple ID) so that, if you choose to post in the Commute Feed or subscribe to traffic alerts, we can route notifications and let you delete your own posts. We use Firebase for crash reports, app-usage analytics, push delivery, and storing Commute Feed posts. If you set an Alight Reminder or track a bus arrival, we briefly store a push token together with the stop and bus service involved so our server can update the live countdown on your Lock Screen; that record is deleted when the activity ends. We do not show ads, sell data, or track you across other apps.</p>
+<p><strong>Plain summary:</strong> Bustro is a free, ad-free public-transit app for Singapore. We use your location on your device to show nearby bus stops; we do not send it to our servers. We generate a random device ID (not linked to your name or Apple ID) so that, if you choose to post in the Commute Feed or subscribe to traffic alerts, we can route notifications and let you delete your own posts. We use Firebase for crash reports, app-usage analytics, push delivery, and storing Commute Feed posts. If you set an Alight Reminder or track a bus arrival, we briefly store a push token together with the stop and bus service involved so our server can update the live countdown on your Lock Screen; that record is deleted when the activity ends. When you search for a place by name, the text you type is sent through our server to OneMap, the Singapore Land Authority's map service, to find it. We do not show ads, sell data, or track you across other apps.</p>
 </div>
 
 <p>This Privacy Policy explains what data Bustro collects, why we collect it, where it goes, how long we keep it, and the rights you have. It applies to the Bustro iOS application, the Bustro Home/Lock Screen widget, and any related online services we provide (collectively, the &quot;<strong>App</strong>&quot;). The App is operated by the Bustro team (&quot;<strong>we</strong>&quot;, &quot;<strong>us</strong>&quot;, &quot;<strong>our</strong>&quot;), based in Singapore.</p>
@@ -568,9 +568,9 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <table class="defs">
 <tbody>
 <tr><th scope="row">What</th><td>A randomly-generated UUID created on your device the first time you open the App.</td></tr>
-<tr><th scope="row">Why</th><td>To attribute Commute Feed posts and reactions you submit, to route push notifications to your device (including Live Activity updates for Alight Reminder and arrival tracking, §1.6), and to let you edit or delete your own Commute Feed submissions.</td></tr>
+<tr><th scope="row">Why</th><td>To attribute Commute Feed posts and reactions you submit, to route push notifications to your device (including Live Activity updates for Alight Reminder and arrival tracking, §1.6), to let you edit or delete your own Commute Feed submissions, and to apply a fair-use limit to place searches (§1.10).</td></tr>
 <tr><th scope="row">Linked to your identity?</th><td>No. The UUID is not linked to your name, email, Apple ID, phone number, or any other identifying information. Under Singapore's PDPA it is treated as <strong>pseudonymous personal data</strong>.</td></tr>
-<tr><th scope="row">Storage</th><td>Locally in app preferences (<code>UserDefaults</code>), and on Google's Firebase Firestore servers when accompanying a Commute Feed submission, reaction, or push-notification subscription.</td></tr>
+<tr><th scope="row">Storage</th><td>Locally in app preferences (<code>UserDefaults</code>), and on Google's Firebase Firestore servers when accompanying a Commute Feed submission, reaction, or push-notification subscription, and briefly as an hourly place-search counter (§1.10).</td></tr>
 <tr><th scope="row">Reset</th><td>Reinstalling the App generates a new UUID and disconnects you from prior submissions. A future App update will add an in-app <em>Reset Device Identity</em> control.</td></tr>
 </tbody>
 </table>
@@ -644,19 +644,19 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <ul>
 <li>Your name, email address, phone number, photos, contacts, microphone, or health data. (The bus stop scanner uses the camera live on your device without capturing or storing anything; see §1.11.)</li>
 <li>Your location while the App and widget are not in use (the only exception is during an active Alight Reminder, and even then your location stays on your device; see §1.1).</li>
-<li>Your search queries by name, code, or service number. These are processed locally on your device against bus-stop and bus-service data already on the device. (A postal-code search is the one exception; see §1.10.)</li>
+<li>Your searches for bus stops and services by name, code, or service number. These are processed locally on your device against bus-stop and bus-service data already on the device. (Place searches and postal-code searches are the exceptions; see §1.10.)</li>
 <li>Browsing or usage data from other apps. We do not use the App Tracking Transparency (ATT) tracking permission.</li>
 <li>Any payment information. Bustro is free and contains no in-app purchases or advertising.</li>
 </ul>
 <p>We do not send marketing or commercial electronic messages. Push notifications carry only the operational alerts and Commute Feed updates you have opted in to, and Bustro does not engage in any activity subject to the Spam Control Act 2007.</p>
 
-<h3><span class="sub">1.10</span>Postal code search and search history</h3>
+<h3><span class="sub">1.10</span>Place search, postal code search, and search history</h3>
 <table class="defs">
 <tbody>
-<tr><th scope="row">What</th><td>When you search by postal code, the 6-digit code you type is sent to <strong>Apple's <code>CLGeocoder</code></strong> to resolve it to a location. This is the one search input that leaves your device. Separately, the bus stops and services you select from Search (including postal-code results) are kept in a local history, with the time of each selection.</td></tr>
-<tr><th scope="row">Why</th><td>Postal-code lookup: to find the bus stops nearest that address. Search history: to show your recent selections and favourites at the top of Search, so you can find them again in one tap.</td></tr>
-<tr><th scope="row">Storage</th><td>Postal-code lookups are not stored by us. Apple's geocoding privacy practices apply to that request. Search history is stored locally on your device only (<code>UserDefaults</code>), capped at 10 entries, not synced via iCloud, and never sent to our servers.</td></tr>
-<tr><th scope="row">Control</th><td>Swipe to remove a single history entry, or use &quot;Clear All&quot; in Search to erase your history. Uninstalling the App also clears it.</td></tr>
+<tr><th scope="row">What</th><td>When you search in <strong>Places</strong>, the text you type is sent to our server (a Firebase Cloud Function in Singapore) together with your device identifier (§1.2) and a Firebase App Check token, and our server forwards only the search text to <strong>OneMap</strong>, the Singapore Land Authority's map service. Your location is not sent. When you search by postal code, the 6-digit code you type is sent to <strong>Apple's <code>CLGeocoder</code></strong> instead. Separately, the places, bus stops, and services you select from Search are kept in a local history, with the time of each selection; places found by postal code are not added to it.</td></tr>
+<tr><th scope="row">Why</th><td>Place search and postal-code lookup: to find a place and the bus stops near it. Device identifier: to limit each device to a fair number of place searches per hour. App Check token: to confirm the request comes from the genuine Bustro app. Search history: to show your recent selections and favourites at the top of Search, so you can find them again in one tap.</td></tr>
+<tr><th scope="row">Storage</th><td>We do not keep your place searches in our database. For the hourly limit we store a counter in Firebase Firestore keyed to your device identifier and the hour, which is deleted automatically after it expires. Our server's request logs, kept by Google Cloud Logging, may include the search text for a limited period (§5) and are used only to operate the service and prevent abuse. OneMap's own privacy practices apply to the search it receives, and Apple's geocoding privacy practices apply to postal-code lookups. Search history is stored locally on your device only (<code>UserDefaults</code>), capped at 10 entries for each of Places, Stops, and Services, not synced via iCloud, and never sent to our servers.</td></tr>
+<tr><th scope="row">Control</th><td>Place search runs only when you search in Places. Swipe to remove a single history entry, or use &quot;Clear All&quot; in Search to erase that segment's history. Uninstalling the App also clears it.</td></tr>
 </tbody>
 </table>
 
@@ -718,7 +718,9 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Firebase Analytics</td><td>Google LLC</td><td>App Instance ID, event names, device model, OS version</td><td>Usage analytics</td><td>US / EU</td></tr>
 <tr><td>Firebase Crashlytics</td><td>Google LLC</td><td>App Instance ID, crash logs, device model, OS version</td><td>Diagnostics</td><td>US / EU</td></tr>
 <tr><td>Firebase Cloud Messaging</td><td>Google LLC</td><td>APNs token, FCM token, device identifier, subscription list</td><td>Push delivery</td><td>US / EU</td></tr>
-<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Commute Feed post text, URLs, reactions, device identifier, FCM token, subscriptions and notification preferences, Live Activity push tokens with the tracked stop and service (§1.6)</td><td>UGC storage, push routing, Live Activity updates</td><td>Singapore (asia-southeast1)</td></tr>
+<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Commute Feed post text, URLs, reactions, device identifier, FCM token, subscriptions and notification preferences, Live Activity push tokens with the tracked stop and service (§1.6), hourly place-search counters keyed to the device identifier (§1.10)</td><td>UGC storage, push routing, Live Activity updates, place-search limits</td><td>Singapore (asia-southeast1)</td></tr>
+<tr><td>Firebase Cloud Functions</td><td>Google LLC</td><td>Place search text, device identifier, App Check token (§1.10)</td><td>Forward place searches to OneMap and apply per-device limits</td><td>Singapore (asia-southeast1)</td></tr>
+<tr><td>Firebase App Check</td><td>Google LLC, using Apple App Attest</td><td>An attestation that the request comes from the genuine Bustro app (no personal data)</td><td>Protect our server from abuse</td><td>US / EU</td></tr>
 <tr><td>Firebase Remote Config</td><td>Google LLC</td><td>App version, App Instance ID</td><td>Gate in-app &quot;update available&quot; prompt</td><td>US / EU</td></tr>
 <tr><td>Google Forms</td><td>Google LLC</td><td>Only if you choose <em>Report a Bug</em> or <em>Request a Feature</em>: the form is pre-filled with your app version, iOS version, and device model, plus whatever you type</td><td>Bug reports and feature requests</td><td>US / EU</td></tr>
 <tr><td>Apple Push Notification service</td><td>Apple Inc.</td><td>Device push token</td><td>Push delivery</td><td>Apple infrastructure</td></tr>
@@ -730,11 +732,12 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Apple Maps / Google Maps</td><td>Apple Inc. / Google LLC</td><td>Stop coordinates when you tap &quot;Get Directions&quot;</td><td>External directions</td><td>Per provider</td></tr>
 <tr><td>YouTube Data API</td><td>Google LLC</td><td>Only an API key (no user data)</td><td>List the Bustro tutorial videos</td><td>US / EU</td></tr>
 <tr><td>YouTube embedded player</td><td>Google LLC (your device contacts YouTube)</td><td>Your IP address, plus any cookies YouTube sets, when you play a tutorial video</td><td>Play tutorial videos inside the App</td><td>Direct from your device to YouTube</td></tr>
+<tr><td>OneMap</td><td>Singapore Land Authority</td><td>The place search text you type, sent by our server (no device identifier or location)</td><td>Find places by name for Search</td><td>Singapore</td></tr>
 <tr><td>Apple <code>CLGeocoder</code></td><td>Apple Inc.</td><td>The postal code you type in Search</td><td>Resolve a postal code to a location for bus stop search</td><td>Apple infrastructure</td></tr>
 </tbody>
 </table>
 </div>
-<p><strong>Cross-border data transfers (PDPA §26).</strong> Firestore records (Commute Feed content, push-routing records, and Live Activity tokens) are stored in Google's <strong>asia-southeast1 (Singapore)</strong> region. Firebase Analytics, Crashlytics, Cloud Messaging, and Remote Config are processed by Google LLC on infrastructure that may be in the United States or European Union. Google's data-protection terms (<a href="https://firebase.google.com/support/privacy">https://firebase.google.com/support/privacy</a>) bind Google to provide a standard of protection comparable to what the PDPA requires; we rely on those terms for compliance with PDPA Section 26.</p>
+<p><strong>Cross-border data transfers (PDPA §26).</strong> Firestore records (Commute Feed content, push-routing records, Live Activity tokens, and place-search counters) are stored, and our Cloud Functions run, in Google's <strong>asia-southeast1 (Singapore)</strong> region. Firebase Analytics, Crashlytics, Cloud Messaging, App Check, and Remote Config are processed by Google LLC on infrastructure that may be in the United States or European Union. Google's data-protection terms (<a href="https://firebase.google.com/support/privacy">https://firebase.google.com/support/privacy</a>) bind Google to provide a standard of protection comparable to what the PDPA requires; we rely on those terms for compliance with PDPA Section 26.</p>
 <p>We do <strong>not</strong> sell, rent, or trade your information. We do not share data with advertisers, data brokers, or analytics providers other than those listed above.</p>
 <p>We may disclose information when required to do so by Singapore law, by a valid order of a Singapore court, or by a Singapore regulator or law-enforcement authority acting within its statutory powers (including the Personal Data Protection Commission, the Infocomm Media Development Authority, and the Singapore Police Force under the Criminal Procedure Code), or to protect the rights, property, or safety of users, the public, or us. Where the law permits, we will notify the affected user before disclosing their information.</p>
 </section>
@@ -758,7 +761,9 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Firebase Analytics events</td><td>14 months</td></tr>
 <tr><td>Crashlytics records</td><td>90 days (Google default)</td></tr>
 <tr><td>Email correspondence with us</td><td>Up to 24 months for support and dispute-resolution purposes</td></tr>
-<tr><td>Search history</td><td>Until you clear it, remove an entry, or delete the App; capped at 10 entries</td></tr>
+<tr><td>Search history</td><td>Until you clear it, remove an entry, or delete the App; capped at 10 entries each for Places, Stops, and Services</td></tr>
+<tr><td>Place-search counter</td><td>Expires about an hour after the hour it counts, then deleted automatically</td></tr>
+<tr><td>Server request logs (may include place search text)</td><td>Up to 30 days (Google Cloud Logging default)</td></tr>
 </tbody>
 </table>
 </section>
@@ -815,7 +820,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <header class="section-head"><span class="badge">§ 10</span><h2>Singapore Open Data Licence attribution</h2></header>
 <p>In accordance with the Singapore Open Data Licence v1.0:</p>
 <p class="attribution"><em>Contains information from the Singapore Government data.gov.sg APIs, made available under the Singapore Open Data Licence version 1.0.</em></p>
-<p>We also acknowledge <strong>Singapore LTA DataMall</strong> as the source of bus arrival, bus stop, and bus service information.</p>
+<p>We also acknowledge <strong>Singapore LTA DataMall</strong> as the source of bus arrival, bus stop, and bus service information, and <strong>OneMap</strong> (Singapore Land Authority) as the source of place search results.</p>
 </section>
 
 <section class="s" id="s11">

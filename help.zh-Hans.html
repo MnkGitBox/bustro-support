@@ -495,6 +495,7 @@
                     <li>确认您所在区域有巴士站（Bustro 仅覆盖新加坡）</li>
                     <li>如果定位是在室内获取的，请到室外或稍等片刻以获得新的 GPS 定位</li>
                 </ul>
+                <p>如果地图上的定位按钮显示为带斜线的箭头，请点按它。Bustro 会说明定位为何关闭；如果是您自己关闭的，它会带您前往设置。如果定位受到屏幕使用时间或设备管理的限制，则需要在那里更改。</p>
                 <p>注意：您的位置仅在设备上处理，用于显示附近站点和步行距离，绝不会发送到我们的服务器。</p>
                     </div></div></div>
                 </div>
@@ -513,7 +514,7 @@
                 <div class="qa">
                     <button class="qa-q" type="button" aria-expanded="false"><span>可以扫描巴士站，而不用输入站点编号吗？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
-<p><strong>可以。</strong>长按主屏幕上的搜索按钮并选择<strong>扫描搜索</strong>，或在搜索页内打开扫描器。将相机对准巴士站牌，Bustro 会读取二维码或印在上面的 5 位站点编号，然后打开该站点。</p>
+<p><strong>可以。</strong>长按主屏幕上的搜索按钮并选择<strong>扫描搜索</strong>，或在搜索的<strong>站点</strong>分类中点按扫描按钮。将相机对准巴士站牌，Bustro 会读取二维码或印在上面的 5 位站点编号，然后打开该站点。</p>
                 <ul>
                     <li>只读取画面取景框内的内容，因此票价表和旁边的指示牌都会被忽略</li>
                     <li>若扫描到的站点距离你超过 2&nbsp;公里，Bustro 会先询问再打开，这通常表示你扫到的是海报而不是站牌</li>
@@ -524,22 +525,33 @@
                     </div></div></div>
                 </div>
                 <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>怎样查找某个地点附近的巴士站？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>打开搜索并选择<strong>地点</strong>。输入地点、建筑或地址的名称，然后选择一个结果打开详情：一张小地图，以及约 1&nbsp;公里内的巴士站，按距离由近到远排列。</p>
+                <ul>
+                    <li>搜索分为三个分类：<strong>地点</strong>、<strong>站点</strong>和<strong>服务</strong>。下次会打开你上次使用的分类</li>
+                    <li>如果你输入的内容像是站点编号或巴士服务号，Bustro 会提示你切换到合适的分类</li>
+                </ul>
+                <p>地点搜索需要网络连接，因为结果来自新加坡土地管理局的地图服务 OneMap。有关发送了哪些信息，请参阅我们的<a href="privacy.html">隐私政策</a>。</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
                     <button class="qa-q" type="button" aria-expanded="false"><span>可以按邮政编码搜索巴士站吗？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
-<p><strong>可以。</strong>在搜索栏中输入任意 6 位新加坡邮政编码，即可按距离查看该地址附近的巴士站。</p>
+<p><strong>可以。</strong>在搜索的<strong>地点</strong>分类中输入任意 6 位新加坡邮政编码，选择结果后即可按距离查看该地址附近的巴士站。</p>
                 <p>如果编码无法识别，或该地址 1&nbsp;公里范围内没有巴士站，Bustro 会清楚说明原因，而不是显示一个空列表。</p>
                     </div></div></div>
                 </div>
                 <div class="qa">
                     <button class="qa-q" type="button" aria-expanded="false"><span>Bustro 会记住我最近的搜索吗？</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
-<p>会。搜索会在本地保留一份简短的历史记录，包含你最近选择过的站点和线路（也包括通过邮政编码搜索到的结果），这样下次打开搜索时它们就在那里，一点即达。</p>
+<p>会。“地点”“站点”和“服务”各自在本地保留一份简短的历史记录，包含你最近选择过的内容，这样下次打开搜索时它们就在那里，一点即达。</p>
                 <ul>
-                    <li>最多保留 <strong>10 条最近记录</strong>，按最新排在最前</li>
-                    <li>你<strong>最常用的 5 个收藏站点</strong>会与历史记录一起显示</li>
-                    <li><strong>滑动</strong>可移除某条历史记录，或使用<strong>"全部清除"</strong>重置历史</li>
+                    <li>每个分类最多保留 <strong>10 条最近记录</strong>，按最新排在最前</li>
+                    <li>你<strong>最常用的 5 个收藏站点</strong>会在“站点”中与历史记录一起显示</li>
+                    <li><strong>滑动</strong>可移除某条历史记录，或点按<strong>"全部清除"</strong>一次清空该分类的历史</li>
                 </ul>
-                <p>搜索历史只保存在你的设备上，不会通过 iCloud 同步。</p>
+                <p>搜索历史只保存在你的设备上，不会通过 iCloud 同步。通过邮政编码找到的地点不会加入历史记录。</p>
                     </div></div></div>
                 </div>
                 <div class="qa">
@@ -1027,6 +1039,7 @@
                     <li><strong>LTA DataMall：</strong>实时到站、巴士站、服务和路线</li>
                     <li><strong>BusRouter SG：</strong>地图上绘制的巴士路线几何数据</li>
                     <li><strong>data.gov.sg：</strong>天气、降雨、闪电、空气质量和气温</li>
+                    <li><strong>OneMap（新加坡土地管理局）：</strong>地点搜索</li>
                 </ul>
                 <p><strong>覆盖范围：</strong>新加坡全岛 5,000 多个巴士站和 400 多条巴士服务，均提供实时到站数据。</p>
                     </div></div></div>
