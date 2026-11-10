@@ -495,6 +495,7 @@
                     <li>Check if you're in an area with bus stops (Bustro covers Singapore only)</li>
                     <li>If your location was found while indoors, step outside or wait a moment for a fresh GPS fix</li>
                 </ul>
+                <p>If the location button on the map shows a crossed-out arrow, tap it. Bustro explains why location is off and, if you turned it off, takes you to Settings. If Screen Time or device management restricts location, it has to be changed there.</p>
                 <p>Note: your location is processed on your device to show nearby stops and walking distances. It is never sent to our servers.</p>
                     </div></div></div>
                 </div>
@@ -513,7 +514,7 @@
                 <div class="qa">
                     <button class="qa-q" type="button" aria-expanded="false"><span>Can I scan a bus stop instead of typing its code?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
-<p><strong>Yes.</strong> Long-press the search button on the home screen and choose <strong>Search by scanning</strong>, or open the scanner from inside Search. Point your camera at the bus stop pole, and Bustro reads either the QR code or the printed 5-digit stop number and opens that stop.</p>
+<p><strong>Yes.</strong> Long-press the search button on the home screen and choose <strong>Search by scanning</strong>, or tap the scan button in the <strong>Stops</strong> segment of Search. Point your camera at the bus stop pole, and Bustro reads either the QR code or the printed 5-digit stop number and opens that stop.</p>
                 <ul>
                     <li>Only what's inside the on-screen frame is read, so fare tables and nearby signs are ignored</li>
                     <li>If the scanned stop is more than 2&nbsp;km away, Bustro asks before opening it, usually a sign you've scanned a poster rather than a pole</li>
@@ -524,22 +525,33 @@
                     </div></div></div>
                 </div>
                 <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do I find the bus stops near a place?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>Open Search and choose <strong>Places</strong>. Type the name of a place, building, or address, then pick a result to open its details: a small map and the bus stops within about 1&nbsp;km, nearest first.</p>
+                <ul>
+                    <li>Search has three segments: <strong>Places</strong>, <strong>Stops</strong>, and <strong>Services</strong>. The one you used last opens next time</li>
+                    <li>If what you typed looks like a stop code or a bus service number, Bustro offers to switch to the right segment</li>
+                </ul>
+                <p>Place search needs an internet connection, because results come from OneMap, the Singapore Land Authority's map service. See our <a href="privacy.html">Privacy Policy</a> for what is sent.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
                     <button class="qa-q" type="button" aria-expanded="false"><span>Can I search for a bus stop by postal code?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
-<p><strong>Yes.</strong> Type any 6-digit Singapore postal code into the search bar to see the bus stops nearest that address, sorted by distance.</p>
+<p><strong>Yes.</strong> In the <strong>Places</strong> segment of Search, type any 6-digit Singapore postal code and pick the result to see the bus stops nearest that address, sorted by distance.</p>
                 <p>If the code isn't recognised, or there's nothing within about 1&nbsp;km, Bustro tells you clearly instead of showing an empty list.</p>
                     </div></div></div>
                 </div>
                 <div class="qa">
                     <button class="qa-q" type="button" aria-expanded="false"><span>Does Bustro remember my recent searches?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
-<p>Yes. Search keeps a short local history of the stops and services you've recently selected, including from a postal code search, so they're one tap away the next time you open search.</p>
+<p>Yes. Places, Stops, and Services each keep their own short local history of what you've recently selected, so it's one tap away the next time you open search.</p>
                 <ul>
-                    <li>Up to <strong>10 recent selections</strong>, most recent first</li>
-                    <li>Your <strong>top 5 favourite stops</strong> are shown alongside your history</li>
-                    <li><strong>Swipe</strong> a history entry to remove it, or use <strong>"Clear All"</strong> to reset your history</li>
+                    <li>Up to <strong>10 recent selections</strong> in each segment, most recent first</li>
+                    <li>Your <strong>top 5 favourite stops</strong> are shown in Stops, alongside your history</li>
+                    <li><strong>Swipe</strong> a history entry to remove it, or tap <strong>"Clear All"</strong> to clear that segment's history in one go</li>
                 </ul>
-                <p>Search history is stored only on your device and is not synced via iCloud.</p>
+                <p>Search history is stored only on your device and is not synced via iCloud. Places found by postal code are not added to it.</p>
                     </div></div></div>
                 </div>
                 <div class="qa">
@@ -1027,6 +1039,7 @@
                     <li><strong>LTA DataMall:</strong> real-time arrivals, bus stops, services, and routes</li>
                     <li><strong>BusRouter SG:</strong> bus route geometry drawn on the map</li>
                     <li><strong>data.gov.sg:</strong> weather, rainfall, lightning, air quality, and temperature</li>
+                    <li><strong>OneMap (Singapore Land Authority):</strong> place search</li>
                 </ul>
                 <p><strong>Coverage:</strong> 5,000+ bus stops and 400+ bus services across Singapore, with real-time arrival data.</p>
                     </div></div></div>
