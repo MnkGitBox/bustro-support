@@ -463,7 +463,7 @@
                 </article>
                 <article class="feature">
                     <h3>Traffic &amp; Incidents</h3>
-                    <p>Live LTA traffic incidents with real-time traffic flow on the map, plus alerts for the incident types you choose</p>
+                    <p>Live LTA traffic incidents on the map, plus alerts for the incident types you choose</p>
                 </article>
                 <article class="feature">
                     <h3>MRT Integration</h3>
@@ -616,7 +616,7 @@
                     <li>Tap <strong>"Remind to Alight"</strong></li>
                     <li>In the <strong>Review Trip</strong> sheet, choose the stop where you want to get off</li>
                     <li>Optionally turn on <strong>"Save this trip"</strong> to add it to My Journeys</li>
-                    <li>Tap <strong>"Set Reminder"</strong></li>
+                    <li>Tap <strong>"Go"</strong> at the top right</li>
                 </ol>
                 <p><strong>What you get:</strong></p>
                 <ul>
@@ -651,7 +651,7 @@
                 <ol>
                     <li>Long-press any arrival card (on the home list or a stop's details), or use the service row on a stop's details or route page</li>
                     <li>Tap <strong>"Track Arrival"</strong></li>
-                    <li>Review the trip in the confirmation sheet and tap <strong>"Start Tracking"</strong></li>
+                    <li>Review the trip in the Track Arrival sheet and tap the <strong>checkmark</strong> (✓) at the top</li>
                 </ol>
                 <p><strong>What you get:</strong></p>
                 <ul>
@@ -663,12 +663,33 @@
                     </div></div></div>
                 </div>
                 <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>Can Bustro start tracking my bus automatically?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>Yes. <strong>Scheduled Track Arrival</strong> starts a Track Arrival countdown on its own at a set time on the days you choose, for example bus 12 at 8:00 AM on weekdays. The Live Activity starts even when Bustro is closed.</p>
+                <p><strong>How to set one up:</strong></p>
+                <ol>
+                    <li>Choose <strong>"Track Arrival"</strong> for a bus at a stop</li>
+                    <li>Turn on <strong>Schedule</strong>, then pick the start time, the days, and your first and second alert times</li>
+                    <li>Tap the <strong>checkmark</strong> and choose <strong>"Save Schedule"</strong>, or <strong>"Start Now &amp; Save Schedule"</strong> to start tracking straight away as well</li>
+                </ol>
+                <p><strong>To manage schedules:</strong> open <strong>Menu &gt; Scheduled Tracking</strong>. Switch each one on or off, swipe to delete it, or tap it to edit. A schedule that is running shows <strong>Tracking Now</strong>.</p>
+                <ul>
+                    <li>Times are in Singapore time</li>
+                    <li>Live Activities must be on for Bustro (<strong>iOS Settings &gt; Bustro &gt; Live Activities</strong>). If they're off, Bustro warns you that schedules can't start</li>
+                    <li>A tracker you start yourself or an active Alight Reminder takes priority, and the scheduled start is skipped</li>
+                    <li>If two schedules start at the same minute, only the one created first starts</li>
+                    <li>Needs iOS 17.2 or later</li>
+                </ul>
+                <p>To start the countdown on time while the app is closed, your schedules and a Live Activity start token are kept on our server. See our <a href="privacy.html">Privacy Policy</a>.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
                     <button class="qa-q" type="button" aria-expanded="false"><span>How do My Journeys work?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
 <p><strong>My Journeys</strong> saves the bus trips you take often so you can re-activate them in one tap.</p>
                 <ul>
                     <li><strong>Save a journey:</strong> turn on <strong>"Save this trip"</strong> while setting an Alight Reminder</li>
-                    <li><strong>Re-activate:</strong> open <strong>Menu > My Journeys</strong> and tap a saved journey, and the alight reminder is armed again for that trip</li>
+                    <li><strong>Re-activate:</strong> open <strong>Menu > My Journeys</strong> and tap <strong>"Go"</strong> on a saved journey, and the alight reminder is armed again for that trip</li>
                     <li><strong>Rename:</strong> swipe left on a journey and tap the pencil to give it a name you recognise (e.g. "Home → Office")</li>
                     <li><strong>Delete:</strong> swipe left and tap remove</li>
                     <li><strong>End an active journey:</strong> the journey that's currently running shows an "End journey" action, which stops its alight reminder</li>
@@ -765,6 +786,13 @@
                     </div></div></div>
                 </div>
                 <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>How do I find stops in another part of the map?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>Drag or zoom the map to the area you want, then tap <strong>Find Stops Here</strong>. The button appears only after you move the map yourself, and once you dismiss it, it stays away for 5 minutes.</p>
+                <p>After the search, a pin marks the place on the map and Home shows <strong>"Around …"</strong> with the stops in that area. Your favourites step aside so the list shows only those stops. Tap the location button to see stops around you again.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
                     <button class="qa-q" type="button" aria-expanded="false"><span>How do I use Bustro on my Apple Watch?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
 <p>Bustro installs on your Apple Watch alongside the iPhone app. Opening it takes you straight to live arrivals for the stop it picks for you, in this order:</p>
@@ -804,7 +832,7 @@
                 <ul>
                     <li><strong>2-hour forecast</strong> for all 47 Singapore forecast areas</li>
                     <li><strong>Rainfall</strong> readings from stations across the island</li>
-                    <li><strong>Lightning alerts:</strong> seek shelter if you're outdoors</li>
+                    <li><strong>Lightning alerts:</strong> when lightning strikes the ground within 5&nbsp;km in the last 5 minutes, a storm card leads the weather panel, with the closest strike's distance and direction, how long ago the latest strike was, shelter advice, and a 10-minute activity chart. Lightning that stays in the clouds shows a quieter note</li>
                     <li><strong>Air quality</strong> (PSI) and <strong>temperature</strong> readings</li>
                 </ul>
                 <p>Switch between <strong>"Near Me"</strong> and <strong>"Island Wide"</strong> tabs in the weather sheet, and see weather zones directly on the map.</p>
@@ -843,12 +871,10 @@
                 <p><strong>What it shows:</strong></p>
                 <ul>
                     <li><strong>Live LTA incidents:</strong> accidents, roadworks, road closures, heavy traffic, vehicle breakdowns, and weather-related disruptions, pinned on the map</li>
-                    <li><strong>Real-time traffic flow:</strong> live congestion is drawn beneath the incident pins, so you can see how badly an incident is actually affecting the road. Only congested roads are shaded; free-flowing roads look normal</li>
                     <li><strong>Filter by category:</strong> tap a category to show only that kind of incident. The map re-frames itself around whatever your filter matches</li>
                 </ul>
                 <p><strong>Alerts:</strong> subscribe to the incident categories you care about in the dashboard, and Bustro will notify you when a new one is reported.</p>
-                <p><strong>On a bus stop:</strong> real-time traffic also appears on the bus stop map alongside live bus positions, so a bus that isn't moving comes with visible road context.</p>
-                <p><small>Traffic incident data is provided by Singapore's Land Transport Authority. Real-time traffic flow is provided by Apple Maps.</small></p>
+                <p><small>Traffic incident data is provided by Singapore's Land Transport Authority.</small></p>
                     </div></div></div>
                 </div>
                 <div class="qa">
@@ -878,7 +904,7 @@
                 <div class="qa">
                     <button class="qa-q" type="button" aria-expanded="false"><span>What languages does Bustro support?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
-<p>Bustro 26.2.0 is fully localised in <strong>English, Malay (Bahasa Melayu), Tamil (தமிழ்), and Simplified Chinese (简体中文)</strong>.</p>
+<p>Bustro 26.3.0 is fully localised in <strong>English, Malay (Bahasa Melayu), Tamil (தமிழ்), and Simplified Chinese (简体中文)</strong>.</p>
                 <p><strong>To change language:</strong></p>
                 <ol>
                     <li>Open <strong>Menu > Settings > Change Language</strong></li>
@@ -914,12 +940,25 @@
                     <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
 <p>Yes. Open <strong>Menu &gt; App Settings &gt; Arrival Colours</strong> and pick a theme:</p>
                 <ul>
-                    <li><strong>Full Colour</strong> — arrival cards filled with colour by urgency, the original Bustro look</li>
-                    <li><strong>Neutral</strong> — a quieter card without the colour fill</li>
-                    <li><strong>Adaptive</strong> — resolves differently in light and dark appearance</li>
+                    <li><strong>Vivid</strong> — arrival cards filled with colour by urgency, the original Bustro look</li>
+                    <li><strong>Minimal</strong> — a quieter card without the colour fill</li>
+                    <li><strong>Blossom</strong>, <strong>Matcha</strong> and <strong>Jewel</strong> — translucent glass themes: Blossom and Matcha in traditional Japanese colours, Jewel in crimson rose, indigo and jade. They need iOS 26 or later</li>
                 </ul>
-                <p>A live preview above the picker shows a home cell, the bus stop details cards, and the widget in the theme you have selected, and lets you flip between Light and Dark to see how Adaptive behaves in each.</p>
-                <p>Your choice applies everywhere arrivals appear: the home screen, stop details, the map, and the Home Screen widget.</p>
+                <p>Turn on <strong>Different Theme in Dark Mode</strong> to choose one theme under <strong>Light Mode</strong> and another under <strong>Dark Mode</strong>. The widget follows your device's appearance.</p>
+                <p>A live preview above the picker shows a home cell, the bus stop details cards, and the widget in the theme you have selected, and lets you flip between Light and Dark.</p>
+                <p>Your choice colours the arrival cards on the home screen, stop details, the next arrival on a route page, and the Home Screen widget. Map markers, Alight Reminder and Live Activities always use the standard red, orange and green.</p>
+                <p>Full Colour is now called <strong>Vivid</strong> and Neutral is now <strong>Minimal</strong>. Adaptive has been retired: if you used it, you now get Vivid in light mode and Minimal in dark mode.</p>
+                    </div></div></div>
+                </div>
+                <div class="qa">
+                    <button class="qa-q" type="button" aria-expanded="false"><span>What are the tips that appear in the app?</span><svg class="chev" viewBox="0 0 20 20" fill="none" aria-hidden="true"><path d="M4.5 7.5 10 13l5.5-5.5" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+                    <div class="qa-a"><div class="qa-a-inner"><div class="qa-body">
+<p>On iOS 18 and later, Bustro shows short tips that point out features that are easy to miss, such as See Arrivals Here, Pin Your Buses, Track Arrival, Get Off on Time, Scan a Bus Stop, Traffic and MRT Map, and Weather Near You.</p>
+                <ul>
+                    <li>Tips unlock gradually: at most one new tip a day, and one per screen</li>
+                    <li>They never appear in your first session or on top of Bustro's own prompts</li>
+                    <li>Gesture tips stay hidden while VoiceOver is on</li>
+                </ul>
                     </div></div></div>
                 </div>
             </div>
@@ -937,6 +976,7 @@
 <p>If an Alight Reminder or Track Arrival countdown doesn't show up:</p>
                 <ol>
                     <li>Check <strong>iOS Settings > Bustro > Live Activities</strong> is enabled</li>
+                    <li>A scheduled Track Arrival can only start while Live Activities are on, and it is skipped if you are already tracking a bus or have an Alight Reminder running</li>
                     <li>Ensure notifications are allowed for Bustro</li>
                     <li>Live Activities end automatically after your trip or after an extended period. Start a new one if it has expired</li>
                     <li>The Dynamic Island appears on supported iPhone models; on other models the countdown still shows on the Lock Screen</li>
@@ -1050,6 +1090,7 @@
 <p><strong>Requirements:</strong></p>
                 <ul>
                     <li><strong>iOS version:</strong> iOS 17.0 or later</li>
+                    <li><strong>Newer iOS for some features:</strong> Scheduled Track Arrival needs iOS 17.2, tips need iOS 18, and the glass arrival colour themes need iOS 26</li>
                     <li><strong>Location services:</strong> optional, but needed for nearby stops, walking distances, and Alight Reminder</li>
                     <li><strong>Internet:</strong> required for real-time data</li>
                     <li><strong>iCloud:</strong> optional, for syncing favourites and journeys across devices</li>
@@ -1091,7 +1132,7 @@
             <a href="privacy.html">Privacy Policy</a>
             <a href="terms.html">Terms &amp; Conditions</a>
         </div>
-        <p class="fineprint">Updated for Bustro 26.2.0 · October 2026</p>
+        <p class="fineprint">Updated for Bustro 26.3.0 · November 2026</p>
         <p class="fineprint">© 2026 Bustro App. Made for Singapore commuters.</p>
     </footer>
 

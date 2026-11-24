@@ -541,7 +541,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <main class="doc">
 
 <div class="summary">
-<p><strong>Plain summary:</strong> Bustro is a free, ad-free public-transit app for Singapore. We use your location on your device to show nearby bus stops; we do not send it to our servers. We generate a random device ID (not linked to your name or Apple ID) so that, if you choose to post in the Commute Feed or subscribe to traffic alerts, we can route notifications and let you delete your own posts. We use Firebase for crash reports, app-usage analytics, push delivery, and storing Commute Feed posts. If you set an Alight Reminder or track a bus arrival, we briefly store a push token together with the stop and bus service involved so our server can update the live countdown on your Lock Screen; that record is deleted when the activity ends. When you search for a place by name, the text you type is sent through our server to OneMap, the Singapore Land Authority's map service, to find it. We do not show ads, sell data, or track you across other apps.</p>
+<p><strong>Plain summary:</strong> Bustro is a free, ad-free public-transit app for Singapore. We use your location on your device to show nearby bus stops; we do not send it to our servers. We generate a random device ID (not linked to your name or Apple ID) so that, if you choose to post in the Commute Feed or subscribe to traffic alerts, we can route notifications and let you delete your own posts. We use Firebase for crash reports, app-usage analytics, push delivery, and storing Commute Feed posts. If you set an Alight Reminder or track a bus arrival, we briefly store a push token together with the stop and bus service involved so our server can update the live countdown on your Lock Screen; that record is deleted when the activity ends. If you schedule Track Arrival to start on its own, we keep a copy of each schedule (stop, service, time, days and alert times) and a Live Activity start token until you delete the schedule. When you search for a place by name, the text you type is sent through our server to OneMap, the Singapore Land Authority's map service, to find it. We do not show ads, sell data, or track you across other apps.</p>
 </div>
 
 <p>This Privacy Policy explains what data Bustro collects, why we collect it, where it goes, how long we keep it, and the rights you have. It applies to the Bustro iOS application, the Bustro Home/Lock Screen widget, and any related online services we provide (collectively, the &quot;<strong>App</strong>&quot;). The App is operated by the Bustro team (&quot;<strong>we</strong>&quot;, &quot;<strong>us</strong>&quot;, &quot;<strong>our</strong>&quot;), based in Singapore.</p>
@@ -570,7 +570,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><th scope="row">What</th><td>A randomly-generated UUID created on your device the first time you open the App.</td></tr>
 <tr><th scope="row">Why</th><td>To attribute Commute Feed posts and reactions you submit, to route push notifications to your device (including Live Activity updates for Alight Reminder and arrival tracking, §1.6), to let you edit or delete your own Commute Feed submissions, and to apply a fair-use limit to place searches (§1.10).</td></tr>
 <tr><th scope="row">Linked to your identity?</th><td>No. The UUID is not linked to your name, email, Apple ID, phone number, or any other identifying information. Under Singapore's PDPA it is treated as <strong>pseudonymous personal data</strong>.</td></tr>
-<tr><th scope="row">Storage</th><td>Locally in app preferences (<code>UserDefaults</code>), and on Google's Firebase Firestore servers when accompanying a Commute Feed submission, reaction, or push-notification subscription, and briefly as an hourly place-search counter (§1.10).</td></tr>
+<tr><th scope="row">Storage</th><td>Locally in app preferences (<code>UserDefaults</code>), and on Google's Firebase Firestore servers when accompanying a Commute Feed submission, reaction, or push-notification subscription, with any Track Arrival schedules (§1.13), and briefly as an hourly place-search counter (§1.10).</td></tr>
 <tr><th scope="row">Reset</th><td>Reinstalling the App generates a new UUID and disconnects you from prior submissions. A future App update will add an in-app <em>Reset Device Identity</em> control.</td></tr>
 </tbody>
 </table>
@@ -612,7 +612,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <h3><span class="sub">1.6</span>Live Activities: Alight Reminder and Track Arrival</h3>
 <table class="defs">
 <tbody>
-<tr><th scope="row">What</th><td>When you start an Alight Reminder or track a bus arrival on the Lock Screen, we store an Apple Live Activity push token, your device identifier (§1.2), the bus stop code involved (plus the stop's display name for arrival tracking), the bus service number, and the activity's state.</td></tr>
+<tr><th scope="row">What</th><td>When you start an Alight Reminder or track a bus arrival on the Lock Screen, we store an Apple Live Activity push token, your device identifier (§1.2), the bus stop code involved (plus the stop's display name for arrival tracking), the bus service number, your alert times, the activity's state and, for a scheduled start, the schedule's ID (§1.13).</td></tr>
 <tr><th scope="row">Why</th><td>Our server uses this record to fetch live arrival data from LTA and push countdown updates and alerts to the Live Activity on your Lock Screen and Dynamic Island, even while the App is not running.</td></tr>
 <tr><th scope="row">What is <em>not</em> sent</th><td>Your location, your position along the route, and your journey's stop list never leave your device. During an Alight Reminder, ride progress is computed on-device (§1.1); the server knows only the stop and service you selected.</td></tr>
 <tr><th scope="row">Storage</th><td>Google Firebase Firestore, in the <strong>asia-southeast1 (Singapore)</strong> region.</td></tr>
@@ -681,6 +681,18 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><th scope="row">Control</th><td>Not opening a video means YouTube is never contacted. No other part of the App loads YouTube content.</td></tr>
 </tbody>
 </table>
+
+<h3><span class="sub">1.13</span>Scheduled Track Arrival</h3>
+<table class="defs">
+<tbody>
+<tr><th scope="row">What</th><td>When you save a Track Arrival schedule, we store a copy of it: the bus service number, the bus stop code and name, the service's destination name, the start time, the days of the week, your first and second alert times, whether the schedule is switched on, when it was created and last changed, a random schedule ID, and your device identifier (§1.2). While you have at least one schedule, we also store your device's Apple Live Activity push-to-start token, whether Live Activities are switched on for Bustro, the App's bundle identifier, and the push environment.</td></tr>
+<tr><th scope="row">Why</th><td>So our server can start the Track Arrival Live Activity at the time you chose, even while the App is closed, and then update it as described in §1.6. Our server records the day each schedule last started so it never starts twice in one day.</td></tr>
+<tr><th scope="row">What is <em>not</em> sent</th><td>Your location. Schedules contain only the stop and service you picked.</td></tr>
+<tr><th scope="row">Storage</th><td>On your device, which remains the source of truth, and in Google Firebase Firestore in the <strong>asia-southeast1 (Singapore)</strong> region. The server copy cannot be read back by the App.</td></tr>
+<tr><th scope="row">Retention</th><td>A schedule's server copy is deleted when you delete the schedule. The push-to-start token is deleted when you delete your last schedule. If Apple reports the token is no longer valid, for example after you delete the App, the token and all of that device's schedules are deleted automatically.</td></tr>
+<tr><th scope="row">Control</th><td>Menu → Scheduled Tracking: switch a schedule off, or swipe to delete it. Turning off Live Activities for Bustro in iOS Settings stops schedules from starting.</td></tr>
+</tbody>
+</table>
 </section>
 
 <section class="s" id="s2">
@@ -696,6 +708,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <li>Read a bus stop's QR code or printed stop number through the camera, on your device, to open that stop (§1.11);</li>
 <li>Show you the Bustro video tutorials, played from YouTube (§1.12);</li>
 <li>Run the Alight Reminders and arrival trackers you start, including pushing live countdown updates and alerts to your Lock Screen (§1.6);</li>
+<li>Start the arrival trackers you schedule at the time you chose (§1.13);</li>
 <li>Save your favourites and journeys and sync them across your Apple devices via iCloud;</li>
 <li>Display, moderate, edit, and delete Commute Feed content you submit;</li>
 <li>Deliver traffic-alert and Commute Feed notification pushes you have opted in to;</li>
@@ -718,7 +731,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Firebase Analytics</td><td>Google LLC</td><td>App Instance ID, event names, device model, OS version</td><td>Usage analytics</td><td>US / EU</td></tr>
 <tr><td>Firebase Crashlytics</td><td>Google LLC</td><td>App Instance ID, crash logs, device model, OS version</td><td>Diagnostics</td><td>US / EU</td></tr>
 <tr><td>Firebase Cloud Messaging</td><td>Google LLC</td><td>APNs token, FCM token, device identifier, subscription list</td><td>Push delivery</td><td>US / EU</td></tr>
-<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Commute Feed post text, URLs, reactions, device identifier, FCM token, subscriptions and notification preferences, Live Activity push tokens with the tracked stop and service (§1.6), hourly place-search counters keyed to the device identifier (§1.10)</td><td>UGC storage, push routing, Live Activity updates, place-search limits</td><td>Singapore (asia-southeast1)</td></tr>
+<tr><td>Firebase Firestore</td><td>Google LLC</td><td>Commute Feed post text, URLs, reactions, device identifier, FCM token, subscriptions and notification preferences, Live Activity push tokens with the tracked stop and service (§1.6), Track Arrival schedules and the push-to-start token (§1.13), hourly place-search counters keyed to the device identifier (§1.10)</td><td>UGC storage, push routing, Live Activity updates and scheduled starts, place-search limits</td><td>Singapore (asia-southeast1)</td></tr>
 <tr><td>Firebase Cloud Functions</td><td>Google LLC</td><td>Place search text, device identifier, App Check token (§1.10)</td><td>Forward place searches to OneMap and apply per-device limits</td><td>Singapore (asia-southeast1)</td></tr>
 <tr><td>Firebase App Check</td><td>Google LLC, using Apple App Attest</td><td>An attestation that the request comes from the genuine Bustro app (no personal data)</td><td>Protect our server from abuse</td><td>US / EU</td></tr>
 <tr><td>Firebase Remote Config</td><td>Google LLC</td><td>App version, App Instance ID</td><td>Gate in-app &quot;update available&quot; prompt</td><td>US / EU</td></tr>
@@ -737,7 +750,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 </tbody>
 </table>
 </div>
-<p><strong>Cross-border data transfers (PDPA §26).</strong> Firestore records (Commute Feed content, push-routing records, Live Activity tokens, and place-search counters) are stored, and our Cloud Functions run, in Google's <strong>asia-southeast1 (Singapore)</strong> region. Firebase Analytics, Crashlytics, Cloud Messaging, App Check, and Remote Config are processed by Google LLC on infrastructure that may be in the United States or European Union. Google's data-protection terms (<a href="https://firebase.google.com/support/privacy">https://firebase.google.com/support/privacy</a>) bind Google to provide a standard of protection comparable to what the PDPA requires; we rely on those terms for compliance with PDPA Section 26.</p>
+<p><strong>Cross-border data transfers (PDPA §26).</strong> Firestore records (Commute Feed content, push-routing records, Live Activity tokens, Track Arrival schedules, and place-search counters) are stored, and our Cloud Functions run, in Google's <strong>asia-southeast1 (Singapore)</strong> region. Firebase Analytics, Crashlytics, Cloud Messaging, App Check, and Remote Config are processed by Google LLC on infrastructure that may be in the United States or European Union. Google's data-protection terms (<a href="https://firebase.google.com/support/privacy">https://firebase.google.com/support/privacy</a>) bind Google to provide a standard of protection comparable to what the PDPA requires; we rely on those terms for compliance with PDPA Section 26.</p>
 <p>We do <strong>not</strong> sell, rent, or trade your information. We do not share data with advertisers, data brokers, or analytics providers other than those listed above.</p>
 <p>We may disclose information when required to do so by Singapore law, by a valid order of a Singapore court, or by a Singapore regulator or law-enforcement authority acting within its statutory powers (including the Personal Data Protection Commission, the Infocomm Media Development Authority, and the Singapore Police Force under the Criminal Procedure Code), or to protect the rights, property, or safety of users, the public, or us. Where the law permits, we will notify the affected user before disclosing their information.</p>
 </section>
@@ -754,6 +767,8 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <tr><td>Favourites, pinned services &amp; saved journeys</td><td>Until you delete them, sign out of iCloud, or delete the App</td></tr>
 <tr><td>Alight Reminder Live Activity token</td><td>Deleted when the reminder ends; expires automatically after at most 4 hours</td></tr>
 <tr><td>Track Arrival Live Activity token</td><td>Deleted when tracking stops; expires automatically after at most 2 hours</td></tr>
+<tr><td>Track Arrival schedules</td><td>Until you delete the schedule; deleted automatically if the device's start token stops working</td></tr>
+<tr><td>Live Activity push-to-start token</td><td>Until you delete your last schedule, or until Apple reports it is no longer valid</td></tr>
 <tr><td>User-submitted Commute Feed posts</td><td><strong>7 days</strong>, then automatic deletion</td></tr>
 <tr><td>Official advisories and LTA alerts</td><td>Indefinite (no personal data)</td></tr>
 <tr><td>Reactions</td><td>Deleted with the message</td></tr>
@@ -791,6 +806,7 @@ footer.foot a:hover .arrow{transform:translateX(3px);}
 <li>Disabling <strong>iCloud</strong> sync for Bustro;</li>
 <li>Deleting your Commute Feed posts from within the App;</li>
 <li>Stopping an active Alight Reminder or arrival tracker, which deletes its push-token record;</li>
+<li>Deleting your Track Arrival schedules in Menu → Scheduled Tracking, which deletes their server copies and, with the last one, the push-to-start token;</li>
 <li>Deleting the App, which removes the device identifier and ends push delivery;</li>
 <li>Emailing <strong>hi@bustro.app</strong> to request server-side deletion of any remaining data.</li>
 </ol>
